@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 440" role="img"
+     aria-label="Placeholder standing in for an archive photograph">
+  <rect width="640" height="440" fill="#c9d8de"/>
+  <path d="M0 300 Q160 268 320 300 T640 300 V440 H0 Z" fill="#1c5066" opacity="0.75"/>
+  <path d="M0 336 Q200 308 400 336 T640 330 V440 H0 Z" fill="#0e3140" opacity="0.8"/>
+  <g fill="#2f5d3f" opacity="0.55">
+    <polygon points="60,300 86,214 112,300"/>
+    <polygon points="104,300 128,232 152,300"/>
+    <polygon points="540,300 566,222 592,300"/>
+  </g>
+  <g fill="#f2ece0" opacity="0.9">
+    <polygon points="300,268 348,268 324,224"/>
+    <rect x="322" y="264" width="4" height="16"/>
+  </g>
+  <rect x="286" y="278" width="76" height="10" rx="4" fill="#3d2b1d"/>
+  <g font-family="system-ui, sans-serif" text-anchor="middle" fill="#0e3140">
+    <text x="320" y="404" font-size="15" fill="#dfe8ec">Placeholder photograph</text>
+    <text x="320" y="426" font-size="12" fill="#b9cdd6">Replace with real scans and write a caption</text>
+  </g>
+</svg>

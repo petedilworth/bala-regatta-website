@@ -1,0 +1,101 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getSettings } from '../../lib/settings';
+import { href } from '../../lib/url';
+
+const settings = await getSettings();
+---
+
+<Base
+  title="Help with the archive"
+  description="How to contribute to, correct, or request removal from the Bala Regatta archive."
+>
+  <section class="section">
+    <div class="wrap stack">
+      <p class="eyebrow">
+        <a href={href('/archives')}>Archives</a> &middot; Corrections
+      </p>
+      <h1>Help with the archive</h1>
+      <p class="lede">
+        The archive is assembled from programmes, results sheets, newspaper clippings and
+        memory. It will contain mistakes, and it is missing far more than it holds.
+      </p>
+
+      <h2>Corrections</h2>
+      <p>
+        If a name is misspelled, a year is wrong, or a race is credited to the wrong crew, please
+        tell us. Where possible, say what your correction is based on — a programme, a photograph,
+        a clipping — so the record can cite it.
+      </p>
+
+      <h2>Material we would love to see</h2>
+      <ul>
+        <li>Official programmes, of any year.</li>
+        <li>Results sheets and prize lists, however scrappy.</li>
+        <li>Photographs, especially ones where you can name the people in them.</li>
+        <li>Newspaper clippings.</li>
+        <li>Committee records, minutes, or lists of past commodores and officers.</li>
+      </ul>
+      <p>
+        Originals do not need to leave your hands — a phone photograph of each page is enough to
+        work from.
+      </p>
+
+      <h2>Names of living people</h2>
+      <p>
+        This archive names people who are still alive, because a regatta record without names is
+        not a record. We try to handle that carefully:
+      </p>
+      <ul>
+        <li>
+          Names appear as the original source printed them, which is often just initials and a
+          surname.
+        </li>
+        <li>
+          A person only gets a page of their own where records can be reasonably connected to one
+          individual.
+        </li>
+        <li>
+          We do not publish addresses, birthdates, or contact details, and we do not name children
+          beyond what a published programme already did.
+        </li>
+      </ul>
+      <p>
+        <strong>If you would rather not appear, just ask.</strong> We will remove your page and can
+        reduce your name to initials in the results, or take it out entirely. No explanation
+        needed.
+      </p>
+
+      <h2>Photographs</h2>
+      <p>
+        If you hold the rights to a photograph on this site and would like it credited differently
+        or taken down, please get in touch and we will act on it.
+      </p>
+
+      <h2>Getting in touch</h2>
+      {
+        settings.email ? (
+          <p>
+            <a class="button" href={`mailto:${settings.email}?subject=Bala%20Regatta%20archive`}>
+              Email the archive
+            </a>
+          </p>
+        ) : (
+          <p>
+            See the <a href={href('/contact')}>contact page</a>.
+          </p>
+        )
+      }
+
+      <aside class="todo">
+        <p>
+          <strong>For the committee to agree before launch.</strong> The commitments on this page —
+          particularly around removing names of living people and handling photograph rights — are
+          a sensible default, not a decision anyone has ratified. Please read them and change them
+          to match what the association is actually willing to do, because publishing a promise you
+          will not keep is worse than publishing none.
+        </p>
+      </aside>
+    </div>
+  </section>
+</Base>

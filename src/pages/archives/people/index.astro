@@ -1,0 +1,124 @@
+---
+import Base from '../../../layouts/Base.astro';
+import { getArchive, surname } from '../../../lib/archive';
+import { href, personHref } from '../../../lib/url';
+
+const archive = await getArchive();
+const people = archive.people.filter((p) => !p.data.hidden);
+
+// Grouped by initial letter of surname, the way a club record book would be.
+const groups = new Map<string, typeof people>();
+for (const person of people) {
+  const letter = (surname(person.data.name)[0] ?? '?').toUpperCase();
+  const existing = groups.get(letter);
+  if (existing) existing.push(person);
+  else groups.set(letter, [person]);
+}
+const letters = [...groups.keys()].sort();
+
+const countFor = (id: string) =>
+  (archive.rowsByPerson.get(id)?.length ?? 0) + (archive.officialsByPerson.get(id)?.length ?? 0);
+---
+
+<Base
+  title="People"
+  description="Everyone with a record in the Bala Regatta archive — competitors, organisers, and the many who were both."
+>
+  <section class="section">
+    <div class="wrap">
+      <p class="eyebrow">
+        <a href={href('/archives')}>Archives</a> &middot; People
+      </p>
+      <h1>People</h1>
+      <p class="lede">
+        Competitors, organisers, and the many who were both. A person record collects every race
+        and every role under one name, including entries recorded under initials or a different
+        spelling.
+      </p>
+
+      {
+        people.length === 0 ? (
+          <aside class="todo">
+            <p>
+              <strong>No person records yet.</strong> They are created as results are transcribed
+              and identities become clear — a name in a results file does not need a person record
+              to be searchable.
+            </p>
+          </aside>
+        ) : (
+          <>
+            <p class="jump">
+              {letters.map((l) => (
+                <a href={`#letter-${l}`}>{l}</a>
+              ))}
+            </p>
+
+            {letters.map((letter) => (
+              <div class="group">
+                <h2 id={`letter-${letter}`}>{letter}</h2>
+                <ul class="list-plain people">
+                  {groups.get(letter)!.map((person) => {
+                    const n = countFor(person.id);
+                    return (
+                      <li>
+                        <a href={personHref(person.id)}>{person.data.name}</a>
+                        {n > 0 && <span class="muted"> · {n} {n === 1 ? 'record' : 'records'}</span>}
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            ))}
+          </>
+        )
+      }
+
+      <aside class="todo">
+        <p>
+          Not every name in the archive has a page. Linking a result to a person is a separate
+          judgement about identity, made only where it is reasonably certain — so unlinked names
+          stay searchable but do not appear in this list.
+        </p>
+      </aside>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .jump {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xs);
+    max-width: none;
+  }
+
+  .jump a {
+    display: inline-block;
+    min-width: 2rem;
+    text-align: center;
+    padding: 0.2em 0.5em;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg-raised);
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .group h2 {
+    font-size: var(--step-1);
+    padding-bottom: var(--space-3xs);
+    border-bottom: 2px solid var(--border);
+    scroll-margin-top: var(--space-s);
+  }
+
+  .people {
+    columns: 3 15rem;
+    column-gap: var(--space-l);
+    margin-bottom: var(--space-l);
+  }
+
+  .people li {
+    break-inside: avoid;
+    margin-bottom: var(--space-3xs);
+  }
+</style>

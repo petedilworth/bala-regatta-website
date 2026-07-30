@@ -1,0 +1,56 @@
+# Sponsor details taken from the current balaregatta.com sponsors page.
+# Verify each one before launch — phone numbers and businesses change.
+
+- id: bala-freshmart
+  name: Bala Freshmart
+  tier: major
+  phone: '705-762-1254'
+
+- id: haddon-press
+  name: Haddon Press Limited
+  tier: major
+  phone: '416-977-3780'
+
+- id: ice-dreams
+  name: Ice Dreams Soda Shop
+  tier: major
+  phone: '705-762-2797'
+
+- id: muskoka-teak
+  name: Muskoka Teak
+  tier: major
+  phone: '705-765-1700'
+
+- id: purks-place
+  name: Purks Place
+  tier: major
+  phone: '705-762-5311'
+
+- id: weismiller-lumber
+  name: Weismiller Lumber
+  tier: major
+  phone: '705-762-3308'
+
+- id: dons-bakery
+  name: Don's Bakery
+  tier: thanks
+
+- id: blackstock-leather
+  name: Blackstock Leather
+  tier: thanks
+
+- id: township-parks
+  name: Township Parks Department
+  tier: thanks
+
+- id: fivetwentyfour-group
+  name: FiveTwentyFour Group
+  tier: thanks
+
+- id: west-muskoka-chamber
+  name: West Muskoka Chamber of Commerce
+  tier: thanks
+
+- id: taco-kar
+  name: Taco Kar
+  tier: thanks

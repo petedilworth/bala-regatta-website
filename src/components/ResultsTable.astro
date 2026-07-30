@@ -1,0 +1,90 @@
+---
+import { placeLabel, type ResultRow } from '../lib/archive';
+import { eventHref, yearHref } from '../lib/url';
+
+interface Props {
+  rows: ResultRow[];
+  /** 'year' leads with the event; 'event' and 'person' lead with the year. */
+  mode: 'year' | 'event' | 'person';
+  caption?: string;
+}
+
+const { rows, mode, caption } = Astro.props;
+
+// Columns that would be entirely empty are dropped rather than rendered blank —
+// most historical years have no times and no recorded affiliations.
+const anyTime = rows.some((r) => r.time);
+const anyAffiliation = rows.some((r) => r.affiliation);
+---
+
+<div class="table-scroll">
+  <table>
+    {caption && <caption class="visually-hidden">{caption}</caption>}
+    <thead>
+      <tr>
+        {mode === 'year' ? <th scope="col">Event</th> : <th scope="col">Year</th>}
+        {mode === 'person' && <th scope="col">Event</th>}
+        <th scope="col">Place</th>
+        <th scope="col">{mode === 'person' ? 'Crew' : 'Name'}</th>
+        {anyAffiliation && <th scope="col">Affiliation</th>}
+        {anyTime && <th scope="col">Time</th>}
+      </tr>
+    </thead>
+    <tbody>
+      {
+        rows.map((row) => (
+          <tr>
+            {mode === 'year' ? (
+              <th scope="row" class="event-cell">
+                <a href={eventHref(row.eventId)}>{row.printedName ?? row.eventName}</a>
+                {row.printedName && <span class="muted printed"> (filed as {row.eventName})</span>}
+              </th>
+            ) : (
+              <th scope="row" class="numeric">
+                <a href={yearHref(row.year)}>{row.year}</a>
+              </th>
+            )}
+
+            {mode === 'person' && (
+              <td>
+                <a href={eventHref(row.eventId)}>{row.printedName ?? row.eventName}</a>
+              </td>
+            )}
+
+            <td class="numeric">{placeLabel(row.place)}</td>
+
+            <td>
+              {row.competitors.map((c, i) => (
+                <>
+                  {i > 0 && ', '}
+                  {c.href ? <a href={c.href}>{c.name}</a> : c.name}
+                </>
+              ))}
+              {row.note && <div class="muted note">{row.note}</div>}
+            </td>
+
+            {anyAffiliation && <td>{row.affiliation ?? ''}</td>}
+            {anyTime && <td class="numeric">{row.time ?? ''}</td>}
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+</div>
+
+<style>
+  .event-cell {
+    font-weight: 600;
+    min-width: 12rem;
+  }
+
+  .printed {
+    font-weight: 400;
+    font-size: 0.9em;
+  }
+
+  .note {
+    font-size: 0.9em;
+    margin-top: var(--space-3xs);
+  }
+</style>

@@ -1,0 +1,27 @@
+- id: site
+  # Verified from public sources: the 115th regatta, Saturday 1 August 2026.
+  nextRegattaDate: 2026-08-01
+  nextRegattaEdition: 115
+  # TODO: replace with the real Google Form / Jotform URL before launch.
+  registrationUrl: https://example.com/replace-with-registration-form
+  registrationNote: >-
+    Registration opens on the morning of the regatta at the Township Dock.
+    Sign-up sheets for each event close fifteen minutes before that event starts.
+  # TODO: confirm the address the committee wants published.
+  email: info@balaregatta.com
+  # TODO: add the real social links, or delete these lines.
+  # facebook: https://www.facebook.com/...
+  # instagram: https://www.instagram.com/...
+
+  # The curated strip at the top of /archives. Hand-picked, so it needs a look
+  # once a year or it will read as stale.
+  featured:
+    - label: The 1950s at the Township Dock
+      blurb: Photographs from the decade the regatta settled into its modern shape.
+      href: /archives?decade=1950s
+    - label: Browse every year
+      blurb: One hundred and fifteen regattas, from the first meet to last summer.
+      href: /archives?type=result
+    - label: Programs and results sheets
+      blurb: Scanned programs, prize lists and official results as they were printed.
+      href: /archives?type=document

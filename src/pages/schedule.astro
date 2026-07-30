@@ -1,0 +1,136 @@
+---
+import Base from '../layouts/Base.astro';
+import { getArchive } from '../lib/archive';
+import { getSettings } from '../lib/settings';
+import { eventHref, href } from '../lib/url';
+
+const archive = await getArchive();
+const settings = await getSettings();
+
+// The events list doubles as the schedule until the committee supplies real running
+// times, which keeps one source of truth instead of a second hand-typed list.
+const order = ['Swimming', 'Junior', 'Boating', 'Novelty', 'Other'] as const;
+const grouped = order
+  .map((category) => ({
+    category,
+    events: archive.events.filter((e) => e.data.category === category && !e.data.retired),
+  }))
+  .filter((group) => group.events.length > 0);
+
+const dateLabel = settings.nextRegattaDate?.toLocaleDateString('en-CA', {
+  weekday: 'long',
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+  timeZone: 'UTC',
+});
+---
+
+<Base
+  title="Schedule & events"
+  description="The running order and event list for the Bala Regatta."
+>
+  <section class="section">
+    <div class="wrap stack">
+      <p class="eyebrow">On the day</p>
+      <h1>Schedule &amp; events</h1>
+      {dateLabel && <p class="lede">{dateLabel}, at the Township Dock in Bala.</p>}
+
+      <h2>How the day runs</h2>
+      <ol class="running-order">
+        <li>
+          <strong>Morning — swimming events.</strong> The whole swimming card runs first,
+          youngest classes early.
+        </li>
+        <li>
+          <strong>Prize presentation.</strong> Swimming prizes are handed out as soon as the
+          last swimming event finishes, rather than being held to the end of the day.
+        </li>
+        <li>
+          <strong>Afternoon — boating events.</strong> Starting with the punt races and
+          working through to the war canoe.
+        </li>
+        <li>
+          <strong>All day — the BBQ tent.</strong> There is no lunch break; food is available
+          throughout.
+        </li>
+      </ol>
+
+      <aside class="todo">
+        <p>
+          <strong>Times to confirm.</strong> The order above matches the format introduced in
+          2023, but the committee needs to supply actual start times. Once they exist, add them
+          to each event file in <code>src/content/events/</code> and they will appear here.
+        </p>
+      </aside>
+
+      <h2>The event card</h2>
+      <p>
+        Each event links to its record book — every winner we have on file, going back as far
+        as the archive reaches.
+      </p>
+
+      {
+        grouped.map((group) => (
+          <div class="group">
+            <h3>{group.category}</h3>
+            <ul class="list-plain event-list">
+              {group.events.map((event) => (
+                <li>
+                  <a href={eventHref(event.id)}>{event.data.name}</a>
+                  {event.data.firstYear && (
+                    <span class="muted"> &middot; since {event.data.firstYear}</span>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+
+      <aside class="todo">
+        <p>
+          <strong>The event list is incomplete.</strong> It currently holds the events that
+          could be confirmed from public sources plus a few classics. Transcribing real
+          programmes will add the rest — and remember to record each event's historical
+          aliases so the record books stay continuous.
+        </p>
+      </aside>
+
+      <p>
+        <a class="button" href={href('/register')}>How to enter</a>
+      </p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .running-order {
+    max-width: var(--measure);
+    padding-left: 1.2em;
+  }
+
+  .running-order li {
+    margin-bottom: var(--space-2xs);
+  }
+
+  .group {
+    margin-bottom: var(--space-m);
+  }
+
+  .group h3 {
+    padding-bottom: var(--space-3xs);
+    border-bottom: 2px solid var(--border);
+  }
+
+  .event-list {
+    margin: 0;
+    columns: 2 14rem;
+    column-gap: var(--space-l);
+  }
+
+  .event-list li {
+    margin-bottom: var(--space-3xs);
+    break-inside: avoid;
+  }
+</style>

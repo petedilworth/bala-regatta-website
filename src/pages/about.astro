@@ -1,0 +1,57 @@
+---
+import Base from '../layouts/Base.astro';
+import { href } from '../lib/url';
+---
+
+<Base
+  title="About"
+  description="The Bala Regatta has been held at the Township Dock in Bala, Muskoka for more than a century, presented by the Bala Aquatic Association."
+>
+  <section class="section">
+    <div class="wrap stack">
+      <p class="eyebrow">About</p>
+      <h1>A Muskoka summer fixture</h1>
+      <p class="lede">
+        The Bala Regatta has been held at the Township Dock for more than a hundred years,
+        presented by the Bala Aquatic Association.
+      </p>
+
+      <h2>What happens on the day</h2>
+      <p>
+        The morning belongs to the swimmers. Prizes are presented as soon as the swimming
+        events finish, and the boating card follows straight on from there, opening with the
+        punt races. A BBQ tent runs through the day.
+      </p>
+      <p>
+        Entry is open to everyone. There are events for small children, events for
+        sixteen-and-unders, events that put three generations of a family in the same canoe,
+        and a few that exist mainly to be funny.
+      </p>
+
+      <h2>The association</h2>
+      <p>
+        The regatta is organised by volunteers of the Bala Aquatic Association, and paid for
+        by <a href={href('/sponsors')}>local businesses</a> who sponsor the prizes and the day
+        itself.
+      </p>
+
+      <h2>The archive</h2>
+      <p>
+        We are building a searchable record of past regattas — winners, organising committees,
+        programmes, photographs and press coverage. Much of it is still to be transcribed from
+        paper. <a href={href('/archives')}>Browse what is there so far</a>, and please
+        <a href={href('/archives/corrections')}>tell us</a> about anything missing or wrong.
+      </p>
+
+      <aside class="todo">
+        <p>
+          <strong>To write before launch.</strong> This page needs the association's own words
+          on its history and founding — the year of the first regatta, how the Township Dock
+          site came to be used, and anything the committee wants said about the event's place
+          in the village. The copy above is a scaffold, deliberately kept to claims that can be
+          supported.
+        </p>
+      </aside>
+    </div>
+  </section>
+</Base>

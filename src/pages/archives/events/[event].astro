@@ -1,0 +1,118 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { render } from 'astro:content';
+import Base from '../../../layouts/Base.astro';
+import ResultsTable from '../../../components/ResultsTable.astro';
+import { getArchive } from '../../../lib/archive';
+import { href } from '../../../lib/url';
+
+export const getStaticPaths = (async () => {
+  const { events } = await getArchive();
+  return events.map((entry) => ({
+    params: { event: entry.id },
+    props: { entry },
+  }));
+}) satisfies GetStaticPaths;
+
+const { entry } = Astro.props;
+const archive = await getArchive();
+
+// Rows arrive here through the event reference, so a race recorded in 1932 as
+// "Punting" lands in this record book alongside a 2025 "Punt Race". That is the
+// whole reason aliases live on the event rather than being typed per result.
+const rows = [...(archive.rowsByEvent.get(entry.id) ?? [])].sort(
+  (a, b) => b.year - a.year || (a.place ?? 99) - (b.place ?? 99),
+);
+
+const { Content } = await render(entry);
+
+const yearsSeen = [...new Set(rows.map((r) => r.year))].sort((a, b) => a - b);
+const span =
+  yearsSeen.length > 1
+    ? `${yearsSeen[0]}–${yearsSeen[yearsSeen.length - 1]}`
+    : yearsSeen.length === 1
+      ? String(yearsSeen[0])
+      : undefined;
+---
+
+<Base
+  title={entry.data.name}
+  description={`Every recorded winner of the ${entry.data.name} at the Bala Regatta.`}
+>
+  <section class="section">
+    <div class="wrap">
+      <p class="eyebrow">
+        <a href={href('/archives')}>Archives</a> &middot; Record book
+      </p>
+      <h1>{entry.data.name}</h1>
+      <p class="lede">
+        {entry.data.category}
+        {span ? ` · records from ${span}` : ' · no results recorded yet'}
+        {entry.data.retired ? ' · no longer run' : ''}
+      </p>
+
+      <div class="prose">
+        <Content />
+      </div>
+
+      {
+        entry.data.aliases.length > 0 && (
+          <p class="aliases">
+            <strong>Also recorded as:</strong>{' '}
+            {entry.data.aliases.map((a, i) => (
+              <>
+                {i > 0 && ', '}
+                <span class="tag">{a}</span>
+              </>
+            ))}
+          </p>
+        )
+      }
+
+      {
+        rows.length > 0 ? (
+          <>
+            <h2>Winners</h2>
+            <ResultsTable
+              rows={rows}
+              mode="event"
+              caption={`All recorded results for the ${entry.data.name}`}
+            />
+          </>
+        ) : (
+          <aside class="todo">
+            <p>
+              <strong>No results recorded for this event yet.</strong> Once programmes are
+              transcribed they will collect here automatically — nothing needs to be typed twice.
+            </p>
+          </aside>
+        )
+      }
+
+      <nav class="pager">
+        <a href={href('/schedule')}>All events</a>
+        <a href={href('/archives')}>Search the archives</a>
+      </nav>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .prose {
+    max-width: var(--measure);
+  }
+
+  .aliases {
+    max-width: var(--measure);
+    font-size: var(--step--1);
+  }
+
+  .pager {
+    display: flex;
+    gap: var(--space-m);
+    justify-content: space-between;
+    margin-top: var(--space-xl);
+    padding-top: var(--space-s);
+    border-top: 1px solid var(--border);
+  }
+</style>
