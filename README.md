@@ -1,1 +1,157 @@
-# bala-regatta-website
+# Bala Regatta
+
+Website and historical archive for the Bala Regatta, held each summer at the Township
+Dock in Bala, Muskoka.
+
+Built with [Astro](https://astro.build), published as a static site to GitHub Pages.
+Hosting is free; the only running cost is the domain.
+
+```bash
+npm install
+npm run dev      # local preview at http://localhost:4321/bala-regatta-website/
+npm run build    # production build into dist/
+npm run check    # type + content-schema check (run before pushing)
+```
+
+---
+
+## Before this goes live
+
+**Sample content must be deleted.** The archive currently ships with invented names so
+the layout can be reviewed. Every sample page carries a visible orange banner, and every
+sample row in search is tagged. To remove it all:
+
+```bash
+rm src/content/years/2025.md src/content/years/1958.md
+rm src/content/results/2025.yaml src/content/results/1958.yaml
+rm src/content/roles/2025.yaml
+rm src/content/photos/2025.yaml
+rm src/content/documents/2025-programme.yaml
+rm src/content/people/ellen-wray.md src/content/people/tom-wray.md src/content/people/peter-vance.md
+rm src/content/articles/sample-clipping.md src/content/articles/sample-transcript.md
+rm -rf public/archives/sample
+```
+
+Then work through the `.todo` boxes visible on the pages themselves — they mark every
+place waiting on something only the committee can supply.
+
+---
+
+## How the content works
+
+**You write records, not pages.** Nothing in `src/content/` describes a page. The site
+generates year, event and person pages from the data, so one result entry appears on its
+year page, in its event's record book, on each linked person's page, and in search —
+typed once.
+
+Everything lives in `src/content/`:
+
+| Folder | What goes in it |
+|---|---|
+| `years/` | One Markdown file per regatta year, with a short narrative |
+| `results/` | One YAML file per year, listing events and placings |
+| `events/` | One file per event, **with its historical aliases** |
+| `people/` | Competitors and organisers, with name variants |
+| `roles/` | Who held which committee role, per year |
+| `articles/` | Press coverage — linked, scanned, or transcribed |
+| `documents/` | Programmes, results sheets, posters |
+| `photos/` | Photographs, grouped by year, with captions |
+| `sponsors/` | The sponsor list |
+| `settings/` | Regatta date, registration link, contact details, featured items |
+
+Images and PDFs go in `public/archives/<year>/` and are referenced by path.
+
+### Adding a year
+
+1. `src/content/years/1963.md` — front matter with `year`, and prose in the body.
+2. `src/content/results/1963.yaml` — the races. See the comments in
+   `src/content/results/2025.yaml` for the shape.
+3. Optionally `roles/1963.yaml`, `photos/1963.yaml`, and documents.
+
+### Two rules worth understanding
+
+**Events are referenced, never typed.** A results file says `event: punt-race`, which must
+match a filename in `src/content/events/`. A typo **fails the build** rather than silently
+dropping the row out of every filter. When you find an old programme calling it something
+else, add that wording to `aliases:` in the event file — do not create a second event.
+Aliases are what keep a record book continuous across a century of renames.
+
+**People are linked optionally.** A result always records the name exactly as the source
+printed it (`Mrs. J. Smith`, initials and all) — that is what an archive is for. Adding
+`person: jane-smith` is a separate judgement about identity, and can be done years later
+without retyping anything. Unlinked names stay fully searchable; they just do not get a
+person page.
+
+To keep someone's name in the results but remove their personal page, set `hidden: true`
+on their person file rather than deleting it.
+
+---
+
+## How search works
+
+`/archives` fetches `archive-index.json`, built at compile time from every record, and
+filters it in the browser. No server, no database, nothing beyond the free hosting tier.
+
+Measured at **~310 bytes per record**. At the full 115 years — very roughly 10,000
+records — that is around 3 MB raw, or roughly 700 KB gzipped, fetched once and then
+cached. Fine, but if it becomes uncomfortable the fix is to trim the `k` haystack field
+in `src/lib/archive.ts` or split the index by decade. Worth re-measuring once a few real
+decades are in.
+
+Photos are findable by their **caption and year only**. An uncaptioned photo will surface
+under a decade filter and nowhere else, so caption them as you upload.
+
+---
+
+## Old Weebly URLs
+
+`scripts/make-redirects.mjs` generates a real `.html` file at each old Weebly path
+containing a meta refresh — the closest GitHub Pages gets to a 301. It runs automatically
+on `npm run build`; the generated files are gitignored.
+
+Two non-obvious constraints, both already handled, both easy to break:
+
+- **Targets must end in a trailing slash.** A static host asked for `/schedule` serves
+  `schedule.html` before `schedule/index.html`. Since the stub *is* `schedule.html`, a
+  target of `schedule` points at itself — an infinite redirect loop. `schedule/` can only
+  mean the directory. This is also why `astro.config.mjs` sets
+  `trailingSlash: 'always'`, and why internal links go through `href()` in
+  `src/lib/url.ts` rather than being written by hand.
+- **The URL list is incomplete.** It was assembled from search results, because the live
+  site could not be crawled from the build environment. Crawl the real Weebly site and
+  add every URL it serves before cutover.
+
+---
+
+## Deploying
+
+`.github/workflows/deploy.yml` builds and publishes on every push to `main`.
+
+GitHub Pages needs the repository to be **public** on a free plan. Note that anything
+committed stays in the Git history even after deletion — so do not commit a scan whose
+rights are unclear.
+
+### Cutover checklist
+
+The domain is the one irreversible step, so it goes last.
+
+1. Crawl and archive the existing Weebly site; complete the redirect URL list.
+2. Delete all sample content (above) and fill in the `.todo` items.
+3. Confirm whether any address `@balaregatta.com` is in use. **If so, its MX records must
+   be carried across or mail stops.**
+4. Transfer the domain out of Weebly/Square to a normal registrar — unlock, get the
+   EPP/auth code, transfer (5–7 days).
+5. Add `public/CNAME` containing `balaregatta.com`, and set the workflow env vars to
+   `SITE_URL: https://balaregatta.com` and `SITE_BASE: /`.
+6. Point the apex A records and the `www` CNAME at GitHub Pages; wait for the HTTPS
+   certificate.
+7. Confirm the site resolves over HTTPS, **then** confirm email still delivers, **then**
+   cancel Weebly.
+
+---
+
+## Notes on the archive itself
+
+`/archives/corrections` publishes commitments about naming living people and handling
+photograph rights. Those are a sensible default, not a ratified policy — the committee
+should read that page and change it to match what the association will actually do.

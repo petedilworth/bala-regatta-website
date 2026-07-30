@@ -1,0 +1,29 @@
+{
+  "name": "bala-regatta-website",
+  "version": "1.0.0",
+  "description": "Website and historical archive for the Bala Regatta",
+  "type": "module",
+  "private": true,
+  "license": "UNLICENSED",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/petedilworth/bala-regatta-website.git"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "prebuild": "node scripts/make-redirects.mjs",
+    "build": "astro build",
+    "redirects": "node scripts/make-redirects.mjs",
+    "preview": "astro preview",
+    "check": "astro check"
+  },
+  "dependencies": {
+    "astro": "^7.1.6",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "typescript": "^6.0.3"
+  }
+}

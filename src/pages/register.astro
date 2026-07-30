@@ -1,0 +1,62 @@
+---
+import Base from '../layouts/Base.astro';
+import { getSettings } from '../lib/settings';
+import { href } from '../lib/url';
+
+const settings = await getSettings();
+const isPlaceholderUrl = settings.registrationUrl?.includes('example.com') ?? true;
+---
+
+<Base title="Register" description="How to enter events at the Bala Regatta.">
+  <section class="section">
+    <div class="wrap stack">
+      <p class="eyebrow">Take part</p>
+      <h1>Register</h1>
+
+      {
+        settings.registrationNote && (
+          <p class="lede">{settings.registrationNote}</p>
+        )
+      }
+
+      {
+        isPlaceholderUrl ? (
+          <aside class="todo">
+            <p>
+              <strong>Registration link not set yet.</strong> Put the real Google Form or
+              Jotform URL into <code>registrationUrl</code> in
+              <code>src/content/settings/settings.yaml</code> and this page will link to it.
+            </p>
+          </aside>
+        ) : (
+          <p>
+            <a class="button" href={settings.registrationUrl}>
+              Open the registration form
+            </a>
+          </p>
+        )
+      }
+
+      <h2>Entering on the day</h2>
+      <p>
+        You can also enter at the dock on the morning of the regatta. Sign-up sheets for each
+        event close fifteen minutes before that event starts, so come early if you want to be
+        sure of a place in a popular race.
+      </p>
+
+      <h2>What to bring</h2>
+      <ul>
+        <li>A life jacket for anyone in a boat, and for the junior events.</li>
+        <li>Your own canoe or punt if you have one — some boats are available to share.</li>
+        <li>Cash for the BBQ tent.</li>
+      </ul>
+
+      <p>
+        Not sure which events suit you? The <a href={href('/schedule')}>schedule</a> lists
+        everything on the card, and the <a href={href('/archives')}>archives</a> show who has
+        won what before.
+      </p>
+    </div>
+  </section>
+</Base>
+

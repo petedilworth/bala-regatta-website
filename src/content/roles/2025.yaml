@@ -1,0 +1,23 @@
+# SAMPLE DATA — invented names. Replace with the real committee record.
+#
+# Organisers who also competed are the reason people are first-class records here:
+# Peter Vance appears below as Commodore and in results/2025.yaml as a competitor,
+# and both show on his person page.
+
+year: 2025
+source: 'SAMPLE DATA — replace with a real citation'
+
+officials:
+  - role: Commodore
+    name: Peter Vance
+    person: peter-vance
+  - role: Chair
+    name: Ellen Wray
+    person: ellen-wray
+  - role: Secretary
+    name: Ruth Marchand
+  - role: Race Marshal
+    name: Tom Wray
+    person: tom-wray
+  - role: Starter
+    name: J. Hollingsworth

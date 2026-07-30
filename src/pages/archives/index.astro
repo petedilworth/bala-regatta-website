@@ -1,0 +1,606 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getArchive, decadeOf } from '../../lib/archive';
+import { getSettings } from '../../lib/settings';
+import { href, yearHref, eventHref } from '../../lib/url';
+
+const archive = await getArchive();
+const settings = await getSettings();
+
+// Filter options are derived from what is actually in the archive, so they never
+// offer a decade or event with nothing behind it.
+const decades = [...new Set(archive.years.map((y) => decadeOf(y.data.year)))].sort().reverse();
+const categories = [...new Set(archive.events.map((e) => e.data.category))].sort();
+const eventOptions = archive.events.filter((e) => archive.rowsByEvent.has(e.id));
+
+const recordCount =
+  archive.rows.length +
+  archive.officials.length +
+  archive.documents.length +
+  archive.articles.length +
+  archive.photos.length;
+
+const types = [
+  { value: 'result', label: 'Results' },
+  { value: 'official', label: 'Organisers' },
+  { value: 'document', label: 'Programmes' },
+  { value: 'article', label: 'Press' },
+  { value: 'photo', label: 'Photos' },
+];
+
+const indexUrl = href('/archive-index.json');
+---
+
+<Base
+  title="Archives"
+  description="A searchable record of the Bala Regatta — winners, organising committees, programmes, photographs and press coverage, year by year."
+>
+  <section class="section">
+    <div class="wrap">
+      <p class="eyebrow">The record</p>
+      <h1>Archives</h1>
+      <p class="lede">
+        Search {recordCount.toLocaleString('en-CA')} records from the regatta's history — race
+        results, organising committees, programmes, press coverage and photographs. Try a family
+        name, or an event like <em>punt</em>.
+      </p>
+
+      {
+        settings.featured.length > 0 && (
+          <ul class="featured list-plain">
+            {settings.featured.map((item) => (
+              <li class="featured__item">
+                <a href={item.href.startsWith('/') ? href(item.href) : item.href}>
+                  <span class="featured__label">{item.label}</span>
+                  {item.blurb && <span class="featured__blurb">{item.blurb}</span>}
+                </a>
+              </li>
+            ))}
+          </ul>
+        )
+      }
+    </div>
+  </section>
+
+  <section class="section section--sand" id="search">
+    <div class="wrap">
+      <div class="archive-search" data-index-url={indexUrl}>
+        <form class="filters" role="search" onsubmit="return false;">
+          <div class="filters__row">
+            <label class="field field--grow">
+              <span class="field__label">Search</span>
+              <input
+                type="search"
+                id="q"
+                name="q"
+                placeholder="A surname, an event, a year…"
+                autocomplete="off"
+              />
+            </label>
+
+            <label class="field">
+              <span class="field__label">Decade</span>
+              <select id="decade" name="decade">
+                <option value="">Any</option>
+                {decades.map((d) => <option value={d}>{d}</option>)}
+              </select>
+            </label>
+
+            <label class="field">
+              <span class="field__label">Event</span>
+              <select id="event" name="event">
+                <option value="">Any</option>
+                {
+                  eventOptions.map((e) => (
+                    <option value={e.id}>{e.data.name}</option>
+                  ))
+                }
+              </select>
+            </label>
+
+            <label class="field">
+              <span class="field__label">Category</span>
+              <select id="category" name="category">
+                <option value="">Any</option>
+                {categories.map((c) => <option value={c}>{c}</option>)}
+              </select>
+            </label>
+          </div>
+
+          <fieldset class="chips">
+            <legend class="field__label">Show</legend>
+            {
+              types.map((t) => (
+                <label class="chip">
+                  <input type="checkbox" name="type" value={t.value} checked />
+                  <span>{t.label}</span>
+                </label>
+              ))
+            }
+            <button type="button" class="button button--ghost reset">Reset</button>
+          </fieldset>
+        </form>
+
+        <p class="status" role="status" aria-live="polite" data-status>
+          Loading the archive…
+        </p>
+
+        <ol class="results list-plain" data-results></ol>
+
+        <p class="more-wrap">
+          <button type="button" class="button button--ghost more" data-more hidden>
+            Show more
+          </button>
+        </p>
+      </div>
+
+      <noscript>
+        <p class="todo">
+          Search needs JavaScript. You can still browse the archive year by year using the list
+          below.
+        </p>
+      </noscript>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <h2>Browse by year</h2>
+      <p>
+        {archive.years.length} of the regatta's years have records so far. This list is also the
+        way to browse without JavaScript.
+      </p>
+      <ul class="years list-plain">
+        {
+          archive.years.map((y) => (
+            <li>
+              <a href={yearHref(y.data.year)}>
+                <strong>{y.data.year}</strong>
+                {y.data.sample && <span class="tag tag--sample">sample</span>}
+                {y.data.notHeld && <span class="tag">not held</span>}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+
+      <h2>Record books by event</h2>
+      <p>Every winner we hold for a single event, across all years.</p>
+      <ul class="years list-plain">
+        {
+          archive.events.map((e) => (
+            <li>
+              <a href={eventHref(e.id)}>{e.data.name}</a>
+            </li>
+          ))
+        }
+      </ul>
+
+      <h2>People</h2>
+      <p>
+        <a href={href('/archives/people')}>Everyone with a record page</a> — competitors,
+        organisers, and the many who were both.
+      </p>
+
+      <aside class="todo">
+        <p>
+          <strong>The archive is just started.</strong> Most of the 115 years are still to be
+          transcribed, and the years currently showing are placeholder samples. See
+          <a href={href('/archives/corrections')}>how to help</a>.
+        </p>
+      </aside>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .featured {
+    display: grid;
+    gap: var(--space-m);
+    grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr));
+    margin-top: var(--space-l);
+  }
+
+  .featured__item a {
+    display: block;
+    height: 100%;
+    padding: var(--space-m);
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--pennant);
+    border-radius: var(--radius);
+    text-decoration: none;
+    color: var(--fg);
+  }
+
+  .featured__item a:hover {
+    border-color: var(--accent);
+    border-left-color: var(--pennant);
+    box-shadow: var(--shadow);
+  }
+
+  .featured__label {
+    display: block;
+    font-family: var(--serif);
+    font-size: var(--step-1);
+    color: var(--accent);
+    margin-bottom: var(--space-3xs);
+  }
+
+  .featured__blurb {
+    display: block;
+    font-size: var(--step--1);
+    color: var(--fg-muted);
+  }
+
+  /* Search ---------------------------------------------------------------- */
+
+  .filters {
+    margin-bottom: var(--space-m);
+  }
+
+  .filters__row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-s);
+    align-items: end;
+  }
+
+  .field {
+    display: block;
+  }
+
+  .field--grow {
+    flex: 1 1 16rem;
+  }
+
+  .field__label {
+    display: block;
+    font-size: var(--step--1);
+    font-weight: 600;
+    margin-bottom: var(--space-3xs);
+    color: var(--fg-muted);
+  }
+
+  input[type='search'],
+  select {
+    width: 100%;
+    font: inherit;
+    font-size: var(--step-0);
+    padding: 0.55em 0.7em;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg-raised);
+    color: var(--fg);
+  }
+
+  .chips {
+    border: 0;
+    padding: 0;
+    margin: var(--space-s) 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xs);
+    align-items: center;
+  }
+
+  .chips legend {
+    padding: 0;
+    margin-right: var(--space-2xs);
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4em;
+    font-size: var(--step--1);
+    padding: 0.3em 0.8em;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--bg-raised);
+    cursor: pointer;
+  }
+
+  .chip:has(input:checked) {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--accent-fg);
+  }
+
+  .chip:has(input:focus-visible) {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  .chip input {
+    /* The chip itself communicates state; the box would be redundant, but it
+       stays in the accessibility tree. */
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+  }
+
+  .chips .button {
+    margin-left: auto;
+    font-size: var(--step--1);
+    padding: 0.3em 0.9em;
+  }
+
+  .status {
+    font-size: var(--step--1);
+    color: var(--fg-muted);
+    margin-bottom: var(--space-2xs);
+  }
+
+  .results {
+    margin: 0;
+    display: grid;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  .results:empty {
+    display: none;
+  }
+
+  .more-wrap {
+    margin-top: var(--space-s);
+  }
+
+  .years {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xs);
+    margin-bottom: var(--space-l);
+  }
+
+  .years li a {
+    display: inline-block;
+    padding: 0.3em 0.8em;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg-raised);
+    text-decoration: none;
+  }
+
+  .years li a:hover {
+    border-color: var(--accent);
+  }
+</style>
+
+<!--
+  Result rows are built by the script below, at runtime, so they never receive
+  Astro's data-astro-cid scoping attribute and scoped rules simply do not match
+  them. These have to be global. Keeping them beside the code that creates the
+  markup, rather than in global.css, keeps the two from drifting apart.
+-->
+<style is:global>
+  .archive-search .results li {
+    background: var(--bg-raised);
+    padding: var(--space-2xs) var(--space-s);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 var(--space-2xs);
+    align-items: baseline;
+  }
+
+  .archive-search .results li > a {
+    font-weight: 600;
+  }
+
+  .archive-search .results .sub {
+    font-size: var(--step--1);
+    color: var(--fg-muted);
+  }
+
+  .archive-search .results .kind {
+    font-size: var(--step--1);
+    color: var(--fg-muted);
+    margin-left: auto;
+    padding-left: var(--space-s);
+  }
+
+  /* Also applied to the server-rendered year list, hence not nested under
+     .archive-search. */
+  .tag--sample {
+    background: #fff4e2;
+    border-color: #e0a44a;
+    color: #5a3b0c;
+    margin-left: var(--space-3xs);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .tag--sample {
+      background: #35280f;
+      border-color: #a97b2c;
+      color: #f0dcb4;
+    }
+  }
+</style>
+
+<script>
+  type IndexRecord = {
+    t: 'result' | 'document' | 'article' | 'photo' | 'official';
+    y?: number;
+    d?: string;
+    l: string;
+    s?: string;
+    h: string;
+    k: string;
+    e?: string;
+    c?: string;
+    x?: 1;
+  };
+
+  const PAGE_SIZE = 100;
+
+  const KIND_LABEL: Record<IndexRecord['t'], string> = {
+    result: 'Result',
+    official: 'Organiser',
+    document: 'Programme',
+    article: 'Press',
+    photo: 'Photo',
+  };
+
+  const root = document.querySelector<HTMLElement>('.archive-search');
+  if (root) {
+    const indexUrl = root.dataset.indexUrl!;
+    const q = root.querySelector<HTMLInputElement>('#q')!;
+    const decade = root.querySelector<HTMLSelectElement>('#decade')!;
+    const eventSel = root.querySelector<HTMLSelectElement>('#event')!;
+    const category = root.querySelector<HTMLSelectElement>('#category')!;
+    const typeBoxes = [...root.querySelectorAll<HTMLInputElement>('input[name="type"]')];
+    const resetBtn = root.querySelector<HTMLButtonElement>('.reset')!;
+    const results = root.querySelector<HTMLElement>('[data-results]')!;
+    const status = root.querySelector<HTMLElement>('[data-status]')!;
+    const moreBtn = root.querySelector<HTMLButtonElement>('[data-more]')!;
+
+    let records: IndexRecord[] = [];
+    let matches: IndexRecord[] = [];
+    let shown = 0;
+
+    /** Deep links like /archives?decade=1950s drive the curated strip. */
+    function applyQueryString(): void {
+      const params = new URLSearchParams(location.search);
+      if (params.get('q')) q.value = params.get('q')!;
+      if (params.get('decade')) decade.value = params.get('decade')!;
+      if (params.get('event')) eventSel.value = params.get('event')!;
+      if (params.get('category')) category.value = params.get('category')!;
+      const type = params.get('type');
+      if (type) {
+        const wanted = type.split(',');
+        for (const box of typeBoxes) box.checked = wanted.includes(box.value);
+      }
+    }
+
+    function activeTypes(): Set<string> {
+      return new Set(typeBoxes.filter((b) => b.checked).map((b) => b.value));
+    }
+
+    function filter(): void {
+      // Every term must appear somewhere in the row's haystack, so "wray 1958"
+      // narrows rather than widening the way a single-term match would.
+      const terms = q.value.toLowerCase().split(/\s+/).filter(Boolean);
+      const wantDecade = decade.value;
+      const wantEvent = eventSel.value;
+      const wantCategory = category.value;
+      const wantTypes = activeTypes();
+
+      matches = records.filter((r) => {
+        if (!wantTypes.has(r.t)) return false;
+        if (wantDecade && r.d !== wantDecade) return false;
+        if (wantEvent && r.e !== wantEvent) return false;
+        if (wantCategory && r.c !== wantCategory) return false;
+        return terms.every((term) => r.k.includes(term));
+      });
+
+      matches.sort((a, b) => (b.y ?? 0) - (a.y ?? 0));
+      shown = 0;
+      results.replaceChildren();
+      render();
+      syncQueryString();
+    }
+
+    function render(): void {
+      const slice = matches.slice(shown, shown + PAGE_SIZE);
+      const frag = document.createDocumentFragment();
+
+      for (const r of slice) {
+        const li = document.createElement('li');
+
+        const a = document.createElement('a');
+        a.href = r.h;
+        a.textContent = r.l;
+        li.append(a);
+
+        if (r.s) {
+          const sub = document.createElement('span');
+          sub.className = 'sub';
+          sub.textContent = r.s;
+          li.append(sub);
+        }
+
+        if (r.x) {
+          const flag = document.createElement('span');
+          flag.className = 'tag tag--sample';
+          flag.textContent = 'sample';
+          li.append(flag);
+        }
+
+        const kind = document.createElement('span');
+        kind.className = 'kind';
+        kind.textContent = KIND_LABEL[r.t] ?? r.t;
+        li.append(kind);
+
+        frag.append(li);
+      }
+
+      results.append(frag);
+      shown += slice.length;
+
+      const total = matches.length;
+      status.textContent = total
+        ? `${total.toLocaleString('en-CA')} ${total === 1 ? 'record' : 'records'}${
+            shown < total ? ` — showing the first ${shown.toLocaleString('en-CA')}` : ''
+          }`
+        : 'No records match. Try fewer words, or widen the filters.';
+      moreBtn.hidden = shown >= total;
+    }
+
+    function syncQueryString(): void {
+      const params = new URLSearchParams();
+      if (q.value) params.set('q', q.value);
+      if (decade.value) params.set('decade', decade.value);
+      if (eventSel.value) params.set('event', eventSel.value);
+      if (category.value) params.set('category', category.value);
+      const types = [...activeTypes()];
+      if (types.length !== typeBoxes.length) params.set('type', types.join(','));
+      const qs = params.toString();
+      history.replaceState(null, '', qs ? `?${qs}${location.hash}` : location.pathname);
+    }
+
+    let timer: number | undefined;
+    const debounced = () => {
+      window.clearTimeout(timer);
+      timer = window.setTimeout(filter, 120);
+    };
+
+    q.addEventListener('input', debounced);
+    for (const el of [decade, eventSel, category, ...typeBoxes]) {
+      el.addEventListener('change', filter);
+    }
+
+    resetBtn.addEventListener('click', () => {
+      q.value = '';
+      decade.value = '';
+      eventSel.value = '';
+      category.value = '';
+      for (const box of typeBoxes) box.checked = true;
+      filter();
+      q.focus();
+    });
+
+    moreBtn.addEventListener('click', () => {
+      render();
+    });
+
+    fetch(indexUrl)
+      .then((res) => {
+        if (!res.ok) throw new Error(`${res.status}`);
+        return res.json() as Promise<IndexRecord[]>;
+      })
+      .then((data) => {
+        records = data;
+        applyQueryString();
+        filter();
+      })
+      .catch(() => {
+        status.textContent =
+          'The archive index could not be loaded. Browsing by year below still works.';
+      });
+  }
+</script>

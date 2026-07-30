@@ -1,0 +1,163 @@
+---
+import Base from '../layouts/Base.astro';
+import { getSettings } from '../lib/settings';
+import { getArchive, ordinal } from '../lib/archive';
+import { href } from '../lib/url';
+
+const settings = await getSettings();
+const archive = await getArchive();
+
+const date = settings.nextRegattaDate;
+const dateLabel = date
+  ? date.toLocaleDateString('en-CA', {
+      weekday: 'long',
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+      timeZone: 'UTC',
+    })
+  : undefined;
+
+const edition = settings.nextRegattaEdition;
+const yearsCovered = archive.years.filter((y) => !y.data.notHeld).length;
+---
+
+<Base title="Bala Regatta">
+  <section class="hero">
+    <div class="wrap">
+      <p class="hero__eyebrow">
+        {edition ? `${ordinal(edition)} annual` : 'Annual'} &middot; Township Dock, Bala, Muskoka
+      </p>
+      <h1 class="hero__title">The Bala Regatta</h1>
+      {dateLabel && <p class="hero__date">{dateLabel}</p>}
+      <p class="hero__blurb">
+        A morning of swimming races, an afternoon on the water, and a BBQ tent running all
+        day. Everyone is welcome to enter — sign-up happens at the dock.
+      </p>
+      <p class="hero__actions">
+        {
+          settings.registrationUrl && (
+            <a class="button" href={settings.registrationUrl}>
+              Register
+            </a>
+          )
+        }
+        <a class="button button--ghost" href={href('/schedule')}>Schedule &amp; events</a>
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="two-col">
+        <div>
+          <p class="eyebrow">The day</p>
+          <h2>No lunch break, no waiting around</h2>
+          <p>
+            Since 2023 the regatta runs straight through. Prizes for the morning's swimming
+            events are handed out as soon as those events finish, and the boating card starts
+            immediately afterwards with the punt races.
+          </p>
+          <p>
+            The programme has grown too: a three-armed all-ages noodle race, a life jacket
+            swap relay for 16 and under, and multi-generational canoe fours.
+          </p>
+          <p><a href={href('/schedule')}>See the full running order</a></p>
+        </div>
+        <div>
+          <p class="eyebrow">The archive</p>
+          <h2>Over a century of results</h2>
+          <p>
+            The regatta has run at the Township Dock for more than a hundred years. We are
+            building a searchable record of it — winners, organising committees, programmes,
+            photographs and press coverage, year by year.
+          </p>
+          <p>
+            Search a family name and see every race they ever won.
+          </p>
+          <p>
+            <a class="button button--ghost" href={href('/archives')}>
+              Search the archives{yearsCovered ? ` (${yearsCovered} years so far)` : ''}
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--sand">
+    <div class="wrap">
+      <p class="eyebrow">With thanks to</p>
+      <h2>Our sponsors</h2>
+      <p>
+        The regatta runs on the support of local businesses.
+        <a href={href('/sponsors')}>See everyone who makes it possible</a>.
+      </p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .hero {
+    background: var(--water-deep);
+    color: #f6f2e9;
+    padding-block: var(--space-2xl);
+    /* Placeholder treatment until a real hero photograph is available. */
+    background-image: radial-gradient(
+      120% 100% at 50% 0%,
+      #16465a 0%,
+      var(--water-deep) 65%
+    );
+  }
+
+  .hero__eyebrow {
+    font-size: var(--step--1);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #9fc0cd;
+    margin-bottom: var(--space-2xs);
+  }
+
+  .hero__title {
+    font-size: var(--step-5);
+    margin-bottom: var(--space-2xs);
+    color: #fff;
+  }
+
+  .hero__date {
+    font-family: var(--serif);
+    font-size: var(--step-2);
+    color: #f6f2e9;
+    margin-bottom: var(--space-s);
+  }
+
+  .hero__blurb {
+    max-width: 46ch;
+    color: #cfdde3;
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-s);
+    margin-top: var(--space-m);
+    max-width: none;
+  }
+
+  .hero .button--ghost {
+    color: #f6f2e9;
+    border-color: rgb(255 255 255 / 35%);
+  }
+
+  .hero .button--ghost:hover {
+    background: rgb(255 255 255 / 10%);
+    color: #fff;
+    border-color: #fff;
+  }
+
+  .two-col {
+    display: grid;
+    gap: var(--space-xl);
+    grid-template-columns: repeat(auto-fit, minmax(min(20rem, 100%), 1fr));
+  }
+</style>

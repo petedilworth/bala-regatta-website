@@ -1,0 +1,119 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { render } from 'astro:content';
+import Base from '../../../layouts/Base.astro';
+import { getArchive } from '../../../lib/archive';
+import { href, personHref, yearHref } from '../../../lib/url';
+
+export const getStaticPaths = (async () => {
+  const { articles } = await getArchive();
+  // Linked articles live at their source and get no page here; building one would
+  // be a page whose only content is a link somewhere else.
+  return articles
+    .filter((entry) => entry.data.kind !== 'link')
+    .map((entry) => ({ params: { article: entry.id }, props: { entry } }));
+}) satisfies GetStaticPaths;
+
+const { entry } = Astro.props;
+const archive = await getArchive();
+const { Content } = await render(entry);
+
+const dateLabel = entry.data.date?.toLocaleDateString('en-CA', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+  timeZone: 'UTC',
+});
+---
+
+<Base title={entry.data.title} description={entry.data.summary}>
+  <section class="section">
+    <div class="wrap">
+      <p class="eyebrow">
+        <a href={href('/archives')}>Archives</a> &middot; Press
+      </p>
+      <h1>{entry.data.title}</h1>
+      <p class="lede">
+        {[entry.data.publication, dateLabel].filter(Boolean).join(' · ')}
+        {entry.data.kind === 'scan' ? ' · scanned clipping' : ' · transcribed'}
+      </p>
+
+      {entry.data.summary && <p class="summary">{entry.data.summary}</p>}
+
+      {
+        entry.data.kind === 'scan' && entry.data.file && (
+          <figure class="scan">
+            <img src={href(entry.data.file)} alt={`Scanned clipping: ${entry.data.title}`} />
+            <figcaption>
+              <a href={href(entry.data.file)}>Open the full-size scan</a>
+            </figcaption>
+          </figure>
+        )
+      }
+
+      <div class="prose">
+        <Content />
+      </div>
+
+      {
+        entry.data.years.length > 0 && (
+          <p>
+            <strong>Regatta years:</strong>{' '}
+            {entry.data.years.map((y, i) => (
+              <>
+                {i > 0 && ', '}
+                <a href={yearHref(y)}>{y}</a>
+              </>
+            ))}
+          </p>
+        )
+      }
+
+      {
+        entry.data.people.length > 0 && (
+          <p>
+            <strong>People named:</strong>{' '}
+            {entry.data.people.map((ref, i) => {
+              const person = archive.peopleById.get(ref.id);
+              if (!person) return null;
+              return (
+                <>
+                  {i > 0 && ', '}
+                  <a href={personHref(ref.id)}>{person.data.name}</a>
+                </>
+              );
+            })}
+          </p>
+        )
+      }
+    </div>
+  </section>
+</Base>
+
+<style>
+  .summary,
+  .prose {
+    max-width: var(--measure);
+  }
+
+  .summary {
+    font-weight: 500;
+  }
+
+  .scan {
+    margin: var(--space-m) 0;
+    max-width: 44rem;
+  }
+
+  .scan img {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg-raised);
+  }
+
+  .scan figcaption {
+    font-size: var(--step--1);
+    margin-top: var(--space-2xs);
+  }
+</style>

@@ -1,0 +1,106 @@
+---
+import { href } from '../lib/url';
+import { getSettings } from '../lib/settings';
+
+const settings = await getSettings();
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="wrap site-footer__inner">
+    <div>
+      <p class="site-footer__name">Bala Regatta</p>
+      <p class="site-footer__meta">
+        Presented by the Bala Aquatic Association<br />
+        Township Dock, Bala, Ontario
+      </p>
+    </div>
+
+    <nav aria-label="Footer">
+      <ul class="list-plain site-footer__links">
+        <li><a href={href('/schedule')}>Schedule &amp; events</a></li>
+        <li><a href={href('/register')}>Register</a></li>
+        <li><a href={href('/archives')}>Archives</a></li>
+        <li><a href={href('/sponsors')}>Sponsors</a></li>
+        <li><a href={href('/contact')}>Contact</a></li>
+      </ul>
+    </nav>
+
+    <div>
+      {
+        settings.email && (
+          <p class="site-footer__meta">
+            <a href={`mailto:${settings.email}`}>{settings.email}</a>
+          </p>
+        )
+      }
+      {
+        (settings.facebook || settings.instagram) && (
+          <p class="site-footer__meta">
+            {settings.facebook && <a href={settings.facebook}>Facebook</a>}
+            {settings.facebook && settings.instagram && ' · '}
+            {settings.instagram && <a href={settings.instagram}>Instagram</a>}
+          </p>
+        )
+      }
+      <p class="site-footer__meta">
+        <a href={href('/archives/corrections')}>Spotted an error in the archives?</a>
+      </p>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <p class="site-footer__legal">
+      &copy; {year} Bala Aquatic Association. Historical material is published for the
+      community record; please get in touch about any photograph or name you would like
+      corrected or removed.
+    </p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    margin-top: auto;
+    background: var(--water-deep);
+    color: #dfe8ec;
+    padding-block: var(--space-xl) var(--space-m);
+    font-size: var(--step--1);
+  }
+
+  .site-footer__inner {
+    display: grid;
+    gap: var(--space-l);
+    grid-template-columns: repeat(auto-fit, minmax(min(14rem, 100%), 1fr));
+  }
+
+  .site-footer__name {
+    font-family: var(--serif);
+    font-size: var(--step-1);
+    margin: 0 0 var(--space-3xs);
+    color: #fff;
+  }
+
+  .site-footer__meta {
+    margin: 0 0 var(--space-2xs);
+    color: #b9cdd6;
+    max-width: none;
+  }
+
+  .site-footer__links {
+    margin: 0;
+    display: grid;
+    gap: var(--space-3xs);
+  }
+
+  .site-footer a {
+    color: #fff;
+  }
+
+  .site-footer__legal {
+    margin: var(--space-l) 0 0;
+    padding-top: var(--space-s);
+    border-top: 1px solid rgb(255 255 255 / 15%);
+    color: #93a8b2;
+    max-width: 70ch;
+  }
+</style>

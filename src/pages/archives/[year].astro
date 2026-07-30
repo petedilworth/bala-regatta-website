@@ -1,0 +1,352 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import ResultsTable from '../../components/ResultsTable.astro';
+import SampleNotice from '../../components/SampleNotice.astro';
+import { getArchive, ordinal } from '../../lib/archive';
+import { href, personHref, yearHref } from '../../lib/url';
+
+export const getStaticPaths = (async () => {
+  const { years } = await getArchive();
+  return years.map((entry) => ({
+    params: { year: String(entry.data.year) },
+    props: { entry },
+  }));
+}) satisfies GetStaticPaths;
+
+const { entry } = Astro.props;
+const archive = await getArchive();
+const year = entry.data.year;
+
+const rows = archive.rowsByYear.get(year) ?? [];
+const officials = archive.officialsByYear.get(year) ?? [];
+const documents = archive.documentsByYear.get(year) ?? [];
+const photos = archive.photosByYear.get(year) ?? [];
+const articles = archive.articlesByYear.get(year) ?? [];
+
+const { Content } = await render(entry);
+
+// Group results by event so a year reads like a programme rather than a flat list.
+const byEvent = new Map<string, typeof rows>();
+for (const row of rows) {
+  const existing = byEvent.get(row.eventId);
+  if (existing) existing.push(row);
+  else byEvent.set(row.eventId, [row]);
+}
+const orderedRows = [...byEvent.values()].flat();
+
+const source = rows.find((r) => r.source)?.source;
+
+const years = archive.years.map((y) => y.data.year);
+const position = years.indexOf(year);
+const newer = position > 0 ? years[position - 1] : undefined;
+const older = position >= 0 && position < years.length - 1 ? years[position + 1] : undefined;
+
+const dateLabel = entry.data.date?.toLocaleDateString('en-CA', {
+  weekday: 'long',
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+  timeZone: 'UTC',
+});
+---
+
+<Base
+  title={`${year} Regatta`}
+  description={entry.data.summary ?? `Records from the ${year} Bala Regatta.`}
+>
+  <section class="section">
+    <div class="wrap">
+      <p class="eyebrow">
+        <a href={href('/archives')}>Archives</a> &middot; {year}
+      </p>
+      <h1>
+        {entry.data.edition ? `${ordinal(entry.data.edition)} Bala Regatta` : `${year} Bala Regatta`}
+      </h1>
+      <p class="lede">
+        {dateLabel ?? year}{entry.data.location ? ` · ${entry.data.location}` : ''}
+      </p>
+
+      {entry.data.sample && <SampleNotice what="page" />}
+
+      {
+        entry.data.notHeld && (
+          <p class="not-held">
+            <strong>No regatta was held in {year}.</strong>
+            {entry.data.notHeldReason ? ` ${entry.data.notHeldReason}` : ''}
+          </p>
+        )
+      }
+
+      <div class="prose">
+        <Content />
+      </div>
+
+      {
+        orderedRows.length > 0 && (
+          <>
+            <h2>Results</h2>
+            <ResultsTable rows={orderedRows} mode="year" caption={`${year} results`} />
+            {source && (
+              <p class="muted source">
+                <strong>Source:</strong> {source}
+              </p>
+            )}
+          </>
+        )
+      }
+
+      {
+        officials.length > 0 && (
+          <>
+            <h2>Organising committee</h2>
+            <div class="table-scroll">
+              <table>
+                <thead>
+                  <tr>
+                    <th scope="col">Role</th>
+                    <th scope="col">Name</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {officials.map((o) => (
+                    <tr>
+                      <th scope="row">{o.role}</th>
+                      <td>{o.href ? <a href={o.href}>{o.name}</a> : o.name}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </>
+        )
+      }
+
+      {
+        documents.length > 0 && (
+          <>
+            <h2>Programme &amp; documents</h2>
+            <ul class="docs list-plain">
+              {documents.map((doc) => (
+                <li class="doc">
+                  <a href={href(doc.data.file)}>
+                    {doc.data.thumbnail ? (
+                      <img
+                        src={href(doc.data.thumbnail)}
+                        alt={`First page of ${doc.data.title}`}
+                        width="200"
+                        height="270"
+                        loading="lazy"
+                      />
+                    ) : (
+                      <span class="doc__noimage">No preview</span>
+                    )}
+                  </a>
+                  <div>
+                    <a href={href(doc.data.file)}>
+                      <strong>{doc.data.title}</strong>
+                    </a>
+                    <p class="card__meta">
+                      {doc.data.kind.replace('-', ' ')}
+                      {doc.data.pages ? ` · ${doc.data.pages} pages` : ''}
+                    </p>
+                    {doc.data.description && <p class="card__meta">{doc.data.description}</p>}
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </>
+        )
+      }
+
+      {
+        photos.length > 0 && (
+          <>
+            <h2>Photographs</h2>
+            <ul class="photos list-plain">
+              {photos.map((photo) => (
+                <li>
+                  <figure>
+                    <img
+                      src={href(photo.file)}
+                      alt={photo.caption ?? `Photograph from the ${year} regatta`}
+                      loading="lazy"
+                    />
+                    {(photo.caption || photo.credit) && (
+                      <figcaption>
+                        {photo.caption}
+                        {photo.credit && <span class="muted"> {photo.credit}</span>}
+                        {photo.personIds.length > 0 && (
+                          <span class="photo-people">
+                            {photo.personIds.map((id, i) => {
+                              const person = archive.peopleById.get(id);
+                              if (!person) return null;
+                              return (
+                                <>
+                                  {i > 0 && ', '}
+                                  <a href={personHref(id)}>{person.data.name}</a>
+                                </>
+                              );
+                            })}
+                          </span>
+                        )}
+                      </figcaption>
+                    )}
+                  </figure>
+                </li>
+              ))}
+            </ul>
+          </>
+        )
+      }
+
+      {
+        articles.length > 0 && (
+          <>
+            <h2>Press</h2>
+            <ul class="list-plain stack">
+              {articles.map((article) => (
+                <li class="card">
+                  <h3>
+                    <a
+                      href={
+                        article.data.kind === 'link' && article.data.url
+                          ? article.data.url
+                          : href(`/archives/press/${article.id}`)
+                      }
+                    >
+                      {article.data.title}
+                    </a>
+                  </h3>
+                  <p class="card__meta">
+                    {[article.data.publication, article.data.date?.getFullYear()]
+                      .filter(Boolean)
+                      .join(' · ')}
+                    {' · '}
+                    {article.data.kind === 'link'
+                      ? 'linked'
+                      : article.data.kind === 'scan'
+                        ? 'scanned clipping'
+                        : 'transcribed'}
+                  </p>
+                  {article.data.summary && <p>{article.data.summary}</p>}
+                </li>
+              ))}
+            </ul>
+          </>
+        )
+      }
+
+      {
+        orderedRows.length === 0 && officials.length === 0 && documents.length === 0 && (
+          <aside class="todo">
+            <p>
+              <strong>Nothing recorded for {year} yet.</strong> If you have a programme, a results
+              sheet or photographs from this year, please
+              <a href={href('/archives/corrections')}>get in touch</a>.
+            </p>
+          </aside>
+        )
+      }
+
+      <nav class="pager" aria-label="Other years">
+        {older !== undefined && <a href={yearHref(older)}>&larr; {older}</a>}
+        <a href={href('/archives')}>All years</a>
+        {newer !== undefined && <a href={yearHref(newer)}>{newer} &rarr;</a>}
+      </nav>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .prose {
+    max-width: var(--measure);
+  }
+
+  .not-held {
+    padding: var(--space-s) var(--space-m);
+    background: var(--sand);
+    border-left: 4px solid var(--fg-muted);
+    border-radius: var(--radius);
+    max-width: var(--measure);
+  }
+
+  .source {
+    font-size: var(--step--1);
+    margin-top: calc(var(--space-m) * -0.5);
+  }
+
+  .docs {
+    display: grid;
+    gap: var(--space-m);
+    grid-template-columns: repeat(auto-fill, minmax(min(22rem, 100%), 1fr));
+    margin-bottom: var(--space-m);
+  }
+
+  .doc {
+    display: flex;
+    gap: var(--space-s);
+    align-items: start;
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: var(--space-s);
+  }
+
+  .doc img {
+    width: 100px;
+    height: auto;
+    border: 1px solid var(--border);
+  }
+
+  .doc__noimage {
+    display: grid;
+    place-items: center;
+    width: 100px;
+    aspect-ratio: 3 / 4;
+    background: var(--sand);
+    border: 1px solid var(--border);
+    font-size: var(--step--1);
+    color: var(--fg-muted);
+  }
+
+  .photos {
+    display: grid;
+    gap: var(--space-m);
+    grid-template-columns: repeat(auto-fill, minmax(min(18rem, 100%), 1fr));
+    margin-bottom: var(--space-m);
+  }
+
+  .photos figure {
+    margin: 0;
+  }
+
+  .photos img {
+    width: 100%;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+  }
+
+  .photos figcaption {
+    font-size: var(--step--1);
+    color: var(--fg);
+    margin-top: var(--space-2xs);
+  }
+
+  .photo-people {
+    display: block;
+    margin-top: var(--space-3xs);
+    font-size: 0.95em;
+  }
+
+  .pager {
+    display: flex;
+    gap: var(--space-m);
+    justify-content: space-between;
+    align-items: center;
+    margin-top: var(--space-xl);
+    padding-top: var(--space-s);
+    border-top: 1px solid var(--border);
+  }
+</style>

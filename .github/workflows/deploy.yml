@@ -1,0 +1,61 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  # Lets you publish from the Actions tab without pushing a commit.
+  workflow_dispatch:
+
+# Only the most recent commit matters for a static site, but an in-flight deploy
+# is left to finish rather than cancelled mid-upload.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      # AT CUTOVER, once balaregatta.com has been transferred off Weebly/Square:
+      #   SITE_URL: https://balaregatta.com
+      #   SITE_BASE: /
+      # and add a public/CNAME file containing balaregatta.com
+      SITE_URL: https://petedilworth.github.io
+      SITE_BASE: /bala-regatta-website
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      # astro check fails the build on a broken content reference or a schema
+      # violation, which is the point of the schemas — a typo in a results file
+      # should stop the deploy, not silently drop a row out of every filter.
+      - run: npm run check
+
+      - run: npm run build
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

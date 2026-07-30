@@ -1,0 +1,270 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { render } from 'astro:content';
+import Base from '../../../layouts/Base.astro';
+import ResultsTable from '../../../components/ResultsTable.astro';
+import { getArchive } from '../../../lib/archive';
+import { href, yearHref } from '../../../lib/url';
+
+export const getStaticPaths = (async () => {
+  const { people } = await getArchive();
+  // `hidden` people keep their names on results but get no page of their own —
+  // the removal request path in the corrections page depends on this.
+  return people
+    .filter((entry) => !entry.data.hidden)
+    .map((entry) => ({ params: { person: entry.id }, props: { entry } }));
+}) satisfies GetStaticPaths;
+
+const { entry } = Astro.props;
+const archive = await getArchive();
+
+const rows = [...(archive.rowsByPerson.get(entry.id) ?? [])].sort((a, b) => b.year - a.year);
+const officials = [...(archive.officialsByPerson.get(entry.id) ?? [])].sort(
+  (a, b) => b.year - a.year,
+);
+const photos = archive.photosByPerson.get(entry.id) ?? [];
+const articles = archive.articlesByPerson.get(entry.id) ?? [];
+
+const { Content } = await render(entry);
+
+const wins = rows.filter((r) => r.place === 1 || r.place === undefined).length;
+const yearsActive = [...new Set([...rows, ...officials].map((r) => r.year))].sort((a, b) => a - b);
+const span =
+  yearsActive.length > 1
+    ? `${yearsActive[0]}–${yearsActive[yearsActive.length - 1]}`
+    : yearsActive.length === 1
+      ? String(yearsActive[0])
+      : undefined;
+
+// Roles collapse to "Commodore, 1962–1965" rather than one line per year.
+const roleSpans = new Map<string, number[]>();
+for (const o of officials) {
+  const list = roleSpans.get(o.role);
+  if (list) list.push(o.year);
+  else roleSpans.set(o.role, [o.year]);
+}
+---
+
+<Base
+  title={entry.data.name}
+  description={`${entry.data.name} in the Bala Regatta archive — races, roles and photographs.`}
+>
+  <section class="section">
+    <div class="wrap">
+      <p class="eyebrow">
+        <a href={href('/archives')}>Archives</a> &middot;{' '}
+        <a href={href('/archives/people')}>People</a>
+      </p>
+      <h1>{entry.data.name}</h1>
+      <p class="lede">
+        {
+          [
+            span ? `In the record ${span}` : 'No dated records yet',
+            rows.length ? `${rows.length} recorded ${rows.length === 1 ? 'placing' : 'placings'}` : null,
+            officials.length ? `${roleSpans.size} ${roleSpans.size === 1 ? 'role' : 'roles'} on the committee` : null,
+          ]
+            .filter(Boolean)
+            .join(' · ')
+        }
+      </p>
+
+      {
+        entry.data.lifespan && <p class="muted">{entry.data.lifespan}</p>
+      }
+
+      <div class="prose">
+        <Content />
+      </div>
+
+      {
+        entry.data.aliases.length > 0 && (
+          <p class="aliases">
+            <strong>Also recorded as:</strong>{' '}
+            {entry.data.aliases.map((a, i) => (
+              <>
+                {i > 0 && ', '}
+                <span class="tag">{a}</span>
+              </>
+            ))}
+          </p>
+        )
+      }
+
+      {
+        roleSpans.size > 0 && (
+          <>
+            <h2>On the committee</h2>
+            <ul class="roles list-plain">
+              {[...roleSpans.entries()].map(([role, ys]) => {
+                const sorted = [...ys].sort((a, b) => a - b);
+                const label =
+                  sorted.length > 1
+                    ? `${sorted[0]}–${sorted[sorted.length - 1]}`
+                    : String(sorted[0]);
+                return (
+                  <li>
+                    <strong>{role}</strong>
+                    <span class="muted">
+                      {' '}
+                      {sorted.length > 1 ? (
+                        <>
+                          {label} ({sorted.length} years on record)
+                        </>
+                      ) : (
+                        <a href={yearHref(sorted[0]!)}>{label}</a>
+                      )}
+                    </span>
+                    {sorted.length > 1 && (
+                      <span class="role-years">
+                        {sorted.map((y, i) => (
+                          <>
+                            {i > 0 && ' '}
+                            <a href={yearHref(y)}>{y}</a>
+                          </>
+                        ))}
+                      </span>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
+          </>
+        )
+      }
+
+      {
+        rows.length > 0 && (
+          <>
+            <h2>Races</h2>
+            <ResultsTable
+              rows={rows}
+              mode="person"
+              caption={`Recorded results for ${entry.data.name}`}
+            />
+            {wins > 0 && (
+              <p class="muted">
+                {wins} recorded {wins === 1 ? 'win' : 'wins'}.
+              </p>
+            )}
+          </>
+        )
+      }
+
+      {
+        photos.length > 0 && (
+          <>
+            <h2>Photographs</h2>
+            <ul class="photos list-plain">
+              {photos.map((photo) => (
+                <li>
+                  <figure>
+                    <img
+                      src={href(photo.file)}
+                      alt={photo.caption ?? `Photograph including ${entry.data.name}`}
+                      loading="lazy"
+                    />
+                    <figcaption>
+                      {photo.caption}
+                      {photo.year && (
+                        <>
+                          {' '}
+                          <a href={yearHref(photo.year)}>{photo.year}</a>
+                        </>
+                      )}
+                    </figcaption>
+                  </figure>
+                </li>
+              ))}
+            </ul>
+          </>
+        )
+      }
+
+      {
+        articles.length > 0 && (
+          <>
+            <h2>Mentioned in</h2>
+            <ul class="list-plain stack">
+              {articles.map((article) => (
+                <li class="card">
+                  <h3>
+                    <a
+                      href={
+                        article.data.kind === 'link' && article.data.url
+                          ? article.data.url
+                          : href(`/archives/press/${article.id}`)
+                      }
+                    >
+                      {article.data.title}
+                    </a>
+                  </h3>
+                  <p class="card__meta">
+                    {[article.data.publication, article.data.date?.getFullYear()]
+                      .filter(Boolean)
+                      .join(' · ')}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </>
+        )
+      }
+
+      <aside class="todo">
+        <p>
+          Records are attached to a person only where the identity is reasonably certain, so
+          this page may be missing races listed elsewhere under initials or a different
+          spelling. Corrections are welcome — and if you would prefer not to appear here at
+          all, <a href={href('/archives/corrections')}>just ask</a>.
+        </p>
+      </aside>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .prose,
+  .aliases {
+    max-width: var(--measure);
+  }
+
+  .aliases {
+    font-size: var(--step--1);
+  }
+
+  .roles {
+    max-width: var(--measure);
+  }
+
+  .roles li {
+    padding-block: var(--space-2xs);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .role-years {
+    display: block;
+    font-size: var(--step--1);
+    margin-top: var(--space-3xs);
+  }
+
+  .photos {
+    display: grid;
+    gap: var(--space-m);
+    grid-template-columns: repeat(auto-fill, minmax(min(18rem, 100%), 1fr));
+  }
+
+  .photos figure {
+    margin: 0;
+  }
+
+  .photos img {
+    width: 100%;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+  }
+
+  .photos figcaption {
+    font-size: var(--step--1);
+    margin-top: var(--space-2xs);
+  }
+</style>

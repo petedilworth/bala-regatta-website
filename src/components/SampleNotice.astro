@@ -1,0 +1,48 @@
+---
+/**
+ * Loud, deliberate banner on placeholder content.
+ *
+ * An archive that mixes invented names into the record without saying so is worse
+ * than an empty one, so seeded pages announce themselves. Deleting the sample
+ * content removes these automatically.
+ */
+interface Props {
+  what?: string;
+}
+const { what = 'page' } = Astro.props;
+---
+
+<aside class="sample-notice" role="note">
+  <strong>Sample content.</strong> Every name on this {what} is invented and exists only
+  to show the layout. Replace it with the real record and remove the
+  <code>sample: true</code> flag before the site goes live.
+</aside>
+
+<style>
+  .sample-notice {
+    background: #fff4e2;
+    border: 1px solid #e0a44a;
+    border-left-width: 5px;
+    border-radius: var(--radius);
+    color: #5a3b0c;
+    padding: var(--space-s) var(--space-m);
+    margin-bottom: var(--space-m);
+    font-size: var(--step--1);
+    max-width: var(--measure);
+  }
+
+  .sample-notice code {
+    font-family: var(--mono);
+    background: rgb(0 0 0 / 6%);
+    padding: 0.1em 0.35em;
+    border-radius: 3px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .sample-notice {
+      background: #35280f;
+      border-color: #a97b2c;
+      color: #f0dcb4;
+    }
+  }
+</style>
