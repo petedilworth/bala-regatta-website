@@ -5,17 +5,18 @@
  * system font stack removes two render-blocking requests for a difference most
  * readers will not notice. Headings use the serif stack for the heritage feel.
  *
- * PLACEHOLDER PALETTE: derived from Muskoka water, pine and regatta-pennant red,
- * not from the real logo, which was not reachable from the build environment.
- * Swap these five values once the brand assets arrive and the whole site follows.
+ * Palette taken from the official logo: navy text/icons on white, with a sky-blue
+ * fill behind the sport silhouettes. --water is a deepened version of that sky
+ * blue (the logo's blue fails WCAG AA as a text/link colour on white); --sky
+ * carries the true logo blue for decorative use where contrast isn't load-bearing.
  */
 
 :root {
-  --ink: #10242e;
+  --ink: #06304f;
   --ink-soft: #3d5561;
-  --water: #1c5066;
-  --water-deep: #0e3140;
-  --pine: #2f5d3f;
+  --water: #1f6fa8;
+  --water-deep: #003366;
+  --sky: #5ba3d8;
   --pennant: #b0402a;
   --paper: #fbf9f4;
   --sand: #f2ece0;
@@ -62,7 +63,7 @@
     --bg-raised: #14262f;
     --fg: #e8e2d6;
     --fg-muted: #a3b2ba;
-    --accent: #7fb2c8;
+    --accent: #5ba3d8;
     --accent-fg: #0d1c24;
     --border: #2a3f4a;
     --sand: #14262f;
