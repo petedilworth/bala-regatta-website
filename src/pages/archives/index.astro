@@ -1,8 +1,9 @@
 ---
 import Base from '../../layouts/Base.astro';
 import { getArchive, decadeOf } from '../../lib/archive';
+import { RECORD_TYPES } from '../../lib/record-types';
 import { getSettings } from '../../lib/settings';
-import { href, yearHref, eventHref } from '../../lib/url';
+import { href, yearHref, eventHref, trophyHref } from '../../lib/url';
 
 const archive = await getArchive();
 const settings = await getSettings();
@@ -16,17 +17,18 @@ const eventOptions = archive.events.filter((e) => archive.rowsByEvent.has(e.id))
 const recordCount =
   archive.rows.length +
   archive.officials.length +
+  archive.trophies.length +
   archive.documents.length +
   archive.articles.length +
   archive.photos.length;
 
-const types = [
-  { value: 'result', label: 'Results' },
-  { value: 'official', label: 'Organisers' },
-  { value: 'document', label: 'Programmes' },
-  { value: 'article', label: 'Press' },
-  { value: 'photo', label: 'Photos' },
-];
+// The archive holds two different kinds of thing, and saying so up front is the
+// difference between a search box and a place someone can find their way around.
+const artifactCount =
+  archive.photos.length +
+  archive.documents.length +
+  archive.articles.filter((a) => a.data.kind === 'scan').length +
+  archive.trophies.filter((t) => t.data.photo).length;
 
 const indexUrl = href('/archive-index.json');
 ---
@@ -40,10 +42,38 @@ const indexUrl = href('/archive-index.json');
       <p class="eyebrow">The record</p>
       <h1>Archives</h1>
       <p class="lede">
-        Search {recordCount.toLocaleString('en-CA')} records from the regatta's history — race
-        results, organising committees, programmes, press coverage and photographs. Try a family
-        name, or an event like <em>punt</em>.
+        {recordCount.toLocaleString('en-CA')} records from the regatta's history. The archive has
+        two halves — the written record, and the things themselves — and the search below covers
+        both at once.
       </p>
+
+      <ul class="doors list-plain">
+        <li class="door">
+          <h2><a href="#search">The record</a></h2>
+          <p>
+            Who won what, and who was running it. Results, organising committees and
+            trophies, broken into records that assemble themselves into year, event and
+            person pages.
+          </p>
+          <p class="door__links">
+            <a href={href('/archives/trophies')}>Trophies</a> &middot;{' '}
+            <a href={href('/archives/officers')}>Officers</a> &middot;{' '}
+            <a href={href('/archives/people')}>People</a> &middot;{' '}
+            <a href="#years">Years</a>
+          </p>
+        </li>
+        <li class="door">
+          <h2><a href={href('/archives/gallery')}>The collection</a></h2>
+          <p>
+            The artifacts — scanned programmes, photographs off the dock, press clippings and
+            the trophies themselves. {artifactCount}
+            {artifactCount === 1 ? ' item' : ' items'} so far.
+          </p>
+          <p class="door__links">
+            <a href={href('/archives/gallery')}>Browse the gallery</a>
+          </p>
+        </li>
+      </ul>
 
       {
         settings.featured.length > 0 && (
@@ -110,10 +140,10 @@ const indexUrl = href('/archive-index.json');
           <fieldset class="chips">
             <legend class="field__label">Show</legend>
             {
-              types.map((t) => (
+              RECORD_TYPES.map((t) => (
                 <label class="chip">
                   <input type="checkbox" name="type" value={t.value} checked />
-                  <span>{t.label}</span>
+                  <span>{t.plural}</span>
                 </label>
               ))
             }
@@ -145,7 +175,7 @@ const indexUrl = href('/archive-index.json');
 
   <section class="section">
     <div class="wrap">
-      <h2>Browse by year</h2>
+      <h2 id="years">Browse by year</h2>
       <p>
         {archive.years.length} of the regatta's years have records so far. This list is also the
         way to browse without JavaScript.
@@ -176,10 +206,30 @@ const indexUrl = href('/archive-index.json');
         }
       </ul>
 
-      <h2>People</h2>
+      {
+        archive.trophies.length > 0 && (
+          <>
+            <h2>Trophies</h2>
+            <p>
+              <a href={href('/archives/trophies')}>Every trophy</a> and everyone recorded as
+              winning it.
+            </p>
+            <ul class="years list-plain">
+              {archive.trophies.map((t) => (
+                <li>
+                  <a href={trophyHref(t.id)}>{t.data.name}</a>
+                </li>
+              ))}
+            </ul>
+          </>
+        )
+      }
+
+      <h2>People and officers</h2>
       <p>
         <a href={href('/archives/people')}>Everyone with a record page</a> — competitors,
-        organisers, and the many who were both.
+        organisers, and the many who were both. The{' '}
+        <a href={href('/archives/officers')}>line of officers</a> runs separately, year by year.
       </p>
 
       <aside class="todo">
@@ -194,6 +244,43 @@ const indexUrl = href('/archive-index.json');
 </Base>
 
 <style>
+  .doors {
+    display: grid;
+    gap: var(--space-m);
+    grid-template-columns: repeat(auto-fit, minmax(min(20rem, 100%), 1fr));
+    margin-top: var(--space-l);
+  }
+
+  .door {
+    padding: var(--space-m);
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--accent);
+    border-radius: var(--radius);
+  }
+
+  .door h2 {
+    font-size: var(--step-2);
+    margin-bottom: var(--space-2xs);
+  }
+
+  .door h2 a {
+    text-decoration: none;
+  }
+
+  .door h2 a:hover {
+    text-decoration: underline;
+  }
+
+  .door p {
+    max-width: none;
+  }
+
+  .door__links {
+    margin-bottom: 0;
+    font-size: var(--step--1);
+  }
+
   .featured {
     display: grid;
     gap: var(--space-m);
@@ -423,8 +510,12 @@ const indexUrl = href('/archive-index.json');
 </style>
 
 <script>
+  // record-types.ts has no imports of its own, so pulling the labels in here costs
+  // the browser a few hundred bytes and keeps one list instead of two that drift.
+  import { singularLabel, type RecordType } from '../../lib/record-types';
+
   type IndexRecord = {
-    t: 'result' | 'document' | 'article' | 'photo' | 'official';
+    t: RecordType;
     y?: number;
     d?: string;
     l: string;
@@ -437,14 +528,6 @@ const indexUrl = href('/archive-index.json');
   };
 
   const PAGE_SIZE = 100;
-
-  const KIND_LABEL: Record<IndexRecord['t'], string> = {
-    result: 'Result',
-    official: 'Organiser',
-    document: 'Programme',
-    article: 'Press',
-    photo: 'Photo',
-  };
 
   const root = document.querySelector<HTMLElement>('.archive-search');
   if (root) {
@@ -533,7 +616,7 @@ const indexUrl = href('/archive-index.json');
 
         const kind = document.createElement('span');
         kind.className = 'kind';
-        kind.textContent = KIND_LABEL[r.t] ?? r.t;
+        kind.textContent = singularLabel[r.t] ?? r.t;
         li.append(kind);
 
         frag.append(li);

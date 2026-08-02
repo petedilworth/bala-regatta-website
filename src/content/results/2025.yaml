@@ -24,6 +24,8 @@ races:
             person: tom-wray
         affiliation: Bala
         time: '4:12'
+        # Optional, and only on the placing that actually won the cup.
+        trophy: sample-challenge-cup
       - place: 2
         competitors:
           - name: Doug Marchand

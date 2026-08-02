@@ -24,13 +24,16 @@ sample row in search is tagged. To remove it all:
 ```bash
 rm src/content/years/2025.md src/content/years/1958.md
 rm src/content/results/2025.yaml src/content/results/1958.yaml
-rm src/content/roles/2025.yaml
+rm src/content/roles/2025.yaml src/content/roles/1958.yaml
 rm src/content/photos/2025.yaml
 rm src/content/documents/2025-programme.yaml
+rm src/content/trophies/sample-challenge-cup.md
 rm src/content/people/ellen-wray.md src/content/people/tom-wray.md src/content/people/peter-vance.md
 rm src/content/articles/sample-clipping.md src/content/articles/sample-transcript.md
 rm -rf public/archives/sample
 ```
+
+Keep `src/content/offices/` — those are real committee positions, not sample data.
 
 Then work through the `.todo` boxes visible on the pages themselves — they mark every
 place waiting on something only the committee can supply.
@@ -51,8 +54,10 @@ Everything lives in `src/content/`:
 | `years/` | One Markdown file per regatta year, with a short narrative |
 | `results/` | One YAML file per year, listing events and placings |
 | `events/` | One file per event, **with its historical aliases** |
+| `trophies/` | One file per cup, with its aliases, donor and photograph |
+| `offices/` | Committee positions — Commodore, Secretary — with their aliases |
 | `people/` | Competitors and organisers, with name variants |
-| `roles/` | Who held which committee role, per year |
+| `roles/` | Who held which office, per year |
 | `articles/` | Press coverage — linked, scanned, or transcribed |
 | `documents/` | Programmes, results sheets, posters |
 | `photos/` | Photographs, grouped by year, with captions |
@@ -60,6 +65,21 @@ Everything lives in `src/content/`:
 | `settings/` | Regatta date, registration link, contact details, featured items |
 
 Images and PDFs go in `public/archives/<year>/` and are referenced by path.
+
+### The two halves of the archive
+
+`/archives` presents the collection as two doors, because it holds two different
+kinds of thing:
+
+- **The record** — facts broken into rows. Results, officers and trophies, which
+  generate the year, event, person, trophy and officer pages.
+- **The collection** — the artifacts themselves, browsed visually at
+  `/archives/gallery`: scanned programmes, photographs, press clippings and
+  photographs of the trophies.
+
+The gallery is assembled from `photos/`, `documents/`, scanned `articles/` and any
+trophy with a `photo`. It has no collection of its own, so nothing needs filing
+twice — and a photograph still cannot be given a page count.
 
 ### Adding a year
 
@@ -70,11 +90,19 @@ Images and PDFs go in `public/archives/<year>/` and are referenced by path.
 
 ### Two rules worth understanding
 
-**Events are referenced, never typed.** A results file says `event: punt-race`, which must
-match a filename in `src/content/events/`. A typo **fails the build** rather than silently
-dropping the row out of every filter. When you find an old programme calling it something
-else, add that wording to `aliases:` in the event file — do not create a second event.
-Aliases are what keep a record book continuous across a century of renames.
+**Events, trophies and offices are referenced, never typed.** A results file says
+`event: punt-race`, which must match a filename in `src/content/events/`. A typo **fails
+the build** rather than silently dropping the row out of every filter. When you find an
+old programme calling it something else, add that wording to `aliases:` in the event file
+— do not create a second event. Aliases are what keep a record book continuous across a
+century of renames. The same applies to `trophy:` on a placing and `role:` on an official.
+
+That guarantee is enforced by `resolveRef()` in `src/lib/archive.ts`, and it has to be.
+Astro's `reference()` validates the *shape* of a reference but **not** that its target
+exists — existence is only checked by `getEntry()`, which this codebase deliberately does
+not call, because a century of results is tens of thousands of lookups. Without that
+function `event: punt-rase` builds cleanly and silently erases the race. If you add a new
+reference field, resolve it through `resolveRef()` or you lose the guarantee.
 
 **People are linked optionally.** A result always records the name exactly as the source
 printed it (`Mrs. J. Smith`, initials and all) — that is what an archive is for. Adding

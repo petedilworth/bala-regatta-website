@@ -36,12 +36,13 @@ const span =
       ? String(yearsActive[0])
       : undefined;
 
-// Roles collapse to "Commodore, 1962–1965" rather than one line per year.
+// Roles collapse to "Commodore, 1962–1965" rather than one line per year. Keyed on
+// the canonical office, so a year printed as "Hon. Commodore" joins the same span.
 const roleSpans = new Map<string, number[]>();
 for (const o of officials) {
-  const list = roleSpans.get(o.role);
+  const list = roleSpans.get(o.officeName);
   if (list) list.push(o.year);
-  else roleSpans.set(o.role, [o.year]);
+  else roleSpans.set(o.officeName, [o.year]);
 }
 ---
 
@@ -94,6 +95,9 @@ for (const o of officials) {
         roleSpans.size > 0 && (
           <>
             <h2>On the committee</h2>
+            <p class="muted">
+              See the full <a href={href('/archives/officers')}>line of officers</a>.
+            </p>
             <ul class="roles list-plain">
               {[...roleSpans.entries()].map(([role, ys]) => {
                 const sorted = [...ys].sort((a, b) => a - b);

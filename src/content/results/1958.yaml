@@ -16,6 +16,7 @@ races:
       - competitors:
           - name: Mr. and Mrs. G. Wray
         note: Winner recorded; remainder of the field not listed.
+        trophy: sample-challenge-cup
 
   - event: gunwale-race
     placings:

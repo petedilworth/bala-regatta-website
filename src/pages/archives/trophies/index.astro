@@ -1,0 +1,124 @@
+---
+import Base from '../../../layouts/Base.astro';
+import { getArchive } from '../../../lib/archive';
+import { href, trophyHref } from '../../../lib/url';
+
+const archive = await getArchive();
+
+const trophies = archive.trophies.map((entry) => {
+  const wins = archive.rowsByTrophy.get(entry.id) ?? [];
+  const years = [...new Set(wins.map((w) => w.year))].sort((a, b) => a - b);
+  return {
+    entry,
+    wins: wins.length,
+    span:
+      years.length > 1
+        ? `${years[0]}–${years[years.length - 1]}`
+        : years.length === 1
+          ? String(years[0])
+          : undefined,
+  };
+});
+---
+
+<Base
+  title="Trophies"
+  description="The cups and trophies of the Bala Regatta, and everyone recorded as winning them."
+>
+  <section class="section">
+    <div class="wrap">
+      <p class="eyebrow"><a href={href('/archives')}>Archives</a> &middot; Record books</p>
+      <h1>Trophies</h1>
+      <p class="lede">
+        Each trophy carries its own winner list, assembled from the results — so a cup
+        awarded across seventy years reads as one continuous record rather than seventy
+        separate ones.
+      </p>
+
+      {
+        trophies.length > 0 ? (
+          <ul class="trophies list-plain">
+            {trophies.map(({ entry, wins, span }) => (
+              <li class="card">
+                {entry.data.photo ? (
+                  <img
+                    class="trophies__photo"
+                    src={href(entry.data.photo)}
+                    alt={`The ${entry.data.name}`}
+                    loading="lazy"
+                  />
+                ) : (
+                  <div class="trophies__photo trophies__photo--none" aria-hidden="true" />
+                )}
+                <div>
+                  <h2 class="trophies__name">
+                    <a href={trophyHref(entry.id)}>{entry.data.name}</a>
+                  </h2>
+                  <p class="card__meta">
+                    {[
+                      span ? `Won ${span}` : 'No wins recorded yet',
+                      wins ? `${wins} recorded` : null,
+                      entry.data.retired ? 'No longer awarded' : null,
+                    ]
+                      .filter(Boolean)
+                      .join(' · ')}
+                  </p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <aside class="todo">
+            <p>
+              <strong>No trophies recorded yet.</strong> Add a file to
+              <code>src/content/trophies/</code> with the cup's name, its donor and a
+              photograph, then tag the winning placing in each year's results with
+              <code>trophy: &lt;id&gt;</code>.
+            </p>
+          </aside>
+        )
+      }
+
+      <aside class="todo">
+        <p>
+          A trophy's winner list is built from the results, never typed here. If a cup is
+          missing years you know it was awarded, the gap is in the results files rather than
+          on this page.
+        </p>
+      </aside>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .trophies {
+    display: grid;
+    gap: var(--space-m);
+    grid-template-columns: repeat(auto-fill, minmax(min(18rem, 100%), 1fr));
+    margin-top: var(--space-l);
+  }
+
+  .trophies li {
+    display: grid;
+    grid-template-columns: 4.5rem minmax(0, 1fr);
+    gap: var(--space-s);
+    align-items: center;
+  }
+
+  .trophies__photo {
+    width: 4.5rem;
+    height: 4.5rem;
+    object-fit: cover;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+  }
+
+  .trophies__photo--none {
+    background: var(--sand);
+  }
+
+  .trophies__name {
+    font-size: var(--step-1);
+    margin: 0 0 var(--space-3xs);
+  }
+</style>

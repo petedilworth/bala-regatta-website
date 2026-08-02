@@ -7,17 +7,25 @@
 year: 2025
 source: 'SAMPLE DATA — replace with a real citation'
 
+# `role` is a reference to a file in src/content/offices/, not free text. A typo
+# fails the build rather than quietly dropping someone out of the succession.
 officials:
-  - role: Commodore
+  - role: commodore
     name: Peter Vance
     person: peter-vance
-  - role: Chair
+  - role: vice-commodore
     name: Ellen Wray
     person: ellen-wray
-  - role: Secretary
-    name: Ruth Marchand
-  - role: Race Marshal
+  - role: rear-commodore
     name: Tom Wray
     person: tom-wray
-  - role: Starter
+  - role: chair
+    name: Ellen Wray
+    person: ellen-wray
+  - role: secretary
+    name: Ruth Marchand
+  - role: race-marshal
+    name: Tom Wray
+    person: tom-wray
+  - role: starter
     name: J. Hollingsworth
