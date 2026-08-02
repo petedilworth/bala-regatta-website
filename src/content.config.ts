@@ -42,6 +42,12 @@ const placing = z.object({
   affiliation: z.string().optional(),
   time: z.string().optional(),
   note: z.string().optional(),
+  /**
+   * The trophy this placing won, where one was awarded. It sits on the placing
+   * rather than the race because a trophy follows the winner: some are awarded
+   * across several events, and a race can carry more than one.
+   */
+  trophy: reference('trophies').optional(),
 });
 
 const years = defineCollection({
@@ -80,6 +86,49 @@ const events = defineCollection({
     firstYear: z.number().int().optional(),
     lastYear: z.number().int().optional(),
     retired: z.boolean().default(false),
+  }),
+});
+
+/**
+ * Trophies are both a record and an object: they have a winner list running back
+ * decades, and they physically exist and are worth photographing. Aliases matter
+ * here for the same reason they do on events — a cup gets re-engraved, renamed
+ * after a donor's death, and printed three ways across a century of programmes.
+ */
+const trophies = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/trophies' }),
+  schema: z.object({
+    name: z.string(),
+    aliases: z.array(z.string()).default([]),
+    /** Path under public/ to a photograph of the trophy itself. */
+    photo: z.string().optional(),
+    /** Who gave it, and when it was first awarded. */
+    presentedBy: z.string().optional(),
+    firstYear: z.number().int().optional(),
+    lastYear: z.number().int().optional(),
+    retired: z.boolean().default(false),
+    /** The event it is normally awarded for, where it belongs to one. */
+    event: reference('events').optional(),
+    sample: z.boolean().default(false),
+  }),
+});
+
+/**
+ * Committee positions, referenced rather than typed for the same reason events
+ * are. A succession is exactly the thing that breaks when "Commodore",
+ * "commodore" and "Hon. Commodore" are three different strings — the holder
+ * silently vanishes from the line rather than failing loudly.
+ */
+const offices = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/offices' }),
+  schema: z.object({
+    name: z.string(),
+    aliases: z.array(z.string()).default([]),
+    /** Flag officers head the association and get the succession table. */
+    flagOfficer: z.boolean().default(false),
+    /** Sort order within the table — Commodore 1, Vice 2, and so on. */
+    rank: z.number().int().optional(),
+    description: z.string().optional(),
   }),
 });
 
@@ -123,7 +172,10 @@ const roles = defineCollection({
     source: z.string().optional(),
     officials: z.array(
       z.object({
-        role: z.string(),
+        /** Referenced, not typed — see the offices collection for why. */
+        role: reference('offices'),
+        /** Overrides the office name when the source's wording is worth showing. */
+        titleAsPrinted: z.string().optional(),
         /** Same verbatim-plus-optional-link pattern as competitors. */
         name: z.string(),
         person: reference('people').optional(),
@@ -241,6 +293,8 @@ const settings = defineCollection({
 export const collections = {
   years,
   events,
+  trophies,
+  offices,
   results,
   people,
   roles,

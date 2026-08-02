@@ -1,5 +1,6 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
-import { href, personHref, yearHref } from './url';
+import { href, personHref, trophyHref, yearHref } from './url';
+import { documentLabel, type RecordType } from './record-types';
 
 /**
  * Turns the content collections into the shapes the pages actually render.
@@ -29,11 +30,19 @@ export type ResultRow = {
   time?: string;
   note?: string;
   source?: string;
+  trophyId?: string;
+  trophyName?: string;
 };
 
 export type Official = {
   year: number;
+  officeId: string;
+  /** Canonical office name — what a succession groups by. */
+  officeName: string;
+  /** What to show: the source's wording where it gave one, else the canonical name. */
   role: string;
+  rank?: number;
+  flagOfficer: boolean;
   name: string;
   personId?: string;
   href?: string;
@@ -53,12 +62,18 @@ type PersonEntry = CollectionEntry<'people'>;
 type YearEntry = CollectionEntry<'years'>;
 type ArticleEntry = CollectionEntry<'articles'>;
 type DocumentEntry = CollectionEntry<'documents'>;
+type TrophyEntry = CollectionEntry<'trophies'>;
+type OfficeEntry = CollectionEntry<'offices'>;
 
 export type Archive = {
   years: YearEntry[];
   yearsByNumber: Map<number, YearEntry>;
   events: EventEntry[];
   eventsById: Map<string, EventEntry>;
+  trophies: TrophyEntry[];
+  trophiesById: Map<string, TrophyEntry>;
+  offices: OfficeEntry[];
+  officesById: Map<string, OfficeEntry>;
   people: PersonEntry[];
   peopleById: Map<string, PersonEntry>;
   articles: ArticleEntry[];
@@ -69,8 +84,10 @@ export type Archive = {
   rowsByYear: Map<number, ResultRow[]>;
   rowsByEvent: Map<string, ResultRow[]>;
   rowsByPerson: Map<string, ResultRow[]>;
+  rowsByTrophy: Map<string, ResultRow[]>;
   officialsByYear: Map<number, Official[]>;
   officialsByPerson: Map<string, Official[]>;
+  officialsByOffice: Map<string, Official[]>;
   articlesByYear: Map<number, ArticleEntry[]>;
   articlesByPerson: Map<string, ArticleEntry[]>;
   documentsByYear: Map<number, DocumentEntry[]>;
@@ -86,16 +103,51 @@ function push<K, V>(map: Map<K, V[]>, key: K, value: V): void {
   else map.set(key, [value]);
 }
 
+/**
+ * Resolves a reference, or stops the build.
+ *
+ * This is load-bearing, and not what it looks like. Astro's reference() validates
+ * the *shape* of a reference — that it is a { collection, id } pair — but never
+ * that the id points at a file that exists. Existence is only checked if you call
+ * getEntry(), and this module deliberately does not: a century of results is tens
+ * of thousands of lookups, so everything resolves through the maps above.
+ *
+ * The consequence, before this function existed, was the exact failure the content
+ * model is designed to prevent: `event: punt-rase` built cleanly and silently
+ * dropped every placing in that race out of the year page, the record book, the
+ * person pages and search. Nothing anywhere said so.
+ *
+ * So the guarantee the README makes — a typo fails the build — is made here.
+ */
+function resolveRef<T>(
+  map: Map<string, T>,
+  id: string,
+  collection: string,
+  where: string,
+): T {
+  const found = map.get(id);
+  if (!found) {
+    throw new Error(
+      `Unknown ${collection} "${id}", referenced by ${where}.\n` +
+        `  Expected a file at src/content/${collection}/${id}.(md|yaml).\n` +
+        `  Either the id is misspelt, or the ${collection} entry has not been created yet.`,
+    );
+  }
+  return found;
+}
+
 export async function getArchive(): Promise<Archive> {
   if (cached) return cached;
 
   const isPublished = (entry: { data: { draft?: boolean } }) =>
     import.meta.env.DEV || entry.data.draft !== true;
 
-  const [years, events, results, people, roles, articles, documents, photoSets] =
+  const [years, events, trophies, offices, results, people, roles, articles, documents, photoSets] =
     await Promise.all([
       getCollection('years', isPublished),
       getCollection('events'),
+      getCollection('trophies'),
+      getCollection('offices'),
       getCollection('results'),
       getCollection('people'),
       getCollection('roles'),
@@ -105,24 +157,35 @@ export async function getArchive(): Promise<Archive> {
     ]);
 
   const eventsById = new Map(events.map((e) => [e.id, e]));
+  const trophiesById = new Map(trophies.map((t) => [t.id, t]));
+  const officesById = new Map(offices.map((o) => [o.id, o]));
   const peopleById = new Map(people.map((p) => [p.id, p]));
   const yearsByNumber = new Map(years.map((y) => [y.data.year, y]));
+
+  for (const trophy of trophies) {
+    if (trophy.data.event) {
+      resolveRef(eventsById, trophy.data.event.id, 'events', `trophies/${trophy.id}`);
+    }
+  }
 
   const rows: ResultRow[] = [];
   const rowsByYear = new Map<number, ResultRow[]>();
   const rowsByEvent = new Map<string, ResultRow[]>();
   const rowsByPerson = new Map<string, ResultRow[]>();
+  const rowsByTrophy = new Map<string, ResultRow[]>();
 
   for (const sheet of results) {
+    const sheetName = `results/${sheet.id}`;
     for (const race of sheet.data.races) {
-      const event = eventsById.get(race.event.id);
-      // reference() already failed the build if this were a bad id; the guard is
-      // only here to keep the types honest.
-      if (!event) continue;
+      const event = resolveRef(eventsById, race.event.id, 'events', sheetName);
 
       for (const placing of race.placings) {
         const competitors: Competitor[] = placing.competitors.map((c) => {
-          const person = c.person ? peopleById.get(c.person.id) : undefined;
+          const person = c.person
+            ? resolveRef(peopleById, c.person.id, 'people', `${sheetName} (${c.name})`)
+            : undefined;
+          // A hidden person is resolved and then deliberately unlinked, which is a
+          // different thing from a person who could not be found.
           const linkable = person && person.data.hidden !== true;
           return {
             name: c.name,
@@ -130,6 +193,10 @@ export async function getArchive(): Promise<Archive> {
             href: linkable ? personHref(person.id) : undefined,
           };
         });
+
+        const trophy = placing.trophy
+          ? resolveRef(trophiesById, placing.trophy.id, 'trophies', sheetName)
+          : undefined;
 
         const row: ResultRow = {
           year: sheet.data.year,
@@ -146,11 +213,14 @@ export async function getArchive(): Promise<Archive> {
           time: placing.time,
           note: placing.note,
           source: sheet.data.source,
+          trophyId: trophy?.id,
+          trophyName: trophy?.data.name,
         };
 
         rows.push(row);
         push(rowsByYear, row.year, row);
         push(rowsByEvent, row.eventId, row);
+        if (row.trophyId) push(rowsByTrophy, row.trophyId, row);
         for (const c of competitors) {
           if (c.personId) push(rowsByPerson, c.personId, row);
         }
@@ -161,20 +231,30 @@ export async function getArchive(): Promise<Archive> {
   const officials: Official[] = [];
   const officialsByYear = new Map<number, Official[]>();
   const officialsByPerson = new Map<string, Official[]>();
+  const officialsByOffice = new Map<string, Official[]>();
 
   for (const sheet of roles) {
+    const sheetName = `roles/${sheet.id}`;
     for (const entry of sheet.data.officials) {
-      const person = entry.person ? peopleById.get(entry.person.id) : undefined;
+      const office = resolveRef(officesById, entry.role.id, 'offices', sheetName);
+      const person = entry.person
+        ? resolveRef(peopleById, entry.person.id, 'people', `${sheetName} (${entry.name})`)
+        : undefined;
       const linkable = person && person.data.hidden !== true;
       const official: Official = {
         year: sheet.data.year,
-        role: entry.role,
+        officeId: office.id,
+        officeName: office.data.name,
+        role: entry.titleAsPrinted ?? office.data.name,
+        rank: office.data.rank,
+        flagOfficer: office.data.flagOfficer,
         name: entry.name,
         personId: linkable ? person.id : undefined,
         href: linkable ? personHref(person.id) : undefined,
       };
       officials.push(official);
       push(officialsByYear, official.year, official);
+      push(officialsByOffice, official.officeId, official);
       if (official.personId) push(officialsByPerson, official.personId, official);
     }
   }
@@ -183,7 +263,10 @@ export async function getArchive(): Promise<Archive> {
   const articlesByPerson = new Map<string, ArticleEntry[]>();
   for (const article of articles) {
     for (const year of article.data.years) push(articlesByYear, year, article);
-    for (const ref of article.data.people) push(articlesByPerson, ref.id, article);
+    for (const ref of article.data.people) {
+      resolveRef(peopleById, ref.id, 'people', `articles/${article.id}`);
+      push(articlesByPerson, ref.id, article);
+    }
   }
 
   const documentsByYear = new Map<number, DocumentEntry[]>();
@@ -195,13 +278,18 @@ export async function getArchive(): Promise<Archive> {
   const photosByYear = new Map<number, PhotoItem[]>();
   const photosByPerson = new Map<string, PhotoItem[]>();
   for (const set of photoSets) {
+    const setName = `photos/${set.id}`;
     for (const item of set.data.items) {
+      if (item.event) resolveRef(eventsById, item.event.id, 'events', setName);
       const photo: PhotoItem = {
         year: set.data.year,
         file: item.file,
         caption: item.caption,
         credit: item.credit,
-        personIds: item.people.map((p) => p.id),
+        personIds: item.people.map((p) => {
+          resolveRef(peopleById, p.id, 'people', setName);
+          return p.id;
+        }),
         eventId: item.event?.id,
       };
       photos.push(photo);
@@ -218,6 +306,16 @@ export async function getArchive(): Promise<Archive> {
     yearsByNumber,
     events: [...events].sort((a, b) => a.data.name.localeCompare(b.data.name)),
     eventsById,
+    trophies: [...trophies].sort((a, b) => a.data.name.localeCompare(b.data.name)),
+    trophiesById,
+    // Flag officers first and in rank order; everything else alphabetically after.
+    offices: [...offices].sort((a, b) => {
+      if (a.data.flagOfficer !== b.data.flagOfficer) return a.data.flagOfficer ? -1 : 1;
+      const rankA = a.data.rank ?? Number.MAX_SAFE_INTEGER;
+      const rankB = b.data.rank ?? Number.MAX_SAFE_INTEGER;
+      return rankA !== rankB ? rankA - rankB : a.data.name.localeCompare(b.data.name);
+    }),
+    officesById,
     people: [...people].sort((a, b) => surname(a.data.name).localeCompare(surname(b.data.name))),
     peopleById,
     articles: [...articles].sort(
@@ -230,8 +328,10 @@ export async function getArchive(): Promise<Archive> {
     rowsByYear,
     rowsByEvent,
     rowsByPerson,
+    rowsByTrophy,
     officialsByYear,
     officialsByPerson,
+    officialsByOffice,
     articlesByYear,
     articlesByPerson,
     documentsByYear,
@@ -281,7 +381,7 @@ export function placeLabel(place?: number): string {
  *   e eventId  c category  x sample flag
  */
 export type IndexRecord = {
-  t: 'result' | 'document' | 'article' | 'photo' | 'official';
+  t: RecordType;
   y?: number;
   d?: string;
   l: string;
@@ -305,6 +405,14 @@ export async function buildSearchIndex(): Promise<IndexRecord[]> {
   const aliasText = (id: string) => {
     const event = archive.eventsById.get(id);
     return event ? [event.data.name, ...event.data.aliases].join(' ') : '';
+  };
+
+  // Trophy aliases work like event aliases: a cup that was re-engraved or renamed
+  // still finds every year it was won under its older wording.
+  const trophyAliasText = (id?: string) => {
+    if (!id) return '';
+    const trophy = archive.trophiesById.get(id);
+    return trophy ? [trophy.data.name, ...trophy.data.aliases].join(' ') : '';
   };
 
   // Person aliases join the haystack of every row they appear in, so a search
@@ -334,10 +442,37 @@ export async function buildSearchIndex(): Promise<IndexRecord[]> {
         names,
         personAliasText(row.competitors.map((c) => c.personId)),
         aliasText(row.eventId),
+        trophyAliasText(row.trophyId),
         row.printedName ?? '',
         row.affiliation ?? '',
         String(row.year),
         decadeOf(row.year),
+      ]
+        .join(' ')
+        .toLowerCase(),
+    });
+  }
+
+  for (const trophy of archive.trophies) {
+    const wins = archive.rowsByTrophy.get(trophy.id) ?? [];
+    const yearsWon = wins.map((w) => w.year).sort((a, b) => a - b);
+    index.push({
+      t: 'trophy',
+      // Undated so it survives every decade filter — a trophy spans decades and
+      // pinning it to one would hide it from the others.
+      l: trophy.data.name,
+      s: yearsWon.length
+        ? `Trophy · ${yearsWon.length} ${yearsWon.length === 1 ? 'win' : 'wins'} recorded`
+        : 'Trophy',
+      h: trophyHref(trophy.id),
+      e: trophy.data.event?.id,
+      x: trophy.data.sample ? 1 : undefined,
+      k: [
+        trophy.data.name,
+        ...trophy.data.aliases,
+        trophy.data.presentedBy ?? '',
+        trophy.data.event ? aliasText(trophy.data.event.id) : '',
+        yearsWon.join(' '),
       ]
         .join(' ')
         .toLowerCase(),
@@ -357,7 +492,11 @@ export async function buildSearchIndex(): Promise<IndexRecord[]> {
       k: [
         official.name,
         personAliasText([official.personId]),
+        // Both the canonical office and the source's wording, so "Hon. Commodore"
+        // and "Commodore" each find the row.
+        official.officeName,
         official.role,
+        ...(archive.officesById.get(official.officeId)?.data.aliases ?? []),
         String(official.year),
         decadeOf(official.year),
       ]
@@ -372,7 +511,7 @@ export async function buildSearchIndex(): Promise<IndexRecord[]> {
       y: doc.data.year,
       d: doc.data.year !== undefined ? decadeOf(doc.data.year) : undefined,
       l: doc.data.title,
-      s: doc.data.kind.replace('-', ' '),
+      s: documentLabel(doc.data.kind),
       h: href(doc.data.file),
       x: sample(doc.data.year),
       k: [doc.data.title, doc.data.kind, doc.data.description ?? '', String(doc.data.year ?? '')]

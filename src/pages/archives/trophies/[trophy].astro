@@ -1,0 +1,169 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { render } from 'astro:content';
+import Base from '../../../layouts/Base.astro';
+import SampleNotice from '../../../components/SampleNotice.astro';
+import ResultsTable from '../../../components/ResultsTable.astro';
+import { getArchive } from '../../../lib/archive';
+import { eventHref, href } from '../../../lib/url';
+
+export const getStaticPaths = (async () => {
+  const { trophies } = await getArchive();
+  return trophies.map((entry) => ({ params: { trophy: entry.id }, props: { entry } }));
+}) satisfies GetStaticPaths;
+
+const { entry } = Astro.props;
+const archive = await getArchive();
+
+// Winners arrive through the trophy reference on a placing, so a cup awarded in
+// 1958 and again in 2025 collects here without either year being retyped.
+const rows = [...(archive.rowsByTrophy.get(entry.id) ?? [])].sort(
+  (a, b) => b.year - a.year || (a.place ?? 99) - (b.place ?? 99),
+);
+
+const { Content } = await render(entry);
+
+const event = entry.data.event ? archive.eventsById.get(entry.data.event.id) : undefined;
+const yearsWon = [...new Set(rows.map((r) => r.year))].sort((a, b) => a - b);
+const span =
+  yearsWon.length > 1
+    ? `${yearsWon[0]}–${yearsWon[yearsWon.length - 1]}`
+    : yearsWon.length === 1
+      ? String(yearsWon[0])
+      : undefined;
+
+const lede = [
+  span ? `Won ${span}` : 'No wins recorded yet',
+  entry.data.presentedBy ? `Presented by ${entry.data.presentedBy}` : null,
+  entry.data.retired ? 'No longer awarded' : null,
+]
+  .filter(Boolean)
+  .join(' · ');
+---
+
+<Base
+  title={entry.data.name}
+  description={`Every recorded winner of the ${entry.data.name} at the Bala Regatta.`}
+  image={entry.data.photo}
+>
+  <section class="section">
+    <div class="wrap">
+      <p class="eyebrow">
+        <a href={href('/archives')}>Archives</a> &middot;{' '}
+        <a href={href('/archives/trophies')}>Trophies</a>
+      </p>
+      <h1>{entry.data.name}</h1>
+      <p class="lede">{lede}</p>
+
+      {entry.data.sample && <SampleNotice />}
+
+      <div class="layout">
+        <div>
+          <div class="prose">
+            <Content />
+          </div>
+
+          {
+            event && (
+              <p>
+                Normally awarded for the <a href={eventHref(event.id)}>{event.data.name}</a>.
+              </p>
+            )
+          }
+
+          {
+            entry.data.aliases.length > 0 && (
+              <p class="aliases">
+                <strong>Also recorded as:</strong>{' '}
+                {entry.data.aliases.map((a, i) => (
+                  <>
+                    {i > 0 && ', '}
+                    <span class="tag">{a}</span>
+                  </>
+                ))}
+              </p>
+            )
+          }
+        </div>
+
+        {
+          entry.data.photo && (
+            <figure class="portrait">
+              <img src={href(entry.data.photo)} alt={`The ${entry.data.name}`} loading="lazy" />
+            </figure>
+          )
+        }
+      </div>
+
+      {
+        rows.length > 0 ? (
+          <>
+            <h2>Winners</h2>
+            <ResultsTable
+              rows={rows}
+              mode="event"
+              hideTrophy
+              caption={`Every recorded winner of the ${entry.data.name}`}
+            />
+          </>
+        ) : (
+          <aside class="todo">
+            <p>
+              <strong>No winners recorded for this trophy yet.</strong> Add{' '}
+              <code>trophy: {entry.id}</code> to the winning placing in a results file and the
+              year will appear here on its own.
+            </p>
+          </aside>
+        )
+      }
+
+      <nav class="pager">
+        <a href={href('/archives/trophies')}>All trophies</a>
+        <a href={href('/archives')}>Search the archives</a>
+      </nav>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .layout {
+    display: grid;
+    gap: var(--space-l);
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+  }
+
+  @media (min-width: 48rem) {
+    .layout:has(.portrait) {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 18rem);
+    }
+  }
+
+  .prose,
+  .aliases {
+    max-width: var(--measure);
+  }
+
+  .aliases {
+    font-size: var(--step--1);
+  }
+
+  .portrait {
+    margin: 0;
+  }
+
+  .portrait img {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+
+  .pager {
+    display: flex;
+    gap: var(--space-m);
+    justify-content: space-between;
+    margin-top: var(--space-xl);
+    padding-top: var(--space-s);
+    border-top: 1px solid var(--border);
+  }
+</style>

@@ -16,12 +16,15 @@
   # The curated strip at the top of /archives. Hand-picked, so it needs a look
   # once a year or it will read as stale.
   featured:
+    # Check a curated link actually returns rows before shipping it. This one
+    # promised 1950s photographs while the archive held none, so it landed on an
+    # empty result — the strip is hand-maintained and will drift the same way again.
     - label: The 1950s at the Township Dock
-      blurb: Photographs from the decade the regatta settled into its modern shape.
+      blurb: Everything we hold from the decade the regatta settled into its modern shape.
       href: /archives?decade=1950s
-    - label: Browse every year
-      blurb: One hundred and fifteen regattas, from the first meet to last summer.
-      href: /archives?type=result
-    - label: Programs and results sheets
-      blurb: Scanned programs, prize lists and official results as they were printed.
-      href: /archives?type=document
+    - label: The trophies
+      blurb: Each cup, its donor, and everyone recorded as winning it.
+      href: /archives/trophies
+    - label: Programmes and results sheets
+      blurb: Scanned programmes, prize lists and official results as they were printed.
+      href: /archives/gallery

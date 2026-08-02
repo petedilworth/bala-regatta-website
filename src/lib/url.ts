@@ -11,15 +11,22 @@ export function href(path = '/'): string {
   const base = import.meta.env.BASE_URL.replace(/\/+$/, '');
   const suffix = path.startsWith('/') ? path : `/${path}`;
 
+  // A query or hash is not part of the path and must not be normalized. Appending
+  // the slash to the whole string turns ?type=document into ?type=document/, which
+  // silently matches nothing on the receiving page.
+  const tailAt = suffix.search(/[?#]/);
+  const pathname = tailAt === -1 ? suffix : suffix.slice(0, tailAt);
+  const tail = tailAt === -1 ? '' : suffix.slice(tailAt);
+
   // Page URLs get a trailing slash to match trailingSlash: 'always'. Without it a
   // request for /schedule resolves to the schedule.html redirect stub instead of
   // the real page — see the comment in astro.config.mjs. Asset paths are left
   // alone, since a file has an extension and must not gain a slash.
-  const lastSegment = suffix.slice(suffix.lastIndexOf('/') + 1);
+  const lastSegment = pathname.slice(pathname.lastIndexOf('/') + 1);
   const isFile = lastSegment.includes('.');
-  const normalized = isFile || suffix.endsWith('/') ? suffix : `${suffix}/`;
+  const normalized = isFile || pathname.endsWith('/') ? pathname : `${pathname}/`;
 
-  return `${base}${normalized}` || '/';
+  return `${base}${normalized}${tail}` || '/';
 }
 
 /** Absolute URL, for canonical tags, Open Graph and feeds. */
@@ -37,4 +44,8 @@ export function eventHref(id: string): string {
 
 export function personHref(id: string): string {
   return href(`/archives/people/${id}`);
+}
+
+export function trophyHref(id: string): string {
+  return href(`/archives/trophies/${id}`);
 }

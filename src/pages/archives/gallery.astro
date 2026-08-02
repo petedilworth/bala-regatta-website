@@ -1,0 +1,311 @@
+---
+import Base from '../../layouts/Base.astro';
+import { decadeOf, getArchive } from '../../lib/archive';
+import { documentLabel } from '../../lib/record-types';
+import { href, trophyHref, yearHref } from '../../lib/url';
+
+/**
+ * The visual half of the archive.
+ *
+ * Everything here is an artifact — a thing the association holds or points at,
+ * rather than a fact decomposed into a row. The three source collections keep
+ * their own schemas; this page only gathers them, so a photograph still cannot
+ * be given a page count and a programme still cannot be given a credit line.
+ *
+ * Rendered on the server with every item present, and filtered by toggling
+ * `hidden`. With JavaScript off the whole collection is simply visible, which is
+ * the right failure for an archive.
+ */
+const archive = await getArchive();
+
+type Item = {
+  kind: string;
+  label: string;
+  title: string;
+  meta?: string;
+  image?: string;
+  href: string;
+  year?: number;
+  sample: boolean;
+};
+
+const isSampleYear = (year?: number) =>
+  year !== undefined && archive.yearsByNumber.get(year)?.data.sample === true;
+
+const items: Item[] = [];
+
+for (const photo of archive.photos) {
+  items.push({
+    kind: 'photograph',
+    label: 'Photograph',
+    title: photo.caption ?? 'Uncaptioned photograph',
+    meta: photo.credit,
+    image: photo.file,
+    href: photo.year !== undefined ? yearHref(photo.year) : href('/archives'),
+    year: photo.year,
+    sample: isSampleYear(photo.year),
+  });
+}
+
+for (const doc of archive.documents) {
+  items.push({
+    kind: doc.data.kind,
+    label: documentLabel(doc.data.kind),
+    title: doc.data.title,
+    meta: doc.data.pages ? `${doc.data.pages} pages` : undefined,
+    // Deliberately not falling back to `file`: that is often a PDF, which an
+    // <img> renders as a broken icon. A titled card is the better empty state.
+    image: doc.data.thumbnail,
+    href: href(doc.data.file),
+    year: doc.data.year,
+    sample: isSampleYear(doc.data.year),
+  });
+}
+
+// Only scans have something to look at. Links and transcripts stay in search and
+// on their year pages rather than padding the grid with empty cards.
+for (const article of archive.articles) {
+  if (article.data.kind !== 'scan' || !article.data.file) continue;
+  const year = article.data.years[0];
+  items.push({
+    kind: 'clipping',
+    label: 'Press clipping',
+    title: article.data.title,
+    meta: article.data.publication,
+    image: article.data.file,
+    href: href(`/archives/press/${article.id}`),
+    year,
+    sample: isSampleYear(year),
+  });
+}
+
+for (const trophy of archive.trophies) {
+  if (!trophy.data.photo) continue;
+  items.push({
+    kind: 'trophy',
+    label: 'Trophy',
+    title: trophy.data.name,
+    meta: trophy.data.presentedBy,
+    image: trophy.data.photo,
+    href: trophyHref(trophy.id),
+    year: trophy.data.firstYear,
+    sample: trophy.data.sample,
+  });
+}
+
+items.sort((a, b) => (b.year ?? 0) - (a.year ?? 0) || a.title.localeCompare(b.title));
+
+// Filter options are derived from what is actually here, so neither dropdown can
+// offer a choice that returns nothing.
+const kinds = [...new Set(items.map((i) => i.kind))].sort();
+const kindLabel = new Map(items.map((i) => [i.kind, i.label]));
+const decades = [...new Set(items.map((i) => (i.year ? decadeOf(i.year) : undefined)))]
+  .filter((d): d is string => !!d)
+  .sort()
+  .reverse();
+---
+
+<Base
+  title="Gallery"
+  description="Programmes, photographs, clippings and trophies from the Bala Regatta archive."
+>
+  <section class="section">
+    <div class="wrap">
+      <p class="eyebrow"><a href={href('/archives')}>Archives</a> &middot; The collection</p>
+      <h1>Gallery</h1>
+      <p class="lede">
+        The things themselves — scanned programmes, photographs off the dock, press
+        clippings and the trophies. {items.length}{' '}
+        {items.length === 1 ? 'item' : 'items'} so far.
+      </p>
+
+      {
+        items.length > 0 && (
+          <form class="filters" data-filters>
+            <p class="field">
+              <label for="kind">Kind</label>
+              <select id="kind" name="kind">
+                <option value="">Any</option>
+                {kinds.map((k) => (
+                  <option value={k}>{kindLabel.get(k)}</option>
+                ))}
+              </select>
+            </p>
+            <p class="field">
+              <label for="decade">Decade</label>
+              <select id="decade" name="decade">
+                <option value="">Any</option>
+                {decades.map((d) => (
+                  <option value={d}>{d}</option>
+                ))}
+              </select>
+            </p>
+            <p class="count" data-count aria-live="polite">{items.length} items</p>
+          </form>
+        )
+      }
+
+      {
+        items.length > 0 ? (
+          <ul class="gallery list-plain" data-gallery>
+            {items.map((item) => (
+              <li
+                class="item"
+                data-kind={item.kind}
+                data-decade={item.year ? decadeOf(item.year) : ''}
+              >
+                <a href={item.href}>
+                  {item.image ? (
+                    <img src={href(item.image)} alt={item.title} loading="lazy" />
+                  ) : (
+                    <span class="item__noimage" aria-hidden="true">
+                      {item.label}
+                    </span>
+                  )}
+                  <span class="item__title">{item.title}</span>
+                </a>
+                <p class="item__meta">
+                  <span class="tag">{item.label}</span>
+                  {item.year && <> {item.year}</>}
+                  {item.meta && <> · {item.meta}</>}
+                  {item.sample && <> · <span class="tag">sample</span></>}
+                </p>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <aside class="todo">
+            <p>
+              <strong>Nothing in the collection yet.</strong> Scans go in
+              <code>public/archives/&lt;year&gt;/</code> and are listed in
+              <code>src/content/photos/</code> or <code>src/content/documents/</code>.
+            </p>
+          </aside>
+        )
+      }
+
+      <aside class="todo">
+        <p>
+          Photographs are findable by their caption and year and nothing else, so an
+          uncaptioned photograph will appear here and in a decade filter but never in a
+          search. Caption them as you upload.
+        </p>
+      </aside>
+    </div>
+  </section>
+</Base>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('[data-filters]');
+  const gallery = document.querySelector<HTMLUListElement>('[data-gallery]');
+  const count = document.querySelector<HTMLElement>('[data-count]');
+  if (form && gallery && count) {
+    const items = [...gallery.querySelectorAll<HTMLLIElement>('.item')];
+    const kind = form.querySelector<HTMLSelectElement>('#kind')!;
+    const decade = form.querySelector<HTMLSelectElement>('#decade')!;
+
+    const apply = () => {
+      let shown = 0;
+      for (const item of items) {
+        const ok =
+          (!kind.value || item.dataset.kind === kind.value) &&
+          (!decade.value || item.dataset.decade === decade.value);
+        item.hidden = !ok;
+        if (ok) shown += 1;
+      }
+      count.textContent = `${shown} ${shown === 1 ? 'item' : 'items'}`;
+    };
+
+    form.addEventListener('change', apply);
+    form.addEventListener('submit', (e) => e.preventDefault());
+    apply();
+  }
+</script>
+
+<style>
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    gap: var(--space-m);
+    margin-block: var(--space-l) var(--space-m);
+    padding-bottom: var(--space-m);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .field {
+    margin: 0;
+    display: grid;
+    gap: var(--space-3xs);
+  }
+
+  .field label {
+    font-size: var(--step--1);
+    font-weight: 600;
+  }
+
+  .field select {
+    font: inherit;
+    padding: var(--space-2xs);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg-raised);
+    color: inherit;
+  }
+
+  .count {
+    margin: 0 0 var(--space-2xs) auto;
+    font-size: var(--step--1);
+    color: var(--fg-muted);
+  }
+
+  .gallery {
+    display: grid;
+    gap: var(--space-m);
+    grid-template-columns: repeat(auto-fill, minmax(min(14rem, 100%), 1fr));
+    margin: 0;
+  }
+
+  .item a {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .item img,
+  .item__noimage {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--sand);
+  }
+
+  .item__noimage {
+    display: grid;
+    place-items: center;
+    font-size: var(--step--1);
+    color: var(--fg-muted);
+  }
+
+  .item__title {
+    display: block;
+    margin-top: var(--space-2xs);
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
+  }
+
+  .item a:hover .item__title {
+    text-decoration-thickness: 2px;
+  }
+
+  .item__meta {
+    margin: var(--space-3xs) 0 0;
+    font-size: var(--step--1);
+    color: var(--fg-muted);
+    max-width: none;
+  }
+</style>

@@ -1,0 +1,176 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getArchive, type Official } from '../../lib/archive';
+import { href, yearHref } from '../../lib/url';
+
+const archive = await getArchive();
+
+const flagOffices = archive.offices.filter((o) => o.data.flagOfficer);
+const otherOffices = archive.offices.filter((o) => !o.data.flagOfficer);
+
+// Years down, offices across. Only years that recorded somebody appear — an empty
+// row would imply the regatta ran without officers rather than that the sheet is lost.
+const years = [...new Set(archive.officials.map((o) => o.year))].sort((a, b) => b - a);
+
+const holder = (year: number, officeId: string): Official | undefined =>
+  archive.officialsByYear.get(year)?.find((o) => o.officeId === officeId);
+
+/**
+ * Collapses a succession into one line per person: "Peter Vance, 1962–1965".
+ * Consecutive years merge; a gap starts a new run, because a second term years
+ * later is a different fact from an unbroken one.
+ */
+function runs(officials: Official[]) {
+  const sorted = [...officials].sort((a, b) => a.year - b.year);
+  const out: { name: string; href?: string; from: number; to: number }[] = [];
+  for (const o of sorted) {
+    const last = out[out.length - 1];
+    if (last && last.name === o.name && o.year === last.to + 1) last.to = o.year;
+    else out.push({ name: o.name, href: o.href, from: o.year, to: o.year });
+  }
+  return out.reverse();
+}
+
+const officeSections = [...flagOffices, ...otherOffices]
+  .map((office) => ({
+    office,
+    runs: runs(archive.officialsByOffice.get(office.id) ?? []),
+  }))
+  .filter((s) => s.runs.length > 0);
+---
+
+<Base
+  title="Officers"
+  description="The Commodores and flag officers of the Bala Regatta, year by year."
+>
+  <section class="section">
+    <div class="wrap">
+      <p class="eyebrow"><a href={href('/archives')}>Archives</a> &middot; Record books</p>
+      <h1>Officers</h1>
+      <p class="lede">
+        The line of Commodores and the flag officers beside them. Where committee minutes
+        have not survived, the succession is often the only continuous account of who was
+        running the regatta.
+      </p>
+
+      {
+        years.length > 0 ? (
+          <>
+            <h2>The flag, year by year</h2>
+            <div class="table-scroll">
+              <table>
+                <caption class="visually-hidden">
+                  Flag officers of the Bala Regatta by year
+                </caption>
+                <thead>
+                  <tr>
+                    <th scope="col">Year</th>
+                    {flagOffices.map((o) => (
+                      <th scope="col">{o.data.name}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {years.map((year) => (
+                    <tr>
+                      <th scope="row" class="numeric">
+                        <a href={yearHref(year)}>{year}</a>
+                      </th>
+                      {flagOffices.map((office) => {
+                        const person = holder(year, office.id);
+                        return (
+                          <td>
+                            {person ? (
+                              person.href ? (
+                                <a href={person.href}>{person.name}</a>
+                              ) : (
+                                person.name
+                              )
+                            ) : (
+                              <span class="muted" aria-label="Not recorded">
+                                —
+                              </span>
+                            )}
+                          </td>
+                        );
+                      })}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <p class="muted note">
+              An em dash means no holder is recorded for that year — which is usually a
+              missing sheet rather than a vacant office.
+            </p>
+
+            <h2>Every office</h2>
+            {officeSections.map(({ office, runs: holders }) => (
+              <section class="office">
+                <h3 id={office.id}>{office.data.name}</h3>
+                {office.data.description && <p class="muted">{office.data.description}</p>}
+                <ul class="list-plain holders">
+                  {holders.map((run) => (
+                    <li>
+                      {run.href ? <a href={run.href}>{run.name}</a> : run.name}
+                      <span class="muted">
+                        {' '}
+                        {run.from === run.to ? (
+                          <a href={yearHref(run.from)}>{run.from}</a>
+                        ) : (
+                          `${run.from}–${run.to}`
+                        )}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            ))}
+          </>
+        ) : (
+          <aside class="todo">
+            <p>
+              <strong>No officers recorded yet.</strong> Add a file to
+              <code>src/content/roles/</code> for each year, naming the office by its id from
+              <code>src/content/offices/</code>.
+            </p>
+          </aside>
+        )
+      }
+
+      <aside class="todo">
+        <p>
+          Offices are referenced rather than typed, so "Hon. Commodore" on a 1958 programme
+          and "Commodore" on a modern one are the same office and stay in one line. The
+          printed wording is kept and shown on that year's page.
+        </p>
+      </aside>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .note {
+    font-size: var(--step--1);
+    margin-top: calc(var(--space-m) * -1 + var(--space-2xs));
+  }
+
+  .office {
+    margin-bottom: var(--space-l);
+  }
+
+  .office h3 {
+    margin-bottom: var(--space-3xs);
+    scroll-margin-top: var(--space-m);
+  }
+
+  .holders {
+    max-width: var(--measure);
+    margin: 0;
+  }
+
+  .holders li {
+    padding-block: var(--space-3xs);
+    border-bottom: 1px solid var(--border);
+  }
+</style>

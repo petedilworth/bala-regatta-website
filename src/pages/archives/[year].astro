@@ -4,6 +4,7 @@ import { render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import ResultsTable from '../../components/ResultsTable.astro';
 import SampleNotice from '../../components/SampleNotice.astro';
+import { documentLabel } from '../../lib/record-types';
 import { getArchive, ordinal } from '../../lib/archive';
 import { href, personHref, yearHref } from '../../lib/url';
 
@@ -112,13 +113,22 @@ const dateLabel = entry.data.date?.toLocaleDateString('en-CA', {
                 <tbody>
                   {officials.map((o) => (
                     <tr>
-                      <th scope="row">{o.role}</th>
+                      <th scope="row">
+                        {o.role}
+                        {o.role !== o.officeName && (
+                          <span class="muted printed"> (filed as {o.officeName})</span>
+                        )}
+                      </th>
                       <td>{o.href ? <a href={o.href}>{o.name}</a> : o.name}</td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
+            <p class="muted">
+              See the full <a href={href('/archives/officers')}>line of officers</a> across
+              every year.
+            </p>
           </>
         )
       }
@@ -148,7 +158,7 @@ const dateLabel = entry.data.date?.toLocaleDateString('en-CA', {
                       <strong>{doc.data.title}</strong>
                     </a>
                     <p class="card__meta">
-                      {doc.data.kind.replace('-', ' ')}
+                      {documentLabel(doc.data.kind)}
                       {doc.data.pages ? ` · ${doc.data.pages} pages` : ''}
                     </p>
                     {doc.data.description && <p class="card__meta">{doc.data.description}</p>}
@@ -262,6 +272,11 @@ const dateLabel = entry.data.date?.toLocaleDateString('en-CA', {
 <style>
   .prose {
     max-width: var(--measure);
+  }
+
+  .printed {
+    font-weight: 400;
+    font-size: 0.9em;
   }
 
   .not-held {
