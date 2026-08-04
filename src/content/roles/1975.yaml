@@ -4,13 +4,18 @@ source: '1975 Aquatic Programme, Bala Aquatic Association'
 officials:
   - role: commodore
     name: Bob McAdam
+    person: bob-mcadam
   - role: vice-commodore
     titleAsPrinted: 1st Vice-Commodore
     name: John Anthony
+    person: john-anthony
   - role: second-vice-commodore
     titleAsPrinted: 2nd Vice-Commodore
     name: Norman Munn
+    person: norman-munn
   - role: rear-commodore
     name: Bud Smail
+    person: bud-smail
   - role: past-commodore
     name: John Butler
+    person: john-butler
