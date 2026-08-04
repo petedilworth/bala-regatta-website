@@ -1,8 +1,9 @@
 ---
 name: Skiff Race
-aliases: []
+aliases: [Men's Single Skiff]
 category: Boating
-firstYear: 1913
+firstYear: 1911
 ---
 
-Rowing race in skiffs. Documented in the archive back to 1913.
+Rowing race in skiffs. Documented in the archive back to 1911, where a period
+postcard labels it "Men's Single Skiff."
