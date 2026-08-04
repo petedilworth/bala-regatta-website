@@ -17,25 +17,15 @@ npm run check    # type + content-schema check (run before pushing)
 
 ## Before this goes live
 
-**Sample content must be deleted.** The archive currently ships with invented names so
-the layout can be reviewed. Every sample page carries a visible orange banner, and every
-sample row in search is tagged. To remove it all:
+**Sample content has been removed.** The invented placeholder names, results and
+photos used to review the layout are gone from the repository. Every year, person,
+document, photo and trophy currently in the archive is real.
 
-```bash
-rm src/content/years/2025.md src/content/years/1958.md
-rm src/content/results/2025.yaml src/content/results/1958.yaml
-rm src/content/roles/2025.yaml src/content/roles/1958.yaml
-rm src/content/photos/2025.yaml
-rm src/content/documents/2025-programme.yaml
-rm src/content/trophies/sample-challenge-cup.md
-rm src/content/people/ellen-wray.md src/content/people/tom-wray.md src/content/people/peter-vance.md
-rm src/content/articles/sample-clipping.md src/content/articles/sample-transcript.md
-rm -rf public/archives/sample
-```
+A page can still carry the sample banner and a search row can still be tagged
+`sample` — the mechanism (`sample: true` on a `years` or `trophies` entry) is kept
+for future review batches, it's just unused right now.
 
-Keep `src/content/offices/` — those are real committee positions, not sample data.
-
-Then work through the `.todo` boxes visible on the pages themselves — they mark every
+Work through the `.todo` boxes visible on the pages themselves — they mark every
 place waiting on something only the committee can supply.
 
 ---
