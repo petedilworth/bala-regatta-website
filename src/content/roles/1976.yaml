@@ -1,0 +1,17 @@
+year: 1976
+source: '1976 Aquatic Programme, Bala Aquatic Association'
+
+# Second Vice-Commodore is blank on the source programme — left unfilled rather
+# than guessed. Everyone else moved up a rank from 1975: Bob McAdam (Commodore ->
+# Past Commodore), John Anthony (1st Vice -> Commodore), Norman Munn (2nd Vice ->
+# 1st Vice). Bud Smail held Rear Commodore in both years.
+officials:
+  - role: commodore
+    name: John Anthony
+  - role: vice-commodore
+    titleAsPrinted: 1st Vice-Commodore
+    name: Norman Munn
+  - role: rear-commodore
+    name: Bud Smail
+  - role: past-commodore
+    name: Bob McAdam
