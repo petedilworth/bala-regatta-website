@@ -1,0 +1,20 @@
+year: 1984
+source: '1984 Aquatic Programme, Bala Aquatic Association'
+
+# Rear Commodore is not printed on this year's officer list at all (the list runs
+# straight from 2nd Vice-Commodore to Treasurer) — left unfilled rather than guessed.
+officials:
+  - role: commodore
+    name: Bud Powell
+    person: bud-powell
+  - role: vice-commodore
+    titleAsPrinted: 1st Vice-Commodore
+    name: Rod Maxwell
+    person: rod-maxwell
+  - role: second-vice-commodore
+    titleAsPrinted: 2nd Vice-Commodore
+    name: Ken Paradine
+    person: ken-paradine
+  - role: past-commodore
+    name: Ron Palmateer
+    person: ron-palmateer

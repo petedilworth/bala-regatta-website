@@ -1,0 +1,18 @@
+year: 1982
+source: '1982 Aquatic Programme, Bala Aquatic Association'
+
+# Second Vice-Commodore is printed as "T.B.A." — left unfilled rather than guessed.
+officials:
+  - role: commodore
+    name: Ron Palmateer
+    person: ron-palmateer
+  - role: vice-commodore
+    titleAsPrinted: 1st Vice-Commodore
+    name: Bud Powell
+    person: bud-powell
+  - role: rear-commodore
+    name: Bud Smail
+    person: bud-smail
+  - role: past-commodore
+    name: Al Price
+    person: al-price
