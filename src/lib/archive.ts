@@ -561,6 +561,7 @@ export async function buildSearchIndex(): Promise<IndexRecord[]> {
       x: sample(photo.year),
       k: [
         photo.caption ?? '',
+        photo.credit ?? '',
         personAliasText(photo.personIds),
         photo.eventId ? aliasText(photo.eventId) : '',
         String(photo.year ?? ''),
