@@ -1,0 +1,17 @@
+year: 1947
+source: >-
+  Two trophies engraved "A.B.A. / David McKee / Swimming / 1947" and
+  "A.B.A. / David McKee / Rowing / 1947," in David McKee's own possession.
+races:
+  - event: swimming
+    placings:
+      - place: 1
+        competitors:
+          - name: David McKee
+            person: david-mckee
+  - event: rowing
+    placings:
+      - place: 1
+        competitors:
+          - name: David McKee
+            person: david-mckee
