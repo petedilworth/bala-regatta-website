@@ -1,0 +1,21 @@
+year: 1981
+source: '1981 Aquatic Programme, Bala Aquatic Association'
+
+officials:
+  - role: commodore
+    name: Al Price
+    person: al-price
+  - role: vice-commodore
+    titleAsPrinted: 1st Vice-Commodore
+    name: Ron Palmateer
+    person: ron-palmateer
+  - role: second-vice-commodore
+    titleAsPrinted: 2nd Vice-Commodore
+    name: Bud Powell
+    person: bud-powell
+  - role: rear-commodore
+    name: Bud Smail
+    person: bud-smail
+  - role: past-commodore
+    name: Norman Munn
+    person: norman-munn

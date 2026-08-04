@@ -1,0 +1,21 @@
+year: 1985
+source: '1985 Aquatic Programme, Bala Aquatic Association'
+
+# Rear Commodore is again not printed on this year's officer list — left unfilled.
+# Moira Palmateer is a distinct person from Ron Palmateer (likely family), not the
+# same officer recorded twice.
+officials:
+  - role: commodore
+    name: Bud Powell
+    person: bud-powell
+  - role: vice-commodore
+    titleAsPrinted: 1st Vice-Commodore
+    name: Rod Maxwell
+    person: rod-maxwell
+  - role: second-vice-commodore
+    titleAsPrinted: 2nd Vice-Commodore
+    name: Ken Paradine
+    person: ken-paradine
+  - role: past-commodore
+    name: Moira Palmateer
+    person: moira-palmateer

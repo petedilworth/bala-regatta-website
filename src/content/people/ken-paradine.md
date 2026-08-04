@@ -1,0 +1,4 @@
+---
+name: Ken Paradine
+aliases: []
+---
