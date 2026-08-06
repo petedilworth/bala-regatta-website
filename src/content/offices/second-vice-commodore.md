@@ -6,8 +6,8 @@ aliases:
   - 2nd Vice Commodore
 flagOfficer: true
 rank: 3
-description: Third flag officer.
+description: Third officer of the committee.
 ---
 
-The Second Vice-Commodore is the third flag officer, and the office through which
-most Commodores first joined the flag.
+The Second Vice-Commodore is the office through which most Commodores first joined
+the committee.

@@ -5,7 +5,7 @@ aliases:
   - Honorary Commodore
 flagOfficer: true
 rank: 1
-description: The senior flag officer, presiding over the regatta and the association.
+description: Presides over the regatta and the association.
 ---
 
 The Commodore heads the association for the year and presides over the regatta
