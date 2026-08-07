@@ -30,6 +30,39 @@ place waiting on something only the committee can supply.
 
 ---
 
+## The three sections
+
+The public site is deliberately small: **Home**, **Event Program** and **Archives**.
+The About, Schedule, Register, Sponsors and Contact pages that came with the original
+scaffold have been removed — contact is now just an email address in the footer.
+
+`sponsors.yaml` and the `registrationUrl` setting are still in the repo, unused. Either
+page can come back without retyping anything; nothing was thrown away but the templates.
+
+Home and Event Program are intentionally near-empty for now.
+
+### Colour and the logo
+
+The palette is the logo's and only the logo's: navy, sky blue, white. It lives in
+`src/styles/global.css` — see the comment at the top of that file before changing a
+value.
+
+One rule matters more than the rest. **The logo's sky blue is about 1.9:1 on white,
+which fails WCAG AA at every size, so `--sky` must never carry text.** Use it for
+circles, rules and decoration; use `--navy` or `--blue-ink` (that same blue, darkened
+until it passes) for anything readable. The current-page marker in the header uses
+`--accent` for the same reason: which page you are on is a state, not decoration.
+
+There is no dark mode. It was removed deliberately — the logo is navy-on-white, and
+inverting it produced a second, unowned brand.
+
+**The logo artwork is not in the repo yet.** The header and the homepage both render a
+text wordmark in its place, each marked with a comment. Drop the real file into
+`src/images/`, swap those two blocks for it, and add a favicon — `Base.astro` currently
+has no `<link rel="icon">` at all.
+
+---
+
 ## How the content works
 
 **You write records, not pages.** Nothing in `src/content/` describes a page. The site
@@ -74,8 +107,8 @@ twice — and a photograph still cannot be given a page count.
 ### Adding a year
 
 1. `src/content/years/1963.md` — front matter with `year`, and prose in the body.
-2. `src/content/results/1963.yaml` — the races. See the comments in
-   `src/content/results/2025.yaml` for the shape.
+2. `src/content/results/1963.yaml` — the races. See `src/content/results/1947.yaml`
+   for the shape.
 3. Optionally `roles/1963.yaml`, `photos/1963.yaml`, and documents.
 
 ### Two rules worth understanding
@@ -139,6 +172,11 @@ Two non-obvious constraints, both already handled, both easy to break:
   site could not be crawled from the build environment. Crawl the real Weebly site and
   add every URL it serves before cutover.
 
+Because the site is now three sections, the old `schedule`/`register` URLs point at
+`program/`, and `about`/`sponsors`/`contact` point at the home page. Any stub whose
+target no longer exists sends visitors to a 404, which is worse than sending them to the
+index — re-point rather than delete when a page goes away.
+
 ---
 
 ## Deploying
@@ -154,7 +192,7 @@ rights are unclear.
 The domain is the one irreversible step, so it goes last.
 
 1. Crawl and archive the existing Weebly site; complete the redirect URL list.
-2. Delete all sample content (above) and fill in the `.todo` items.
+2. Add the logo artwork and a favicon, and fill in the `.todo` items.
 3. Confirm whether any address `@balaregatta.com` is in use. **If so, its MX records must
    be carried across or mail stops.**
 4. Transfer the domain out of Weebly/Square to a normal registrar — unlock, get the

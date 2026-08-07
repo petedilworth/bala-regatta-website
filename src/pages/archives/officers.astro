@@ -41,26 +41,26 @@ const officeSections = [...flagOffices, ...otherOffices]
 
 <Base
   title="Officers"
-  description="The Commodores and flag officers of the Bala Regatta, year by year."
+  description="The Commodores and committee officers of the Bala Regatta, year by year."
 >
   <section class="section">
     <div class="wrap">
       <p class="eyebrow"><a href={href('/archives')}>Archives</a> &middot; Record books</p>
       <h1>Officers</h1>
       <p class="lede">
-        The line of Commodores and the flag officers beside them. Where committee minutes
-        have not survived, the succession is often the only continuous account of who was
-        running the regatta.
+        The line of Commodores and the officers who served alongside them. Where
+        committee minutes have not survived, the succession is often the only continuous
+        account of who was running the regatta.
       </p>
 
       {
         years.length > 0 ? (
           <>
-            <h2>The flag, year by year</h2>
+            <h2>Officers, year by year</h2>
             <div class="table-scroll">
               <table>
                 <caption class="visually-hidden">
-                  Flag officers of the Bala Regatta by year
+                  Officers of the Bala Regatta by year
                 </caption>
                 <thead>
                   <tr>
@@ -137,14 +137,6 @@ const officeSections = [...flagOffices, ...otherOffices]
           </aside>
         )
       }
-
-      <aside class="todo">
-        <p>
-          Offices are referenced rather than typed, so "Hon. Commodore" on a 1958 programme
-          and "Commodore" on a modern one are the same office and stay in one line. The
-          printed wording is kept and shown on that year's page.
-        </p>
-      </aside>
     </div>
   </section>
 </Base>

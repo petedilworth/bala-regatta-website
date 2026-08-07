@@ -2,13 +2,13 @@
   # Verified from public sources: the 115th regatta, Saturday 1 August 2026.
   nextRegattaDate: 2026-08-01
   nextRegattaEdition: 115
-  # TODO: replace with the real Google Form / Jotform URL before launch.
+  # Unused while the site has no Register page — kept so one can return without
+  # retyping. TODO: replace with the real Google Form / Jotform URL before launch.
   registrationUrl: https://example.com/replace-with-registration-form
   registrationNote: >-
     Registration opens on the morning of the regatta at the Township Dock.
     Sign-up sheets for each event close fifteen minutes before that event starts.
-  # TODO: confirm the address the committee wants published.
-  email: info@balaregatta.com
+  email: balaregatta@gmail.com
   # TODO: add the real social links, or delete these lines.
   # facebook: https://www.facebook.com/...
   # instagram: https://www.instagram.com/...

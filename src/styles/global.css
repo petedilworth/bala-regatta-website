@@ -5,28 +5,33 @@
  * system font stack removes two render-blocking requests for a difference most
  * readers will not notice. Headings use the serif stack for the heritage feel.
  *
- * Palette taken from the official logo: navy text/icons on white, with a sky-blue
- * fill behind the sport silhouettes. --water is a deepened version of that sky
- * blue (the logo's blue fails WCAG AA as a text/link colour on white); --sky
- * carries the true logo blue for decorative use where contrast isn't load-bearing.
+ * Palette taken from the logo: a navy wordmark and navy sport silhouettes over
+ * sky-blue circles, on white. Only three colours are really in it, so the site
+ * uses only those three.
+ *
+ * The contrast split is load-bearing. The logo's sky blue is about 1.9:1 on
+ * white, which fails WCAG AA at every size, so --sky is for circles, rules and
+ * decoration and must never carry text. Anything readable uses --navy, or
+ * --blue-ink, which is that same blue darkened until it passes as a link colour.
+ *
+ * Light only. A dark mode was removed deliberately: the logo is navy-on-white
+ * and inverting it produced a second, unowned brand.
  */
 
 :root {
-  --ink: #06304f;
-  --ink-soft: #3d5561;
-  --water: #1f6fa8;
-  --water-deep: #003366;
-  --sky: #5ba3d8;
-  --pennant: #b0402a;
-  --paper: #fbf9f4;
-  --sand: #f2ece0;
-  --rule: #d9d0bf;
+  --navy: #142a5c;
+  --navy-deep: #0d1d42;
+  --sky: #6ec6f0;
+  --sky-tint: #eaf5fc;
+  --blue-ink: #1a6a9e;
+  --rule: #d6e4f0;
+  --sand: var(--sky-tint);
 
-  --bg: var(--paper);
+  --bg: #ffffff;
   --bg-raised: #ffffff;
-  --fg: var(--ink);
-  --fg-muted: var(--ink-soft);
-  --accent: var(--water);
+  --fg: var(--navy);
+  --fg-muted: #55627d;
+  --accent: var(--blue-ink);
   --accent-fg: #ffffff;
   --border: var(--rule);
 
@@ -54,20 +59,7 @@
   --measure: 68ch;
   --page: 72rem;
   --radius: 4px;
-  --shadow: 0 1px 2px rgb(16 36 46 / 8%), 0 4px 16px rgb(16 36 46 / 6%);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #0d1c24;
-    --bg-raised: #14262f;
-    --fg: #e8e2d6;
-    --fg-muted: #a3b2ba;
-    --accent: #5ba3d8;
-    --accent-fg: #0d1c24;
-    --border: #2a3f4a;
-    --sand: #14262f;
-  }
+  --shadow: 0 1px 2px rgb(20 42 92 / 8%), 0 4px 16px rgb(20 42 92 / 6%);
 }
 
 *,
@@ -237,8 +229,8 @@ small {
 }
 
 .button:hover {
-  background: var(--water-deep);
-  color: #fff;
+  background: var(--navy);
+  color: var(--accent-fg);
 }
 
 .button--ghost {
@@ -374,13 +366,7 @@ tbody tr:last-child td {
 code {
   font-family: var(--mono);
   font-size: 0.9em;
-  background: rgb(0 0 0 / 6%);
+  background: var(--sky-tint);
   padding: 0.1em 0.35em;
   border-radius: 3px;
-}
-
-@media (prefers-color-scheme: dark) {
-  code {
-    background: rgb(255 255 255 / 10%);
-  }
 }

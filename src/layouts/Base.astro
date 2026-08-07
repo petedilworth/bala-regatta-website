@@ -41,7 +41,10 @@ const canonical = absolute(Astro.url.pathname);
     {image && <meta property="og:image" content={absolute(image)} />}
     <meta name="twitter:card" content={image ? 'summary_large_image' : 'summary'} />
 
-    <meta name="theme-color" content="#003366" />
+    {/* Literal on purpose — the browser chrome cannot read a CSS variable.
+        Keep in step with --navy in src/styles/global.css. */}
+    <meta name="theme-color" content="#142a5c" />
+    <meta name="color-scheme" content="light" />
   </head>
 
   <body>

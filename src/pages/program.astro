@@ -1,0 +1,38 @@
+---
+import Base from '../layouts/Base.astro';
+import { getSettings } from '../lib/settings';
+import { href } from '../lib/url';
+
+const settings = await getSettings();
+
+const date = settings.nextRegattaDate;
+const dateLabel = date
+  ? date.toLocaleDateString('en-CA', {
+      weekday: 'long',
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+      timeZone: 'UTC',
+    })
+  : undefined;
+---
+
+<Base
+  title="Event Program"
+  description="The programme of events for the Bala Regatta, presented by the Bala Aquatic Association."
+>
+  <section class="section">
+    <div class="wrap stack">
+      <h1>Event Program</h1>
+      {dateLabel && <p class="lede">{dateLabel} &middot; Bala, Muskoka</p>}
+
+      <aside class="todo">
+        <p>
+          <strong>The programme for this year is still to come.</strong> Once the running
+          order is settled it will be published here. Past programmes are in the{' '}
+          <a href={href('/archives/gallery')}>archive collection</a>.
+        </p>
+      </aside>
+    </div>
+  </section>
+</Base>
