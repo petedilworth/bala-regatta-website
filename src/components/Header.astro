@@ -2,12 +2,9 @@
 import { href } from '../lib/url';
 
 const nav = [
-  { label: 'Schedule', path: '/schedule' },
-  { label: 'Register', path: '/register' },
+  { label: 'Home', path: '/' },
+  { label: 'Event Program', path: '/program' },
   { label: 'Archives', path: '/archives' },
-  { label: 'Sponsors', path: '/sponsors' },
-  { label: 'About', path: '/about' },
-  { label: 'Contact', path: '/contact' },
 ];
 
 // Compare against the base-stripped path so highlighting works both under the
@@ -18,6 +15,10 @@ const current = Astro.url.pathname.replace(base, '').replace(/\/+$/, '') || '/';
 
 <header class="site-header">
   <div class="wrap site-header__inner">
+    {/*
+      Text wordmark, standing in until the logo artwork is supplied as a file.
+      Swap this block for the logo image and keep "Bala Regatta" as its alt text.
+    */}
     <a class="brand" href={href('/')}>
       <span class="brand__name">Bala Regatta</span>
       {/*
@@ -25,7 +26,7 @@ const current = Astro.url.pathname.replace(base, '').replace(/\/+$/, '') || '/';
         year was ever skipped, and skipped years are exactly what a century-old
         event has. Put a date here once the association confirms one.
       */}
-      <span class="brand__tag">Township Dock &middot; Muskoka</span>
+      <span class="brand__tag">Bala Aquatic Association</span>
     </a>
 
     <input type="checkbox" id="nav-toggle" class="nav-toggle visually-hidden" />
@@ -55,9 +56,9 @@ const current = Astro.url.pathname.replace(base, '').replace(/\/+$/, '') || '/';
 
 <style>
   .site-header {
-    background: var(--water-deep);
-    color: #f6f2e9;
-    border-bottom: 3px solid var(--pennant);
+    background: var(--bg);
+    color: var(--fg);
+    border-bottom: 3px solid var(--sky);
   }
 
   .site-header__inner {
@@ -88,7 +89,7 @@ const current = Astro.url.pathname.replace(base, '').replace(/\/+$/, '') || '/';
     font-size: var(--step--1);
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: #b9cdd6;
+    color: var(--fg-muted);
   }
 
   .nav {
@@ -99,16 +100,25 @@ const current = Astro.url.pathname.replace(base, '').replace(/\/+$/, '') || '/';
   }
 
   .nav a {
-    color: #f6f2e9;
+    color: var(--fg);
     text-decoration: none;
     font-weight: 500;
     padding-block: var(--space-3xs);
     border-bottom: 2px solid transparent;
   }
 
-  .nav a:hover,
+  .nav a:hover {
+    border-bottom-color: var(--sky);
+  }
+
+  /*
+   * Which page you are on is a state, not decoration, so it needs real contrast
+   * (WCAG 1.4.11, 3:1). The logo's sky blue is 1.9:1 on white — fine for the
+   * hover hint above and for the rules, not enough to carry this on its own.
+   */
   .nav a[aria-current='page'] {
-    border-bottom-color: var(--pennant);
+    border-bottom-color: var(--accent);
+    font-weight: 600;
   }
 
   .nav-toggle__label {
@@ -122,7 +132,7 @@ const current = Astro.url.pathname.replace(base, '').replace(/\/+$/, '') || '/';
       font-size: var(--step-2);
       cursor: pointer;
       padding: 0 var(--space-2xs);
-      color: #f6f2e9;
+      color: var(--fg);
     }
 
     .site-header__inner nav {
@@ -137,7 +147,7 @@ const current = Astro.url.pathname.replace(base, '').replace(/\/+$/, '') || '/';
     .nav {
       flex-direction: column;
       gap: 0;
-      border-top: 1px solid rgb(255 255 255 / 15%);
+      border-top: 1px solid var(--border);
       padding-top: var(--space-2xs);
     }
 
@@ -149,7 +159,7 @@ const current = Astro.url.pathname.replace(base, '').replace(/\/+$/, '') || '/';
   }
 
   .nav-toggle:focus-visible ~ .nav-toggle__label {
-    outline: 2px solid #fff;
+    outline: 2px solid var(--accent);
     outline-offset: 2px;
   }
 </style>

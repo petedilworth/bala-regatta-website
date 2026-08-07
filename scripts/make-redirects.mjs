@@ -32,22 +32,25 @@ const publicDir = join(root, 'public');
 /** old Weebly path -> new path, relative to the site root (no leading slash). */
 const redirects = {
   'home.html': '',
-  'about.html': 'about/',
-  'sponsors.html': 'sponsors/',
-  'contact.html': 'contact/',
-  'registration.html': 'register/',
-  'register.html': 'register/',
-  'schedule.html': 'schedule/',
-  'schedule-events.html': 'schedule/',
-  'schedule--events.html': 'schedule/',
-  'events.html': 'schedule/',
+  // The site has three sections — home, program/, archives/. The old About,
+  // Sponsors and Contact pages no longer exist, so their stubs go to the home
+  // page rather than to a 404. Contact is now an email address in the footer.
+  'about.html': '',
+  'sponsors.html': '',
+  'contact.html': '',
+  'registration.html': 'program/',
+  'register.html': 'program/',
+  'schedule.html': 'program/',
+  'schedule-events.html': 'program/',
+  'schedule--events.html': 'program/',
+  'events.html': 'program/',
   'galleries.html': 'archives/',
   'gallery.html': 'archives/',
   'photos.html': 'archives/',
   'history.html': 'archives/',
-  '2025.html': 'archives/2025/',
   // Point year pages at /archives/ until that year actually has a page, otherwise
   // the stub sends visitors to a 404 — worse than sending them to the index.
+  '2025.html': 'archives/',
   '2014-regatta.html': 'archives/',
   '1950s.html': 'archives/',
 };

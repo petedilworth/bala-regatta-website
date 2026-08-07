@@ -10,19 +10,14 @@ const year = new Date().getFullYear();
   <div class="wrap site-footer__inner">
     <div>
       <p class="site-footer__name">Bala Regatta</p>
-      <p class="site-footer__meta">
-        Presented by the Bala Aquatic Association<br />
-        Township Dock, Bala, Ontario
-      </p>
+      <p class="site-footer__meta">Presented by the Bala Aquatic Association</p>
     </div>
 
     <nav aria-label="Footer">
       <ul class="list-plain site-footer__links">
-        <li><a href={href('/schedule')}>Schedule &amp; events</a></li>
-        <li><a href={href('/register')}>Register</a></li>
+        <li><a href={href('/')}>Home</a></li>
+        <li><a href={href('/program')}>Event Program</a></li>
         <li><a href={href('/archives')}>Archives</a></li>
-        <li><a href={href('/sponsors')}>Sponsors</a></li>
-        <li><a href={href('/contact')}>Contact</a></li>
       </ul>
     </nav>
 
@@ -61,8 +56,9 @@ const year = new Date().getFullYear();
 <style>
   .site-footer {
     margin-top: auto;
-    background: var(--water-deep);
-    color: #dfe8ec;
+    background: var(--bg);
+    color: var(--fg);
+    border-top: 3px solid var(--sky);
     padding-block: var(--space-xl) var(--space-m);
     font-size: var(--step--1);
   }
@@ -77,12 +73,12 @@ const year = new Date().getFullYear();
     font-family: var(--serif);
     font-size: var(--step-1);
     margin: 0 0 var(--space-3xs);
-    color: #fff;
+    color: var(--fg);
   }
 
   .site-footer__meta {
     margin: 0 0 var(--space-2xs);
-    color: #b9cdd6;
+    color: var(--fg-muted);
     max-width: none;
   }
 
@@ -93,14 +89,14 @@ const year = new Date().getFullYear();
   }
 
   .site-footer a {
-    color: #fff;
+    color: var(--accent);
   }
 
   .site-footer__legal {
     margin: var(--space-l) 0 0;
     padding-top: var(--space-s);
-    border-top: 1px solid rgb(255 255 255 / 15%);
-    color: #93a8b2;
+    border-top: 1px solid var(--border);
+    color: var(--fg-muted);
     max-width: 70ch;
   }
 </style>
