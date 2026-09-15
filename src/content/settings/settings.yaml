@@ -16,15 +16,21 @@
   # The curated strip at the top of /archives. Hand-picked, so it needs a look
   # once a year or it will read as stale.
   featured:
-    # Check a curated link actually returns rows before shipping it. This one
-    # promised 1950s photographs while the archive held none, so it landed on an
-    # empty result — the strip is hand-maintained and will drift the same way again.
-    - label: The 1950s at the Township Dock
-      blurb: Everything we hold from the decade the regatta settled into its modern shape.
-      href: /archives?decade=1950s
-    - label: The trophies
-      blurb: Each cup, its donor, and everyone recorded as winning it.
-      href: /archives/trophies
+    # Check a curated link actually returns rows before shipping it. The strip is
+    # hand-maintained and drifts: a previous card here promised 1950s photographs
+    # while the archive held none from that decade.
+    - label: The earliest photographs
+      blurb: >-
+        Postcards and prints from 1911 and 1913 — the skiff race, gunnel bobbing,
+        and crowds watching from the north shore.
+      href: /archives?decade=1910s
+    # Was "The trophies", which pointed at an empty page — src/content/trophies/
+    # does not exist yet. Put that card back once there are cups to show.
+    - label: The committees, 1975-1985
+      blurb: >-
+        Eleven years of Commodores and the officers who served alongside them,
+        reconstructed from the programmes.
+      href: /archives/officers
     - label: Programmes and results sheets
       blurb: Scanned programmes, prize lists and official results as they were printed.
       href: /archives/gallery

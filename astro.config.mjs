@@ -22,12 +22,13 @@ export default defineConfig({
   /**
    * 'always' is load-bearing, not cosmetic.
    *
-   * A static host asked for /schedule tries schedule.html before
-   * schedule/index.html. Since the old Weebly URLs are real files at exactly
-   * those names, an extension-less /schedule would resolve to the redirect stub,
-   * which points back at /schedule — an infinite loop on every page whose old
-   * name matches its new one. Serving canonical pages at /schedule/ removes the
-   * ambiguity: a trailing slash can only ever mean the directory.
+   * A static host asked for /program tries program.html before
+   * program/index.html. Since the old Weebly URLs are real files at exactly
+   * those names, an extension-less /program would resolve to a redirect stub
+   * rather than the page — and if that stub pointed back at /program, an
+   * infinite loop. Serving canonical pages at /program/ removes the ambiguity:
+   * a trailing slash can only ever mean the directory. scripts/make-redirects.mjs
+   * now refuses to emit a slashless or self-referential target.
    */
   trailingSlash: 'always',
   output: 'static',

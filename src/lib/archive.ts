@@ -53,7 +53,14 @@ export type PhotoItem = {
   file: string;
   caption?: string;
   credit?: string;
+  /** Every tagged person, including hidden ones — drives photosByPerson and search. */
   personIds: string[];
+  /**
+   * The same people, ready to render. A hidden person keeps their name here and
+   * loses their href, exactly as a competitor does: their page is not built, so
+   * linking to it would 404. Pages must use this, never personIds, to display.
+   */
+  people: Competitor[];
   eventId?: string;
 };
 
@@ -281,14 +288,22 @@ export async function getArchive(): Promise<Archive> {
     const setName = `photos/${set.id}`;
     for (const item of set.data.items) {
       if (item.event) resolveRef(eventsById, item.event.id, 'events', setName);
+      const taggedPeople = item.people.map((p) =>
+        resolveRef(peopleById, p.id, 'people', setName),
+      );
       const photo: PhotoItem = {
         year: set.data.year,
         file: item.file,
         caption: item.caption,
         credit: item.credit,
-        personIds: item.people.map((p) => {
-          resolveRef(peopleById, p.id, 'people', setName);
-          return p.id;
+        personIds: taggedPeople.map((person) => person.id),
+        people: taggedPeople.map((person) => {
+          const linkable = person.data.hidden !== true;
+          return {
+            name: person.data.name,
+            personId: linkable ? person.id : undefined,
+            href: linkable ? personHref(person.id) : undefined,
+          };
         }),
         eventId: item.event?.id,
       };
