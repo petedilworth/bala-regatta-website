@@ -75,6 +75,29 @@ const page = (target) => {
 `;
 };
 
+/*
+ * The two traps described at the top of this file, made unbuildable.
+ *
+ * Documenting a rule does not enforce it, and both failures are silent: a
+ * slashless target resolves to the stub itself and loops forever, and a target
+ * whose stub shares its name does the same. Cheap to check, expensive to notice
+ * in production.
+ */
+for (const [from, to] of Object.entries(redirects)) {
+  if (to === '') continue; // the home page, emitted as "./"
+  if (!to.endsWith('/')) {
+    throw new Error(
+      `make-redirects: target "${to}" (for ${from}) must end in a trailing slash.\n` +
+        `  Without it a static host serves ${to}.html — this stub — and the redirect loops.`,
+    );
+  }
+  if (to === `${from.replace(/\.html$/, '')}/`) {
+    throw new Error(
+      `make-redirects: ${from} redirects to itself ("${to}") — an infinite loop.`,
+    );
+  }
+}
+
 let written = 0;
 for (const [from, to] of Object.entries(redirects)) {
   const file = join(publicDir, from);

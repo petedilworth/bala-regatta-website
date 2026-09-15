@@ -42,7 +42,11 @@ const canonical = absolute(Astro.url.pathname);
     <meta name="twitter:card" content={image ? 'summary_large_image' : 'summary'} />
 
     {/* Literal on purpose — the browser chrome cannot read a CSS variable.
-        Keep in step with --navy in src/styles/global.css. */}
+        Keep in step with --navy in src/styles/global.css.
+
+        Deliberately the brand navy and not the white of the header below it:
+        on mobile this paints a navy band above a white page. That contrast is
+        the intent, not an oversight — don't "fix" it to #ffffff. */}
     <meta name="theme-color" content="#142a5c" />
     <meta name="color-scheme" content="light" />
   </head>

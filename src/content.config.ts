@@ -273,7 +273,7 @@ const settings = defineCollection({
     nextRegattaEdition: z.number().int().positive().optional(),
     registrationUrl: z.url().optional(),
     registrationNote: z.string().optional(),
-    email: z.string().optional(),
+    email: z.email().optional(),
     facebook: z.url().optional(),
     instagram: z.url().optional(),
     /** The curated strip on /archives. Hand-picked, so it needs an occasional look. */

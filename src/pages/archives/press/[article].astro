@@ -18,6 +18,19 @@ const { entry } = Astro.props;
 const archive = await getArchive();
 const { Content } = await render(entry);
 
+// A hidden person keeps their name here and loses their link: their page is not
+// built, so linking to it would 404. Same rule as competitors and photo credits.
+const namedPeople = entry.data.people.flatMap((ref) => {
+  const person = archive.peopleById.get(ref.id);
+  if (!person) return [];
+  return [
+    {
+      name: person.data.name,
+      href: person.data.hidden === true ? undefined : personHref(person.id),
+    },
+  ];
+});
+
 const dateLabel = entry.data.date?.toLocaleDateString('en-CA', {
   day: 'numeric',
   month: 'long',
@@ -70,19 +83,15 @@ const dateLabel = entry.data.date?.toLocaleDateString('en-CA', {
       }
 
       {
-        entry.data.people.length > 0 && (
+        namedPeople.length > 0 && (
           <p>
             <strong>People named:</strong>{' '}
-            {entry.data.people.map((ref, i) => {
-              const person = archive.peopleById.get(ref.id);
-              if (!person) return null;
-              return (
-                <>
-                  {i > 0 && ', '}
-                  <a href={personHref(ref.id)}>{person.data.name}</a>
-                </>
-              );
-            })}
+            {namedPeople.map((person, i) => (
+              <>
+                {i > 0 && ', '}
+                {person.href ? <a href={person.href}>{person.name}</a> : person.name}
+              </>
+            ))}
           </p>
         )
       }

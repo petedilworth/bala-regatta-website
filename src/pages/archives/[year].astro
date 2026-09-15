@@ -6,7 +6,7 @@ import ResultsTable from '../../components/ResultsTable.astro';
 import SampleNotice from '../../components/SampleNotice.astro';
 import { documentLabel } from '../../lib/record-types';
 import { getArchive, ordinal } from '../../lib/archive';
-import { href, personHref, yearHref } from '../../lib/url';
+import { href, yearHref } from '../../lib/url';
 
 export const getStaticPaths = (async () => {
   const { years } = await getArchive();
@@ -187,18 +187,18 @@ const dateLabel = entry.data.date?.toLocaleDateString('en-CA', {
                       <figcaption>
                         {photo.caption}
                         {photo.credit && <span class="muted"> {photo.credit}</span>}
-                        {photo.personIds.length > 0 && (
+                        {photo.people.length > 0 && (
                           <span class="photo-people">
-                            {photo.personIds.map((id, i) => {
-                              const person = archive.peopleById.get(id);
-                              if (!person) return null;
-                              return (
-                                <>
-                                  {i > 0 && ', '}
-                                  <a href={personHref(id)}>{person.data.name}</a>
-                                </>
-                              );
-                            })}
+                            {photo.people.map((person, i) => (
+                              <>
+                                {i > 0 && ', '}
+                                {person.href ? (
+                                  <a href={person.href}>{person.name}</a>
+                                ) : (
+                                  person.name
+                                )}
+                              </>
+                            ))}
                           </span>
                         )}
                       </figcaption>

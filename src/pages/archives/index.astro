@@ -537,17 +537,34 @@ const indexUrl = href('/archive-index.json');
     let matches: IndexRecord[] = [];
     let shown = 0;
 
-    /** Deep links like /archives?decade=1950s drive the curated strip. */
+    /**
+     * Deep links like /archives?decade=1910s drive the curated strip.
+     *
+     * Every value is checked against the options that exist. Assigning an unknown
+     * value to a <select> silently leaves it as "", which reads as "no filter" —
+     * so a stale curated link would quietly show the whole archive instead of the
+     * subset it promised. Same for an unknown type, which would otherwise uncheck
+     * every box and show nothing at all. An unrecognised value is ignored.
+     */
     function applyQueryString(): void {
       const params = new URLSearchParams(location.search);
       if (params.get('q')) q.value = params.get('q')!;
-      if (params.get('decade')) decade.value = params.get('decade')!;
-      if (params.get('event')) eventSel.value = params.get('event')!;
-      if (params.get('category')) category.value = params.get('category')!;
+
+      const setIfKnown = (el: HTMLSelectElement, value: string | null) => {
+        if (!value) return;
+        if ([...el.options].some((o) => o.value === value)) el.value = value;
+      };
+      setIfKnown(decade, params.get('decade'));
+      setIfKnown(eventSel, params.get('event'));
+      setIfKnown(category, params.get('category'));
+
       const type = params.get('type');
       if (type) {
-        const wanted = type.split(',');
-        for (const box of typeBoxes) box.checked = wanted.includes(box.value);
+        const known = new Set(typeBoxes.map((b) => b.value));
+        const wanted = type.split(',').filter((t) => known.has(t));
+        if (wanted.length) {
+          for (const box of typeBoxes) box.checked = wanted.includes(box.value);
+        }
       }
     }
 
@@ -566,7 +583,11 @@ const indexUrl = href('/archive-index.json');
 
       matches = records.filter((r) => {
         if (!wantTypes.has(r.t)) return false;
-        if (wantDecade && r.d !== wantDecade) return false;
+        // A trophy is deliberately undated — it spans decades, so it belongs in
+        // every one of them rather than none. Undated documents, photos and
+        // articles are a different case: their year is unknown, not universal,
+        // so a decade filter correctly excludes them.
+        if (wantDecade && r.t !== 'trophy' && r.d !== wantDecade) return false;
         if (wantEvent && r.e !== wantEvent) return false;
         if (wantCategory && r.c !== wantCategory) return false;
         return terms.every((term) => r.k.includes(term));
@@ -634,7 +655,13 @@ const indexUrl = href('/archive-index.json');
       const types = [...activeTypes()];
       if (types.length !== typeBoxes.length) params.set('type', types.join(','));
       const qs = params.toString();
-      history.replaceState(null, '', qs ? `?${qs}${location.hash}` : location.pathname);
+      // Keep the hash in both branches — dropping it on the empty-filter path
+      // sends a reader who cleared the filters back to the top of the page.
+      history.replaceState(
+        null,
+        '',
+        qs ? `?${qs}${location.hash}` : `${location.pathname}${location.hash}`,
+      );
     }
 
     let timer: number | undefined;
