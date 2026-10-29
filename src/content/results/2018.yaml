@@ -1,0 +1,107 @@
+year: 2018
+source: 'Recent Trophy Winners lists, 2019, 2026 programmes'
+
+# Trophy winners as printed in the Recent Trophy Winners list of the programme
+# printed nearest after this year. People are linked only where the name exactly
+# matches someone already in the archive.
+races:
+  # Worth Trophy — as printed in the 2019 programme: "Grace Bownlee"
+  - event: girls-16-under-quarter-mile-swim
+    placings:
+      - competitors:
+          - name: "Grace Bownlee"
+        trophy: worth-trophy
+  # Burt Trophy — as printed in the 2019 programme: "Tristan Peirce"
+  - event: boys-16-under-quarter-mile-swim
+    placings:
+      - competitors:
+          - name: "Tristan Peirce"
+        trophy: burt-trophy
+  # Janet Story Trophy (Senior Women) — as printed in the 2019 programme: "Meg Morine"
+  - event: senior-women-quarter-mile-swim
+    placings:
+      - competitors:
+          - name: "Meg Morine"
+        trophy: janet-story-trophy-women
+  # Janet Story Trophy (Senior Men) — as printed in the 2019 programme: "Rob Anthony"
+  - event: senior-men-quarter-mile-swim
+    placings:
+      - competitors:
+          - name: "Rob Anthony"
+            person: rob-anthony
+        trophy: janet-story-trophy-men
+  # Micky Walker Trophy — as printed in the 2019 programme: "Izzy Godden"
+  - event: girls-11-13-total-points
+    placings:
+      - competitors:
+          - name: "Izzy Godden"
+        trophy: micky-walker-trophy
+  # Ken Edwards Trophy — as printed in the 2019 programme: "Gage Philbrick"
+  - event: boys-11-13-total-points
+    placings:
+      - competitors:
+          - name: "Gage Philbrick"
+        trophy: ken-edwards-trophy
+  # A.M. Greenway Shield — as printed in the 2019 programme: "Vivian Wilmer"
+  - event: girls-14-16-total-points
+    placings:
+      - competitors:
+          - name: "Vivian Wilmer"
+        trophy: am-greenway-shield
+  # W.H. Shaw Memorial Shield — as printed in the 2019 programme: "Ty Philbrick"
+  - event: boys-14-16-total-points
+    placings:
+      - competitors:
+          - name: "Ty Philbrick"
+        trophy: wh-shaw-memorial-shield
+  # Kimberly Point Association Trophy — as printed in the 2019 programme: "Nancy MacIver"
+  - event: senior-women-total-points
+    placings:
+      - competitors:
+          - name: "Nancy MacIver"
+        trophy: kimberly-point-association-trophy
+  # Howard Abraham Memorial Trophy — as printed in the 2019 programme: "John MacIver"
+  - event: senior-men-total-points
+    placings:
+      - competitors:
+          - name: "John MacIver"
+        trophy: howard-abraham-memorial-trophy
+  # Thomas Burgess Trophy — as printed in the 2019 programme: "Linda Fischer & Mark Whytock"
+  - event: senior-mixed-tandem-skiff
+    placings:
+      - competitors:
+          - name: "Linda Fischer"
+          - name: "Mark Whytock"
+            person: mark-whytock
+        trophy: thomas-burgess-trophy
+  # Lou Allen Trophy — as printed in the 2019 programme: "Katie & Rob Dilworth"
+  - event: masters-mixed-tandem-skiff
+    placings:
+      - competitors:
+          - name: "Katie Dilworth"
+          - name: "Rob Dilworth"
+            person: rob-dilworth
+        trophy: lou-allen-trophy
+  # Charlie Manchee Trophy — as printed in the 2019 programme: "Nancy & Bill MacIver"
+  - event: masters-mixed-tandem-canoe
+    placings:
+      - competitors:
+          - name: "Nancy MacIver"
+          - name: "Bill MacIver"
+            person: bill-maciver
+        trophy: charlie-manchee-trophy
+  # Alan R. Edwards Trophy — as printed in the 2019 programme: "Paul Burgess"
+  - event: skiff-race
+    titleAsPrinted: "Men's Single Skiff"
+    placings:
+      - competitors:
+          - name: "Paul Burgess"
+        trophy: alan-r-edwards-trophy
+  # Hugh Carmichael Spirit of the Regatta Award — as printed in the 2026 programme: "Marnie & Dave Sherk"
+  - event: spirit-of-the-regatta
+    placings:
+      - competitors:
+          - name: "Marnie Sherk"
+            person: marnie-sherk
+          - name: "Dave Sherk"
+        trophy: hugh-carmichael-spirit-award

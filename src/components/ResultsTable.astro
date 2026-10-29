@@ -64,7 +64,7 @@ const anyTrophy = !hideTrophy && rows.some((r) => r.trophyId);
                   {c.href ? <a href={c.href}>{c.name}</a> : c.name}
                 </>
               ))}
-              {row.note && <div class="muted note">{row.note}</div>}
+              {row.note && <div class="muted placing-note">{row.note}</div>}
             </td>
 
             {anyTrophy && (
@@ -92,7 +92,7 @@ const anyTrophy = !hideTrophy && rows.some((r) => r.trophyId);
     font-size: 0.9em;
   }
 
-  .note {
+  .placing-note {
     font-size: 0.9em;
     margin-top: var(--space-3xs);
   }

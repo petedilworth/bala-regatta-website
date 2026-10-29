@@ -1,0 +1,113 @@
+year: 2005
+source: 'Recent Trophy Winners lists, 2006, 2026 programmes'
+
+# Trophy winners as printed in the Recent Trophy Winners list of the programme
+# printed nearest after this year. People are linked only where the name exactly
+# matches someone already in the archive.
+races:
+  # Worth Trophy — as printed in the 2006 programme: "Alana Corrigan"
+  - event: girls-16-under-quarter-mile-swim
+    placings:
+      - competitors:
+          - name: "Alana Corrigan"
+        trophy: worth-trophy
+  # Burt Trophy — as printed in the 2006 programme: "Alex Brown"
+  - event: boys-16-under-quarter-mile-swim
+    placings:
+      - competitors:
+          - name: "Alex Brown"
+        trophy: burt-trophy
+  # Janet Story Trophy (Senior Women) — as printed in the 2006 programme: "Katie Sherk"
+  - event: senior-women-quarter-mile-swim
+    placings:
+      - competitors:
+          - name: "Katie Sherk"
+        trophy: janet-story-trophy-women
+  # Janet Story Trophy (Senior Men) — as printed in the 2006 programme: "Chris Parrish"
+  - event: senior-men-quarter-mile-swim
+    placings:
+      - competitors:
+          - name: "Chris Parrish"
+        trophy: janet-story-trophy-men
+  # Micky Walker Trophy — as printed in the 2006 programme: "Stephanie Marcil"
+  - event: girls-11-13-total-points
+    placings:
+      - competitors:
+          - name: "Stephanie Marcil"
+        trophy: micky-walker-trophy
+  # Ken Edwards Trophy — as printed in the 2006 programme: "John MacIver"
+  - event: boys-11-13-total-points
+    placings:
+      - competitors:
+          - name: "John MacIver"
+        trophy: ken-edwards-trophy
+  # A.M. Greenway Shield — as printed in the 2006 programme: "Robbin McKee"
+  - event: girls-14-16-total-points
+    placings:
+      - competitors:
+          - name: "Robbin McKee"
+        trophy: am-greenway-shield
+  # W.H. Shaw Memorial Shield — as printed in the 2006 programme: "Andrew MacIver"
+  - event: boys-14-16-total-points
+    placings:
+      - competitors:
+          - name: "Andrew MacIver"
+        trophy: wh-shaw-memorial-shield
+  # Kimberly Point Association Trophy — as printed in the 2006 programme: "Maggie Dilworth / Jane Manchee / Anne Hodkin"
+  - event: senior-women-total-points
+    placings:
+      - competitors:
+          - name: "Maggie Dilworth"
+        trophy: kimberly-point-association-trophy
+        note: Shared, as printed
+      - competitors:
+          - name: "Jane Manchee"
+            person: jane-manchee
+        trophy: kimberly-point-association-trophy
+        note: Shared, as printed
+      - competitors:
+          - name: "Anne Hodkin"
+        trophy: kimberly-point-association-trophy
+        note: Shared, as printed
+  # Howard Abraham Memorial Trophy — as printed in the 2006 programme: "Mike McKee"
+  - event: senior-men-total-points
+    placings:
+      - competitors:
+          - name: "Mike McKee"
+        trophy: howard-abraham-memorial-trophy
+  # Thomas Burgess Trophy — as printed in the 2006 programme: "Anne Hodkin & Peter Code"
+  - event: senior-mixed-tandem-skiff
+    placings:
+      - competitors:
+          - name: "Anne Hodkin"
+          - name: "Peter Code"
+        trophy: thomas-burgess-trophy
+  # Lou Allen Trophy — as printed in the 2006 programme: "Martha Edmonds & Rob Dilworth"
+  - event: masters-mixed-tandem-skiff
+    placings:
+      - competitors:
+          - name: "Martha Edmonds"
+          - name: "Rob Dilworth"
+            person: rob-dilworth
+        trophy: lou-allen-trophy
+  # Charlie Manchee Trophy — as printed in the 2006 programme: "David & Marnie Sherk"
+  - event: masters-mixed-tandem-canoe
+    placings:
+      - competitors:
+          - name: "David Sherk"
+          - name: "Marnie Sherk"
+            person: marnie-sherk
+        trophy: charlie-manchee-trophy
+  # Alan R. Edwards Trophy — as printed in the 2006 programme: "Paul Burgess"
+  - event: skiff-race
+    titleAsPrinted: "Men's Single Skiff"
+    placings:
+      - competitors:
+          - name: "Paul Burgess"
+        trophy: alan-r-edwards-trophy
+  # Hugh Carmichael Spirit of the Regatta Award — as printed in the 2026 programme: "Town of Bala"
+  - event: spirit-of-the-regatta
+    placings:
+      - competitors:
+          - name: "Town of Bala"
+        trophy: hugh-carmichael-spirit-award

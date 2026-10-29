@@ -1,0 +1,97 @@
+year: 2004
+source: 'Recent Trophy Winners lists, 2006 programme'
+
+# Trophy winners as printed in the Recent Trophy Winners list of the programme
+# printed nearest after this year. People are linked only where the name exactly
+# matches someone already in the archive.
+races:
+  # Worth Trophy — as printed in the 2006 programme: "Martha McIvor"
+  - event: girls-16-under-quarter-mile-swim
+    placings:
+      - competitors:
+          - name: "Martha McIvor"
+        trophy: worth-trophy
+  # Burt Trophy — as printed in the 2006 programme: "Alex Brown"
+  - event: boys-16-under-quarter-mile-swim
+    placings:
+      - competitors:
+          - name: "Alex Brown"
+        trophy: burt-trophy
+  # Janet Story Trophy (Senior Women) — as printed in the 2006 programme: "Martha McCleary"
+  - event: senior-women-quarter-mile-swim
+    placings:
+      - competitors:
+          - name: "Martha McCleary"
+        trophy: janet-story-trophy-women
+  # Janet Story Trophy (Senior Men) — as printed in the 2006 programme: "Chris Manchee"
+  - event: senior-men-quarter-mile-swim
+    placings:
+      - competitors:
+          - name: "Chris Manchee"
+        trophy: janet-story-trophy-men
+  # Micky Walker Trophy — as printed in the 2006 programme: "Stephanie Marcil"
+  - event: girls-11-13-total-points
+    placings:
+      - competitors:
+          - name: "Stephanie Marcil"
+        trophy: micky-walker-trophy
+  # Ken Edwards Trophy — as printed in the 2006 programme: "Andrew MacIver"
+  - event: boys-11-13-total-points
+    placings:
+      - competitors:
+          - name: "Andrew MacIver"
+        trophy: ken-edwards-trophy
+  # A.M. Greenway Shield — as printed in the 2006 programme: "Robbin McKee"
+  - event: girls-14-16-total-points
+    placings:
+      - competitors:
+          - name: "Robbin McKee"
+        trophy: am-greenway-shield
+  # W.H. Shaw Memorial Shield — as printed in the 2006 programme: "Tyler McKee"
+  - event: boys-14-16-total-points
+    placings:
+      - competitors:
+          - name: "Tyler McKee"
+        trophy: wh-shaw-memorial-shield
+  # Kimberly Point Association Trophy — as printed in the 2006 programme: "Jane Manchee / Lynda Whytock"
+  - event: senior-women-total-points
+    placings:
+      - competitors:
+          - name: "Jane Manchee"
+            person: jane-manchee
+        trophy: kimberly-point-association-trophy
+        note: Shared, as printed
+      - competitors:
+          - name: "Lynda Whytock"
+        trophy: kimberly-point-association-trophy
+        note: Shared, as printed
+  # Howard Abraham Memorial Trophy — as printed in the 2006 programme: "Brian Collinson"
+  - event: senior-men-total-points
+    placings:
+      - competitors:
+          - name: "Brian Collinson"
+        trophy: howard-abraham-memorial-trophy
+  # Thomas Burgess Trophy — as printed in the 2006 programme: "Linda & Mark Whytock"
+  - event: senior-mixed-tandem-skiff
+    placings:
+      - competitors:
+          - name: "Linda Whytock"
+          - name: "Mark Whytock"
+            person: mark-whytock
+        trophy: thomas-burgess-trophy
+  # Lou Allen Trophy — as printed in the 2006 programme: "Mike Edwards & Nancy Edwards"
+  - event: masters-mixed-tandem-skiff
+    placings:
+      - competitors:
+          - name: "Mike Edwards"
+            person: mike-edwards
+          - name: "Nancy Edwards"
+        trophy: lou-allen-trophy
+  # Charlie Manchee Trophy — as printed in the 2006 programme: "Bruce Dempster & Nancy Edwards"
+  - event: masters-mixed-tandem-canoe
+    placings:
+      - competitors:
+          - name: "Bruce Dempster"
+            person: bruce-dempster
+          - name: "Nancy Edwards"
+        trophy: charlie-manchee-trophy

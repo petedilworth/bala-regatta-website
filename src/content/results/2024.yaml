@@ -1,0 +1,97 @@
+year: 2024
+source: 'Recent Trophy Winners lists, 2026 programme'
+
+# Trophy winners as printed in the Recent Trophy Winners list of the programme
+# printed nearest after this year. People are linked only where the name exactly
+# matches someone already in the archive.
+races:
+  # Worth Trophy — as printed in the 2026 programme: "Edith Barton"
+  - event: girls-16-under-quarter-mile-swim
+    titleAsPrinted: "Girls 16 & Under Long Swim"
+    placings:
+      - competitors:
+          - name: "Edith Barton"
+        trophy: worth-trophy
+  # Burt Trophy — as printed in the 2026 programme: "Carson Levey"
+  - event: boys-16-under-quarter-mile-swim
+    titleAsPrinted: "Boys 16 & Under Long Swim"
+    placings:
+      - competitors:
+          - name: "Carson Levey"
+        trophy: burt-trophy
+  # Janet Story Trophy (Senior Women) — as printed in the 2026 programme: "Sasha McKee"
+  - event: senior-women-quarter-mile-swim
+    titleAsPrinted: "Senior Women Long Swim"
+    placings:
+      - competitors:
+          - name: "Sasha McKee"
+        trophy: janet-story-trophy-women
+  # Janet Story Trophy (Senior Men) — as printed in the 2026 programme: "Eric Woolven"
+  - event: senior-men-quarter-mile-swim
+    titleAsPrinted: "Senior Men Long Swim"
+    placings:
+      - competitors:
+          - name: "Eric Woolven"
+        trophy: janet-story-trophy-men
+  # Micky Walker Trophy — as printed in the 2026 programme: "Orlie Tonellato"
+  - event: girls-11-13-total-points
+    placings:
+      - competitors:
+          - name: "Orlie Tonellato"
+        trophy: micky-walker-trophy
+  # Ken Edwards Trophy — as printed in the 2026 programme: "Carson Levey"
+  - event: boys-11-13-total-points
+    placings:
+      - competitors:
+          - name: "Carson Levey"
+        trophy: ken-edwards-trophy
+  # A.M. Greenway Shield — as printed in the 2026 programme: "Alison Tupling"
+  - event: girls-14-16-total-points
+    placings:
+      - competitors:
+          - name: "Alison Tupling"
+        trophy: am-greenway-shield
+  # Kimberly Point Association Trophy — as printed in the 2026 programme: "Jennifer Ridgeway"
+  - event: senior-women-total-points
+    placings:
+      - competitors:
+          - name: "Jennifer Ridgeway"
+        trophy: kimberly-point-association-trophy
+  # Howard Abraham Memorial Trophy — as printed in the 2026 programme: "Pete Dilworth"
+  - event: senior-men-total-points
+    placings:
+      - competitors:
+          - name: "Pete Dilworth"
+            person: pete-dilworth
+        trophy: howard-abraham-memorial-trophy
+  # Lou Allen Trophy — as printed in the 2026 programme: "Eric Tonellato"
+  - event: senior-men-sup
+    placings:
+      - competitors:
+          - name: "Eric Tonellato"
+        trophy: lou-allen-trophy
+  # Charlie Manchee Trophy — as printed in the 2026 programme: "Vanessa & Pete Dilworth"
+  - event: senior-mixed-tandem-canoe
+    placings:
+      - competitors:
+          - name: "Vanessa Dilworth"
+          - name: "Pete Dilworth"
+            person: pete-dilworth
+        trophy: charlie-manchee-trophy
+  # Hugh Carmichael Spirit of the Regatta Award — as printed in the 2026 programme: "Mark Smail"
+  - event: spirit-of-the-regatta
+    placings:
+      - competitors:
+          - name: "Mark Smail"
+            person: mark-smail
+        trophy: hugh-carmichael-spirit-award
+  # Wilmer Cup — as printed in the 2026 programme: "Nancy, Andrew & John MacIver, Ellie Pope"
+  - event: canoe-fours
+    titleAsPrinted: "Family Finale Canoe Fours"
+    placings:
+      - competitors:
+          - name: "Nancy MacIver"
+          - name: "Andrew MacIver"
+          - name: "John MacIver"
+          - name: "Ellie Pope"
+        trophy: wilmer-cup

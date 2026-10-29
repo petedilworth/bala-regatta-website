@@ -1,0 +1,107 @@
+year: 2019
+source: 'Recent Trophy Winners lists, 2022 programme'
+
+# Trophy winners as printed in the Recent Trophy Winners list of the programme
+# printed nearest after this year. People are linked only where the name exactly
+# matches someone already in the archive.
+races:
+  # Worth Trophy — as printed in the 2022 programme: "Marina Brown"
+  - event: girls-16-under-quarter-mile-swim
+    placings:
+      - competitors:
+          - name: "Marina Brown"
+        trophy: worth-trophy
+  # Burt Trophy — as printed in the 2022 programme: "Aidan Peirce"
+  - event: boys-16-under-quarter-mile-swim
+    placings:
+      - competitors:
+          - name: "Aidan Peirce"
+        trophy: burt-trophy
+  # Janet Story Trophy (Senior Women) — as printed in the 2022 programme: "Meg Morine"
+  - event: senior-women-quarter-mile-swim
+    placings:
+      - competitors:
+          - name: "Meg Morine"
+        trophy: janet-story-trophy-women
+  # Janet Story Trophy (Senior Men) — as printed in the 2022 programme: "Eric Woolven"
+  - event: senior-men-quarter-mile-swim
+    placings:
+      - competitors:
+          - name: "Eric Woolven"
+        trophy: janet-story-trophy-men
+  # Micky Walker Trophy — as printed in the 2022 programme: "Izzy Godden"
+  - event: girls-11-13-total-points
+    placings:
+      - competitors:
+          - name: "Izzy Godden"
+        trophy: micky-walker-trophy
+  # Ken Edwards Trophy — as printed in the 2022 programme: "Will Matic"
+  - event: boys-11-13-total-points
+    placings:
+      - competitors:
+          - name: "Will Matic"
+        trophy: ken-edwards-trophy
+  # A.M. Greenway Shield — as printed in the 2022 programme: "Tess Philbrick"
+  - event: girls-14-16-total-points
+    placings:
+      - competitors:
+          - name: "Tess Philbrick"
+        trophy: am-greenway-shield
+  # W.H. Shaw Memorial Shield — as printed in the 2022 programme: "Ty Philbrick"
+  - event: boys-14-16-total-points
+    placings:
+      - competitors:
+          - name: "Ty Philbrick"
+        trophy: wh-shaw-memorial-shield
+  # Kimberly Point Association Trophy — as printed in the 2022 programme: "Sasha McKee"
+  - event: senior-women-total-points
+    placings:
+      - competitors:
+          - name: "Sasha McKee"
+        trophy: kimberly-point-association-trophy
+  # Howard Abraham Memorial Trophy — as printed in the 2022 programme: "Bill MacIver"
+  - event: senior-men-total-points
+    placings:
+      - competitors:
+          - name: "Bill MacIver"
+            person: bill-maciver
+        trophy: howard-abraham-memorial-trophy
+  # Thomas Burgess Trophy — as printed in the 2022 programme: "Marcia Tupling & Pete Dilworth"
+  - event: senior-mixed-tandem-skiff
+    placings:
+      - competitors:
+          - name: "Marcia Tupling"
+            person: marcia-tupling
+          - name: "Pete Dilworth"
+            person: pete-dilworth
+        trophy: thomas-burgess-trophy
+  # Lou Allen Trophy — as printed in the 2022 programme: "Jane Manchee & Mark Whytock"
+  - event: masters-mixed-tandem-skiff
+    placings:
+      - competitors:
+          - name: "Jane Manchee"
+            person: jane-manchee
+          - name: "Mark Whytock"
+            person: mark-whytock
+        trophy: lou-allen-trophy
+  # Charlie Manchee Trophy — as printed in the 2022 programme: "Nancy & Bill MacIver"
+  - event: masters-mixed-tandem-canoe
+    placings:
+      - competitors:
+          - name: "Nancy MacIver"
+          - name: "Bill MacIver"
+            person: bill-maciver
+        trophy: charlie-manchee-trophy
+  # Alan R. Edwards Trophy — as printed in the 2022 programme: "Paul Burgess"
+  - event: skiff-race
+    titleAsPrinted: "Men's Single Skiff"
+    placings:
+      - competitors:
+          - name: "Paul Burgess"
+        trophy: alan-r-edwards-trophy
+  # Voyageur Trophy — as printed in the 2022 programme: "Wade Family"
+  - event: voyageur-award
+    placings:
+      - competitors:
+          - name: "Wade Family"
+        trophy: voyageur-trophy

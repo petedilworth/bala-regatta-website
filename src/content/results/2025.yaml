@@ -1,0 +1,114 @@
+year: 2025
+source: 'Recent Trophy Winners lists, 2026 programme'
+
+# Trophy winners as printed in the Recent Trophy Winners list of the programme
+# printed nearest after this year. People are linked only where the name exactly
+# matches someone already in the archive.
+races:
+  # Worth Trophy — as printed in the 2026 programme: "Avery Fuchs"
+  - event: girls-16-under-quarter-mile-swim
+    titleAsPrinted: "Girls 16 & Under Long Swim"
+    placings:
+      - competitors:
+          - name: "Avery Fuchs"
+        trophy: worth-trophy
+  # Burt Trophy — as printed in the 2026 programme: "Dylan Frickey"
+  - event: boys-16-under-quarter-mile-swim
+    titleAsPrinted: "Boys 16 & Under Long Swim"
+    placings:
+      - competitors:
+          - name: "Dylan Frickey"
+        trophy: burt-trophy
+  # Janet Story Trophy (Senior Women) — as printed in the 2026 programme: "Ellen Godden"
+  - event: senior-women-quarter-mile-swim
+    titleAsPrinted: "Senior Women Long Swim"
+    placings:
+      - competitors:
+          - name: "Ellen Godden"
+        trophy: janet-story-trophy-women
+  # Janet Story Trophy (Senior Men) — as printed in the 2026 programme: "Eric Woolven"
+  - event: senior-men-quarter-mile-swim
+    titleAsPrinted: "Senior Men Long Swim"
+    placings:
+      - competitors:
+          - name: "Eric Woolven"
+        trophy: janet-story-trophy-men
+  # Micky Walker Trophy — as printed in the 2026 programme: "Tei Haynes"
+  - event: girls-11-13-total-points
+    placings:
+      - competitors:
+          - name: "Tei Haynes"
+        trophy: micky-walker-trophy
+  # Ken Edwards Trophy — as printed in the 2026 programme: "Alex Frickey"
+  - event: boys-11-13-total-points
+    placings:
+      - competitors:
+          - name: "Alex Frickey"
+        trophy: ken-edwards-trophy
+  # A.M. Greenway Shield — as printed in the 2026 programme: "Avery Fuchs"
+  - event: girls-14-16-total-points
+    placings:
+      - competitors:
+          - name: "Avery Fuchs"
+        trophy: am-greenway-shield
+  # W.H. Shaw Memorial Shield — as printed in the 2026 programme: "Dylan Frickey"
+  - event: boys-14-16-total-points
+    placings:
+      - competitors:
+          - name: "Dylan Frickey"
+        trophy: wh-shaw-memorial-shield
+  # Kimberly Point Association Trophy — as printed in the 2026 programme: "Jennifer Ridgeway"
+  - event: senior-women-total-points
+    placings:
+      - competitors:
+          - name: "Jennifer Ridgeway"
+        trophy: kimberly-point-association-trophy
+  # Howard Abraham Memorial Trophy — as printed in the 2026 programme: "Craig Pope / Alex Fuchs"
+  - event: senior-men-total-points
+    placings:
+      - competitors:
+          - name: "Craig Pope"
+        trophy: howard-abraham-memorial-trophy
+        note: Shared, as printed
+      - competitors:
+          - name: "Alex Fuchs"
+        trophy: howard-abraham-memorial-trophy
+        note: Shared, as printed
+  # Lou Allen Trophy — as printed in the 2026 programme: "Alex Fuchs"
+  - event: senior-men-sup
+    placings:
+      - competitors:
+          - name: "Alex Fuchs"
+        trophy: lou-allen-trophy
+  # Charlie Manchee Trophy — as printed in the 2026 programme: "Jamie Manchee-Skehill & Tim Skehill"
+  - event: senior-mixed-tandem-canoe
+    placings:
+      - competitors:
+          - name: "Jamie Manchee-Skehill"
+          - name: "Tim Skehill"
+        trophy: charlie-manchee-trophy
+  # Hugh Carmichael Spirit of the Regatta Award — as printed in the 2026 programme: "Bob and Judy Morine"
+  - event: spirit-of-the-regatta
+    placings:
+      - competitors:
+          - name: "Bob Morine"
+            person: bob-morine
+          - name: "Judy Morine"
+        trophy: hugh-carmichael-spirit-award
+  # Wilmer Cup — as printed in the 2026 programme: "Bill, Nancy & Andrew MacIver, Ellie Pope"
+  - event: canoe-fours
+    titleAsPrinted: "Family Finale Canoe Fours"
+    placings:
+      - competitors:
+          - name: "Bill MacIver"
+            person: bill-maciver
+          - name: "Nancy MacIver"
+          - name: "Andrew MacIver"
+          - name: "Ellie Pope"
+        trophy: wilmer-cup
+  # Bill MacIver Commodore's Award — as printed in the 2026 programme: "Tony Donoghue"
+  - event: commodores-award
+    placings:
+      - competitors:
+          - name: "Tony Donoghue"
+        trophy: bill-maciver-commodores-award

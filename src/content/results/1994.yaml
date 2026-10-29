@@ -1,0 +1,77 @@
+year: 1994
+source: 'Recent Trophy Winners lists, 1996 programme'
+
+# Trophy winners as printed in the Recent Trophy Winners list of the programme
+# printed nearest after this year. People are linked only where the name exactly
+# matches someone already in the archive.
+races:
+  # Worth Trophy — as printed in the 1996 programme: "Kate Clendenning"
+  - event: girls-16-under-quarter-mile-swim
+    placings:
+      - competitors:
+          - name: "Kate Clendenning"
+        trophy: worth-trophy
+  # Burt Trophy — as printed in the 1996 programme: "Randy Emond"
+  - event: boys-16-under-quarter-mile-swim
+    placings:
+      - competitors:
+          - name: "Randy Emond"
+        trophy: burt-trophy
+  # Janet Story Trophy (Senior Women) — as printed in the 1996 programme: "Michele Langford"
+  - event: senior-women-quarter-mile-swim
+    placings:
+      - competitors:
+          - name: "Michele Langford"
+        trophy: janet-story-trophy-women
+  # Janet Story Trophy (Senior Men) — as printed in the 1996 programme: "Derrick Moran"
+  - event: senior-men-quarter-mile-swim
+    placings:
+      - competitors:
+          - name: "Derrick Moran"
+        trophy: janet-story-trophy-men
+  # A.M. Greenway Shield — as printed in the 1996 programme: "Kate Clendenning / Karen Splinter"
+  - event: girls-14-16-total-points
+    placings:
+      - competitors:
+          - name: "Kate Clendenning"
+        trophy: am-greenway-shield
+        note: Shared, as printed
+      - competitors:
+          - name: "Karen Splinter"
+        trophy: am-greenway-shield
+        note: Shared, as printed
+  # W.H. Shaw Memorial Shield — as printed in the 1996 programme: "Rob Bruce / Tim Nuttall"
+  - event: boys-14-16-total-points
+    placings:
+      - competitors:
+          - name: "Rob Bruce"
+        trophy: wh-shaw-memorial-shield
+        note: Shared, as printed
+      - competitors:
+          - name: "Tim Nuttall"
+        trophy: wh-shaw-memorial-shield
+        note: Shared, as printed
+  # Kimberly Point Association Trophy — as printed in the 1996 programme: "Marcia Gidley / Jane Manchee"
+  - event: senior-women-total-points
+    placings:
+      - competitors:
+          - name: "Marcia Gidley"
+        trophy: kimberly-point-association-trophy
+        note: Shared, as printed
+      - competitors:
+          - name: "Jane Manchee"
+            person: jane-manchee
+        trophy: kimberly-point-association-trophy
+        note: Shared, as printed
+  # Howard Abraham Memorial Trophy — as printed in the 1996 programme: "Brian Collinson"
+  - event: senior-men-total-points
+    placings:
+      - competitors:
+          - name: "Brian Collinson"
+        trophy: howard-abraham-memorial-trophy
+  # Hugh Carmichael Spirit of the Regatta Award — as printed in the 1996 programme: "Bill Spence"
+  - event: spirit-of-the-regatta
+    placings:
+      - competitors:
+          - name: "Bill Spence"
+        trophy: hugh-carmichael-spirit-award

@@ -1,0 +1,61 @@
+year: 1990
+source: 'Recent Trophy Winners lists, 1996 programme'
+
+# Trophy winners as printed in the Recent Trophy Winners list of the programme
+# printed nearest after this year. People are linked only where the name exactly
+# matches someone already in the archive.
+races:
+  # Worth Trophy — as printed in the 1996 programme: "Cassandra Keefe"
+  - event: girls-16-under-quarter-mile-swim
+    placings:
+      - competitors:
+          - name: "Cassandra Keefe"
+        trophy: worth-trophy
+  # Burt Trophy — as printed in the 1996 programme: "Jason Nurse"
+  - event: boys-16-under-quarter-mile-swim
+    placings:
+      - competitors:
+          - name: "Jason Nurse"
+        trophy: burt-trophy
+  # Janet Story Trophy (Senior Women) — as printed in the 1996 programme: "Jennifer Overend"
+  - event: senior-women-quarter-mile-swim
+    placings:
+      - competitors:
+          - name: "Jennifer Overend"
+        trophy: janet-story-trophy-women
+  # Janet Story Trophy (Senior Men) — as printed in the 1996 programme: "Steve Pierce"
+  - event: senior-men-quarter-mile-swim
+    placings:
+      - competitors:
+          - name: "Steve Pierce"
+        trophy: janet-story-trophy-men
+  # A.M. Greenway Shield — as printed in the 1996 programme: "Kate Clendenning"
+  - event: girls-14-16-total-points
+    placings:
+      - competitors:
+          - name: "Kate Clendenning"
+        trophy: am-greenway-shield
+  # W.H. Shaw Memorial Shield — as printed in the 1996 programme: "Paul Burgess"
+  - event: boys-14-16-total-points
+    placings:
+      - competitors:
+          - name: "Paul Burgess"
+        trophy: wh-shaw-memorial-shield
+  # Kimberly Point Association Trophy — as printed in the 1996 programme: "Leslie Smith"
+  - event: senior-women-total-points
+    placings:
+      - competitors:
+          - name: "Leslie Smith"
+        trophy: kimberly-point-association-trophy
+  # Howard Abraham Memorial Trophy — as printed in the 1996 programme: "Brian Collinson"
+  - event: senior-men-total-points
+    placings:
+      - competitors:
+          - name: "Brian Collinson"
+        trophy: howard-abraham-memorial-trophy
+  # Hugh Carmichael Spirit of the Regatta Award — as printed in the 1996 programme: "Charlie Manchee"
+  - event: spirit-of-the-regatta
+    placings:
+      - competitors:
+          - name: "Charlie Manchee"
+        trophy: hugh-carmichael-spirit-award

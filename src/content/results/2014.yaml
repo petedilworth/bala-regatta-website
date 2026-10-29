@@ -1,0 +1,103 @@
+year: 2014
+source: 'Recent Trophy Winners lists, 2016, 2026 programmes'
+
+# Trophy winners as printed in the Recent Trophy Winners list of the programme
+# printed nearest after this year. People are linked only where the name exactly
+# matches someone already in the archive.
+races:
+  # Worth Trophy — as printed in the 2016 programme: "Emma Rowatt"
+  - event: girls-16-under-quarter-mile-swim
+    placings:
+      - competitors:
+          - name: "Emma Rowatt"
+        trophy: worth-trophy
+  # Burt Trophy — as printed in the 2016 programme: "Cameron Wilmer"
+  - event: boys-16-under-quarter-mile-swim
+    placings:
+      - competitors:
+          - name: "Cameron Wilmer"
+        trophy: burt-trophy
+  # Janet Story Trophy (Senior Women) — as printed in the 2016 programme: "Alana Corrigan"
+  - event: senior-women-quarter-mile-swim
+    placings:
+      - competitors:
+          - name: "Alana Corrigan"
+        trophy: janet-story-trophy-women
+  # Janet Story Trophy (Senior Men) — as printed in the 2016 programme: "Randall Emond"
+  - event: senior-men-quarter-mile-swim
+    placings:
+      - competitors:
+          - name: "Randall Emond"
+        trophy: janet-story-trophy-men
+  # Micky Walker Trophy — as printed in the 2016 programme: "Julie Daum"
+  - event: girls-11-13-total-points
+    placings:
+      - competitors:
+          - name: "Julie Daum"
+        trophy: micky-walker-trophy
+  # Ken Edwards Trophy — as printed in the 2016 programme: "Ben Rowatt"
+  - event: boys-11-13-total-points
+    placings:
+      - competitors:
+          - name: "Ben Rowatt"
+        trophy: ken-edwards-trophy
+  # A.M. Greenway Shield — as printed in the 2016 programme: "Barbara Parker"
+  - event: girls-14-16-total-points
+    placings:
+      - competitors:
+          - name: "Barbara Parker"
+        trophy: am-greenway-shield
+  # W.H. Shaw Memorial Shield — as printed in the 2016 programme: "Cameron Wilmer"
+  - event: boys-14-16-total-points
+    placings:
+      - competitors:
+          - name: "Cameron Wilmer"
+        trophy: wh-shaw-memorial-shield
+  # Kimberly Point Association Trophy — as printed in the 2016 programme: "Jennifer Wilmer"
+  - event: senior-women-total-points
+    placings:
+      - competitors:
+          - name: "Jennifer Wilmer"
+        trophy: kimberly-point-association-trophy
+  # Howard Abraham Memorial Trophy — as printed in the 2016 programme: "Andrew MacIver"
+  - event: senior-men-total-points
+    placings:
+      - competitors:
+          - name: "Andrew MacIver"
+        trophy: howard-abraham-memorial-trophy
+  # Thomas Burgess Trophy — as printed in the 2016 programme: "Jennifer Wilmer & Rod Wilmer"
+  - event: senior-mixed-tandem-skiff
+    placings:
+      - competitors:
+          - name: "Jennifer Wilmer"
+          - name: "Rod Wilmer"
+        trophy: thomas-burgess-trophy
+  # Lou Allen Trophy — as printed in the 2016 programme: "Gerry Anthony & John Anthony"
+  - event: masters-mixed-tandem-skiff
+    placings:
+      - competitors:
+          - name: "Gerry Anthony"
+          - name: "John Anthony"
+        trophy: lou-allen-trophy
+  # Charlie Manchee Trophy — as printed in the 2016 programme: "Rob Anthony & Alison Anthony"
+  - event: masters-mixed-tandem-canoe
+    placings:
+      - competitors:
+          - name: "Rob Anthony"
+            person: rob-anthony
+          - name: "Alison Anthony"
+        trophy: charlie-manchee-trophy
+  # Alan R. Edwards Trophy — as printed in the 2016 programme: "Mark Whytock"
+  - event: skiff-race
+    titleAsPrinted: "Men's Single Skiff"
+    placings:
+      - competitors:
+          - name: "Mark Whytock"
+            person: mark-whytock
+        trophy: alan-r-edwards-trophy
+  # Hugh Carmichael Spirit of the Regatta Award — as printed in the 2026 programme: "The Dilworth Family"
+  - event: spirit-of-the-regatta
+    placings:
+      - competitors:
+          - name: "The Dilworth Family"
+        trophy: hugh-carmichael-spirit-award
