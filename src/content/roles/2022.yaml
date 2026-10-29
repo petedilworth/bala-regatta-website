@@ -1,0 +1,18 @@
+year: 2022
+source: '2022 Bala Regatta programme, Bala Aquatic Association'
+
+# The 2022 programme reprints the 2019 inside page: the welcome says "111th" but the
+# committee heading still reads "2019" and the Past Commodores list stops at 2019. The
+# 2026 programme's Past Commodores list gives Rob Anthony as Commodore for 2019-2022,
+# which corroborates these names, so they are recorded as printed.
+officials:
+  - role: commodore
+    name: Rob Anthony
+    person: rob-anthony
+  - role: past-commodore
+    name: Gord Wade
+    person: gord-wade
+  - role: vice-commodore
+    titleAsPrinted: 1st Vice-Commodore
+    name: Mark Whytock
+    person: mark-whytock

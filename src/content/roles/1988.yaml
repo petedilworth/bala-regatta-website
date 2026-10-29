@@ -1,0 +1,15 @@
+year: 1988
+source: '1988 Aquatic Programme, Bala Aquatic Association'
+
+# No 2nd Vice-Commodore or Rear Commodore printed this year — left unfilled.
+officials:
+  - role: past-commodore
+    name: Rod Maxwell
+    person: rod-maxwell
+  - role: commodore
+    name: Ken Paradine
+    person: ken-paradine
+  - role: vice-commodore
+    titleAsPrinted: 1st Vice-Commodore
+    name: Doug Smith
+    person: doug-smith

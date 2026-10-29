@@ -1,0 +1,10 @@
+year: 2025
+source: 'Past Commodores list, 2026 Bala Regatta programme, Bala Aquatic Association'
+
+# The 2025 programme itself prints no officer list. The 2026 programme's Past
+# Commodores list gives "2025 ... Marcia Tupling", which is the only
+# office it records for the year.
+officials:
+  - role: commodore
+    name: Marcia Tupling
+    person: marcia-tupling

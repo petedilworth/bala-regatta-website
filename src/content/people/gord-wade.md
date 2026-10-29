@@ -1,0 +1,4 @@
+---
+name: Gord Wade
+aliases: []
+---

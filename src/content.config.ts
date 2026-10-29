@@ -270,7 +270,7 @@ const settings = defineCollection({
   schema: z.object({
     id: z.string(),
     /**
-     * The date is never typed: it is always the first Saturday in August and is
+     * The date is never typed: it is the Saturday of the August long weekend and is
      * computed in src/lib/regatta-date.ts. Only the edition needs anchoring.
      */
     editionAnchor: z.object({

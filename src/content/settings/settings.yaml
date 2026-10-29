@@ -1,6 +1,6 @@
 - id: site
-  # The regatta is always the first Saturday in August, so the date is never
-  # typed here — it is computed at build time (src/lib/regatta-date.ts) and the
+  # The regatta is held on the Saturday of the August long weekend, so the date is
+  # never typed here — it is computed at build time (src/lib/regatta-date.ts) and the
   # site is rebuilt weekly so it cannot go stale. Only the edition is anchored:
   # the 115th regatta was in 2026. Bump this only if a year is ever skipped.
   editionAnchor:

@@ -1,0 +1,16 @@
+year: 2016
+source: '2016 Bala Regatta programme, Bala Aquatic Association'
+
+# From 2016 the printed officer list is Commodore, Past Commodore, 1st Vice-Commodore
+# and Treasurer/Secretary only. No 2nd Vice or Rear Commodore — left unfilled.
+officials:
+  - role: commodore
+    name: Mark Smail
+    person: mark-smail
+  - role: past-commodore
+    name: Jane Manchee
+    person: jane-manchee
+  - role: vice-commodore
+    titleAsPrinted: 1st Vice-Commodore
+    name: Gord Wade
+    person: gord-wade
