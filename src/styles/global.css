@@ -5,9 +5,10 @@
  * system font stack removes two render-blocking requests for a difference most
  * readers will not notice. Headings use the serif stack for the heritage feel.
  *
- * Palette taken from the logo: a navy wordmark and navy sport silhouettes over
- * sky-blue circles, on white. Only three colours are really in it, so the site
- * uses only those three.
+ * Palette sampled from the logo file itself (median of several thousand pixels
+ * of the wordmark and of the circle fills): a navy wordmark and navy sport
+ * silhouettes over sky-blue circles, on white. Only three colours are really in
+ * it, so the site uses only those three.
  *
  * The contrast split is load-bearing. The logo's sky blue is about 1.9:1 on
  * white, which fails WCAG AA at every size, so --sky is for circles, rules and
@@ -19,10 +20,10 @@
  */
 
 :root {
-  --navy: #142a5c;
-  --navy-deep: #0d1d42;
-  --sky: #6ec6f0;
-  --sky-tint: #eaf5fc;
+  --navy: #081343;
+  --navy-deep: #050c2c;
+  --sky: #6cccfe;
+  --sky-tint: #eaf6fe;
   --blue-ink: #1a6a9e;
   --rule: #d6e4f0;
   --sand: var(--sky-tint);
@@ -59,7 +60,7 @@
   --measure: 68ch;
   --page: 72rem;
   --radius: 4px;
-  --shadow: 0 1px 2px rgb(20 42 92 / 8%), 0 4px 16px rgb(20 42 92 / 6%);
+  --shadow: 0 1px 2px rgb(8 19 67 / 8%), 0 4px 16px rgb(8 19 67 / 6%);
 }
 
 *,

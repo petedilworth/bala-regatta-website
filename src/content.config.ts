@@ -269,8 +269,14 @@ const settings = defineCollection({
   loader: file('./src/content/settings/settings.yaml'),
   schema: z.object({
     id: z.string(),
-    nextRegattaDate: z.coerce.date().optional(),
-    nextRegattaEdition: z.number().int().positive().optional(),
+    /**
+     * The date is never typed: it is always the first Saturday in August and is
+     * computed in src/lib/regatta-date.ts. Only the edition needs anchoring.
+     */
+    editionAnchor: z.object({
+      year: z.number().int(),
+      edition: z.number().int().positive(),
+    }),
     registrationUrl: z.url().optional(),
     registrationNote: z.string().optional(),
     email: z.email().optional(),

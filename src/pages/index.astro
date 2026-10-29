@@ -2,7 +2,7 @@
 import Base from '../layouts/Base.astro';
 import { getSettings } from '../lib/settings';
 import { ordinal } from '../lib/archive';
-import { absolute } from '../lib/url';
+import { absolute, href } from '../lib/url';
 
 const settings = await getSettings();
 
@@ -46,13 +46,10 @@ const schema = upcoming
 <Base title="Bala Regatta" schema={schema}>
   <section class="hero">
     <div class="wrap">
-      {/*
-        Logo slot. The artwork has not been supplied as a file yet, so the
-        wordmark is set in type here. Replace the text with the logo image and
-        keep it inside this h1, with "Bala Regatta" as its alt text — the page
-        needs exactly one h1 either way. Then drop the .hero__wordmark rules.
-      */}
-      <h1 class="hero__wordmark">Bala Regatta</h1>
+      {/* The logo is the h1: the page's one heading, with the name as its alt text. */}
+      <h1 class="hero__wordmark">
+        <img src={href('/logo.jpg')} alt="Bala Regatta" width="1000" height="600" fetchpriority="high" />
+      </h1>
       <p class="hero__association">Bala Aquatic Association</p>
 
       {
@@ -75,16 +72,14 @@ const schema = upcoming
     text-align: center;
   }
 
-  /* Stand-in for the logo artwork. Remove with the wordmark block above. */
   .hero__wordmark {
-    font-family: var(--serif);
-    font-size: var(--step-5);
-    font-weight: 600;
-    line-height: 1.05;
-    letter-spacing: -0.01em;
-    color: var(--navy);
-    margin: 0;
-    max-width: none;
+    margin: 0 auto;
+    max-width: 34rem;
+  }
+
+  .hero__wordmark img {
+    width: 100%;
+    height: auto;
   }
 
   .hero__association {
