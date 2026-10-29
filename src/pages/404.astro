@@ -1,0 +1,54 @@
+---
+import Base from '../layouts/Base.astro';
+import { href } from '../lib/url';
+
+// Astro emits this as /404.html, which GitHub Pages serves for any path that
+// does not exist. Until this page existed, a mistyped archive URL — or an old
+// link from the Weebly site that no redirect stub covers — got GitHub's grey
+// default, with no way back in and no way to search for what was wanted.
+---
+
+<Base title="Page not found" description="That page isn't here. Search the Bala Regatta archive instead." noindex>
+  <section class="section">
+    <div class="wrap stack">
+      <p class="eyebrow">404</p>
+      <h1>That page isn't here</h1>
+      <p class="lede">
+        It may have moved when the site was rebuilt, or the address may have a typo in it.
+        The archive search is the quickest way back to what you were after.
+      </p>
+
+      {/* GET to /archives, which applies ?q= on load — no JavaScript needed here. */}
+      <form class="find" action={href('/archives')} method="get" role="search">
+        <label for="nf-q" class="visually-hidden">Search the archive</label>
+        <input id="nf-q" name="q" type="search" placeholder="A surname, an event, a year…" />
+        <button class="button" type="submit">Search</button>
+      </form>
+
+      <p class="muted">
+        Or start from <a href={href('/')}>the home page</a>,{' '}
+        <a href={href('/program')}>the event program</a>, or{' '}
+        <a href={href('/archives')}>the archives</a>.
+      </p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .find {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xs);
+    max-width: 36rem;
+  }
+
+  .find input {
+    flex: 1 1 14rem;
+    font: inherit;
+    padding: 0.6em 0.9em;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg-raised);
+    color: var(--fg);
+  }
+</style>

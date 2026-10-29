@@ -31,6 +31,21 @@ const artifactCount =
   archive.trophies.filter((t) => t.data.photo).length;
 
 const indexUrl = href('/archive-index.json');
+
+// The two "doors" describe what is actually behind them. Before this, the copy
+// promised trophies and press clippings the archive did not hold, and one door
+// linked to a page that said "nothing recorded yet".
+const hasTrophies = archive.trophies.length > 0;
+const collectionKinds = [
+  archive.documents.length > 0 && 'scanned programmes',
+  archive.photos.length > 0 && 'photographs off the dock',
+  archive.articles.some((a) => a.data.kind === 'scan') && 'press clippings',
+  archive.trophies.some((t) => t.data.photo) && 'the trophies themselves',
+].filter((k): k is string => !!k);
+const collectionList =
+  collectionKinds.length > 1
+    ? `${collectionKinds.slice(0, -1).join(', ')} and ${collectionKinds[collectionKinds.length - 1]}`
+    : (collectionKinds[0] ?? 'the things themselves');
 ---
 
 <Base
@@ -51,12 +66,16 @@ const indexUrl = href('/archive-index.json');
         <li class="door">
           <h2><a href="#search">The record</a></h2>
           <p>
-            Who won what, and who was running it. Results, organising committees and
-            trophies, broken into records that assemble themselves into year, event and
-            person pages.
+            Who won what, and who was running it. Results{hasTrophies ? ', trophies' : ''} and
+            organising committees, broken into records that assemble themselves into year,
+            event and person pages.
           </p>
           <p class="door__links">
-            <a href={href('/archives/trophies')}>Trophies</a> &middot;{' '}
+            {hasTrophies && (
+              <>
+                <a href={href('/archives/trophies')}>Trophies</a> &middot;{' '}
+              </>
+            )}
             <a href={href('/archives/officers')}>Officers</a> &middot;{' '}
             <a href={href('/archives/people')}>People</a> &middot;{' '}
             <a href="#years">Years</a>
@@ -65,8 +84,7 @@ const indexUrl = href('/archive-index.json');
         <li class="door">
           <h2><a href={href('/archives/gallery')}>The collection</a></h2>
           <p>
-            The artifacts — scanned programmes, photographs off the dock, press clippings and
-            the trophies themselves. {artifactCount}
+            The artifacts — {collectionList}. {artifactCount}
             {artifactCount === 1 ? ' item' : ' items'} so far.
           </p>
           <p class="door__links">
@@ -165,7 +183,7 @@ const indexUrl = href('/archive-index.json');
       </div>
 
       <noscript>
-        <p class="todo">
+        <p class="note">
           Search needs JavaScript. You can still browse the archive year by year using the list
           below.
         </p>
@@ -232,7 +250,7 @@ const indexUrl = href('/archive-index.json');
         <a href={href('/archives/officers')}>line of officers</a> runs separately, year by year.
       </p>
 
-      <aside class="todo">
+      <aside class="note">
         <p>
           <strong>The archive is just started.</strong> Most of the 115 years are still to be
           transcribed. See <a href={href('/archives/corrections')}>how to help</a>.

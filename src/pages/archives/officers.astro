@@ -1,5 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
+import Todo from '../../components/Todo.astro';
 import { getArchive, type Official } from '../../lib/archive';
 import { href, yearHref } from '../../lib/url';
 
@@ -128,13 +129,13 @@ const officeSections = [...flagOffices, ...otherOffices]
             ))}
           </>
         ) : (
-          <aside class="todo">
+          <Todo>
             <p>
               <strong>No officers recorded yet.</strong> Add a file to
               <code>src/content/roles/</code> for each year, naming the office by its id from
               <code>src/content/offices/</code>.
             </p>
-          </aside>
+          </Todo>
         )
       }
     </div>

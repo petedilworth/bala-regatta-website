@@ -1,5 +1,6 @@
 ---
 import Base from '../../../layouts/Base.astro';
+import Todo from '../../../components/Todo.astro';
 import { getArchive, surname } from '../../../lib/archive';
 import { href, personHref } from '../../../lib/url';
 
@@ -38,13 +39,13 @@ const countFor = (id: string) =>
 
       {
         people.length === 0 ? (
-          <aside class="todo">
+          <Todo>
             <p>
               <strong>No person records yet.</strong> They are created as results are transcribed
               and identities become clear — a name in a results file does not need a person record
               to be searchable.
             </p>
-          </aside>
+          </Todo>
         ) : (
           <>
             <p class="jump">
@@ -73,7 +74,7 @@ const countFor = (id: string) =>
         )
       }
 
-      <aside class="todo">
+      <aside class="note">
         <p>
           Not every name in the archive has a page. Linking a result to a person is a separate
           judgement about identity, made only where it is reasonably certain — so unlinked names

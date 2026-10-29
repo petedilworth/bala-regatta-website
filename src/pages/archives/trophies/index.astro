@@ -1,5 +1,6 @@
 ---
 import Base from '../../../layouts/Base.astro';
+import Todo from '../../../components/Todo.astro';
 import { getArchive } from '../../../lib/archive';
 import { href, trophyHref } from '../../../lib/url';
 
@@ -68,24 +69,30 @@ const trophies = archive.trophies.map((entry) => {
             ))}
           </ul>
         ) : (
-          <aside class="todo">
+          <aside class="note">
             <p>
-              <strong>No trophies recorded yet.</strong> Add a file to
-              <code>src/content/trophies/</code> with the cup's name, its donor and a
-              photograph, then tag the winning placing in each year's results with
-              <code>trophy: &lt;id&gt;</code>.
+              <strong>No trophies have been recorded yet.</strong> The regatta's cups
+              and their winners are still to be added from the programmes — if you know
+              one, <a href={href('/archives/corrections')}>get in touch</a>.
             </p>
           </aside>
+          <Todo>
+            <p>
+              Add a file to <code>src/content/trophies/</code> with the cup's name, its
+              donor and a photograph, then tag the winning placing in each year's results
+              with <code>trophy: &lt;id&gt;</code>.
+            </p>
+          </Todo>
         )
       }
 
-      <aside class="todo">
+      <Todo>
         <p>
           A trophy's winner list is built from the results, never typed here. If a cup is
           missing years you know it was awarded, the gap is in the results files rather than
           on this page.
         </p>
-      </aside>
+      </Todo>
     </div>
   </section>
 </Base>
