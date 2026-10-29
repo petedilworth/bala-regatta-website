@@ -15,12 +15,9 @@ const current = Astro.url.pathname.replace(base, '').replace(/\/+$/, '') || '/';
 
 <header class="site-header">
   <div class="wrap site-header__inner">
-    {/*
-      Text wordmark, standing in until the logo artwork is supplied as a file.
-      Swap this block for the logo image and keep "Bala Regatta" as its alt text.
-    */}
     <a class="brand" href={href('/')}>
-      <span class="brand__name">Bala Regatta</span>
+      {/* Intrinsic size given so the header does not reflow as it loads. */}
+      <img class="brand__logo" src={href('/logo.jpg')} alt="Bala Regatta" width="1000" height="600" />
       {/*
         Deliberately no founding year. "115th in 2026" implies 1911 only if no
         year was ever skipped, and skipped years are exactly what a century-old
@@ -73,15 +70,15 @@ const current = Astro.url.pathname.replace(base, '').replace(/\/+$/, '') || '/';
   .brand {
     color: inherit;
     text-decoration: none;
-    display: block;
+    display: flex;
+    align-items: center;
+    gap: var(--space-s);
   }
 
-  .brand__name {
-    display: block;
-    font-family: var(--serif);
-    font-size: var(--step-2);
-    line-height: 1.05;
-    letter-spacing: -0.01em;
+  /* 5:3 artwork; height set, width follows. */
+  .brand__logo {
+    height: 4.25rem;
+    width: auto;
   }
 
   .brand__tag {
@@ -90,6 +87,8 @@ const current = Astro.url.pathname.replace(base, '').replace(/\/+$/, '') || '/';
     letter-spacing: 0.06em;
     text-transform: uppercase;
     color: var(--fg-muted);
+    max-width: 9rem;
+    line-height: 1.25;
   }
 
   .nav {

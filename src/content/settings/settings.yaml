@@ -1,7 +1,11 @@
 - id: site
-  # Verified from public sources: the 115th regatta, Saturday 1 August 2026.
-  nextRegattaDate: 2026-08-01
-  nextRegattaEdition: 115
+  # The regatta is always the first Saturday in August, so the date is never
+  # typed here — it is computed at build time (src/lib/regatta-date.ts) and the
+  # site is rebuilt weekly so it cannot go stale. Only the edition is anchored:
+  # the 115th regatta was in 2026. Bump this only if a year is ever skipped.
+  editionAnchor:
+    year: 2026
+    edition: 115
   # Unused while the site has no Register page — kept so one can return without
   # retyping. TODO: replace with the real Google Form / Jotform URL before launch.
   registrationUrl: https://example.com/replace-with-registration-form

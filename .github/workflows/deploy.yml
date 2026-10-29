@@ -5,6 +5,12 @@ on:
     branches: [main]
   # Lets you publish from the Actions tab without pushing a commit.
   workflow_dispatch:
+  # The next-regatta date is computed at build time (first Saturday in August,
+  # see src/lib/regatta-date.ts). On a static site that only stays current if
+  # the site is rebuilt, so rebuild every Monday whether or not anything was
+  # pushed. Cheap: the build takes about twenty seconds.
+  schedule:
+    - cron: '17 6 * * 1'
 
 # Only the most recent commit matters for a static site, but an in-flight deploy
 # is left to finish rather than cancelled mid-upload.
