@@ -1,5 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
+import Todo from '../../components/Todo.astro';
 import { decadeOf, getArchive } from '../../lib/archive';
 import { documentLabel } from '../../lib/record-types';
 import { href, trophyHref, yearHref } from '../../lib/url';
@@ -174,23 +175,23 @@ const decades = [...new Set(items.map((i) => (i.year ? decadeOf(i.year) : undefi
             ))}
           </ul>
         ) : (
-          <aside class="todo">
+          <Todo>
             <p>
               <strong>Nothing in the collection yet.</strong> Scans go in
               <code>public/archives/&lt;year&gt;/</code> and are listed in
               <code>src/content/photos/</code> or <code>src/content/documents/</code>.
             </p>
-          </aside>
+          </Todo>
         )
       }
 
-      <aside class="todo">
+      <Todo>
         <p>
           Photographs are findable by their caption and year and nothing else, so an
           uncaptioned photograph will appear here and in a decade filter but never in a
           search. Caption them as you upload.
         </p>
-      </aside>
+      </Todo>
     </div>
   </section>
 </Base>

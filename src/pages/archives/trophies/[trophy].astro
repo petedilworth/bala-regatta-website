@@ -2,6 +2,7 @@
 import type { GetStaticPaths } from 'astro';
 import { render } from 'astro:content';
 import Base from '../../../layouts/Base.astro';
+import Todo from '../../../components/Todo.astro';
 import SampleNotice from '../../../components/SampleNotice.astro';
 import ResultsTable from '../../../components/ResultsTable.astro';
 import { getArchive } from '../../../lib/archive';
@@ -107,13 +108,13 @@ const lede = [
             />
           </>
         ) : (
-          <aside class="todo">
+          <Todo>
             <p>
               <strong>No winners recorded for this trophy yet.</strong> Add{' '}
               <code>trophy: {entry.id}</code> to the winning placing in a results file and the
               year will appear here on its own.
             </p>
-          </aside>
+          </Todo>
         )
       }
 

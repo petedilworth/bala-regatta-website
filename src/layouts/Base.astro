@@ -2,14 +2,16 @@
 import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import { absolute } from '../lib/url';
+import { absolute, href } from '../lib/url';
 
 interface Props {
   title: string;
   description?: string;
-  /** Path under public/, e.g. /archives/1958/hero.jpg */
+  /** Path under public/, e.g. /archives/1947/hero.jpg. Falls back to the site card. */
   image?: string;
   noindex?: boolean;
+  /** Schema.org structured data, emitted as JSON-LD. */
+  schema?: Record<string, unknown>;
 }
 
 const {
@@ -17,7 +19,13 @@ const {
   description = 'The Bala Regatta — the longest continuously run regatta in Canada, held each summer at the Township Dock in Bala, Muskoka.',
   image,
   noindex = false,
+  schema,
 } = Astro.props;
+
+// Every share gets a picture. Without a default, a link pasted into Facebook or
+// iMessage showed a bare grey card — which for a community event is most of the
+// traffic there is.
+const shareImage = image ?? '/og-default.png';
 
 const pageTitle = title === 'Bala Regatta' ? title : `${title} — Bala Regatta`;
 const canonical = absolute(Astro.url.pathname);
@@ -38,8 +46,14 @@ const canonical = absolute(Astro.url.pathname);
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:locale" content="en_CA" />
-    {image && <meta property="og:image" content={absolute(image)} />}
-    <meta name="twitter:card" content={image ? 'summary_large_image' : 'summary'} />
+    <meta property="og:image" content={absolute(shareImage)} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="icon" href={href('/favicon.svg')} type="image/svg+xml" />
+    <link rel="apple-touch-icon" href={href('/apple-touch-icon.png')} />
+    <link rel="sitemap" href={href('/sitemap-index.xml')} />
+
+    {schema && <script is:inline type="application/ld+json" set:html={JSON.stringify(schema)} />}
 
     {/* Literal on purpose — the browser chrome cannot read a CSS variable.
         Keep in step with --navy in src/styles/global.css.

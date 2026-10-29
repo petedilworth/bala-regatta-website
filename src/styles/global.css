@@ -341,14 +341,19 @@ tbody tr:last-child td {
 }
 
 /*
- * Build notes left visible on the page.
+ * Two boxes that look the same and are not.
  *
- * These mark the places where the site is waiting on something only the committee
- * can supply — real times, real contact details, verified sponsors. They are meant
- * to be conspicuous during review and deleted as each gap is filled, rather than
- * hidden in a code comment nobody opens.
+ * .note is for the visitor: an honest empty state ("nothing recorded for 1930
+ * yet"), a caveat about how names are linked, a way to ask for a correction.
+ * It ships.
+ *
+ * .todo is for the committee: where a file goes, what still needs deciding.
+ * It is rendered only by src/components/Todo.astro, which emits nothing in a
+ * production build — so the text, and the src/content/ paths in it, never
+ * reach the live site. Run `npm run dev` to see them.
  */
-.todo {
+.todo,
+.note {
   padding: var(--space-m);
   border: 1px dashed var(--border);
   border-radius: var(--radius);
@@ -358,7 +363,8 @@ tbody tr:last-child td {
   margin-block: var(--space-m);
 }
 
-.todo p {
+.todo p,
+.note p {
   margin: 0;
   max-width: none;
 }
@@ -369,4 +375,64 @@ code {
   background: var(--sky-tint);
   padding: 0.1em 0.35em;
   border-radius: 3px;
+}
+
+/* Print ------------------------------------------------------------------ */
+
+/*
+ * People print regatta results. Drop the chrome, let tables run across pages,
+ * and put link targets in the margin so a printed year page still cites its
+ * sources.
+ */
+@media print {
+  .site-header,
+  .site-footer,
+  .skip-link,
+  .nav-toggle__label,
+  .archive-search,
+  .todo,
+  .note,
+  .pager {
+    display: none !important;
+  }
+
+  body {
+    background: #fff;
+    color: #000;
+    font-size: 11pt;
+  }
+
+  .table-scroll {
+    overflow: visible;
+    border: 0;
+  }
+
+  table {
+    page-break-inside: auto;
+  }
+
+  tr {
+    page-break-inside: avoid;
+  }
+
+  thead {
+    display: table-header-group;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  /* Only external links get their address printed; internal ones are noise. */
+  a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.85em;
+    color: #555;
+  }
+
+  figure img {
+    max-height: 60vh;
+    width: auto;
+  }
 }

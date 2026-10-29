@@ -1,4 +1,5 @@
 import { defineConfig } from 'astro/config';
+import sitemap from '@astrojs/sitemap';
 
 /**
  * Hosting: GitHub Pages.
@@ -19,6 +20,13 @@ const SITE_BASE = process.env.SITE_BASE ?? '/bala-regatta-website';
 export default defineConfig({
   site: SITE_URL,
   base: SITE_BASE,
+  /**
+   * sitemap-index.xml at the site root, linked from public/robots.txt. Built
+   * from the routes Astro emits, so archive deep pages nothing links to are
+   * still discoverable. The legacy Weebly redirect stubs are plain files in
+   * public/, not routes, so they are never listed.
+   */
+  integrations: [sitemap()],
   /**
    * 'always' is load-bearing, not cosmetic.
    *

@@ -1,0 +1,17 @@
+---
+/**
+ * A build note for the committee — where a file goes, what still needs a
+ * decision. Rendered only under `astro dev`. A production build emits nothing
+ * here at all, so neither the wording nor the src/content/ paths it mentions
+ * reach a visitor.
+ *
+ * Anything a visitor should read — an empty state, a caveat about how names
+ * are linked — is not a Todo. Use <aside class="note"> for that; it ships.
+ */
+---
+
+{import.meta.env.DEV && (
+  <aside class="todo">
+    <slot />
+  </aside>
+)}

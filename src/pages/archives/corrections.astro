@@ -1,5 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
+import Todo from '../../components/Todo.astro';
 import { getSettings } from '../../lib/settings';
 import { href } from '../../lib/url';
 
@@ -85,7 +86,7 @@ const settings = await getSettings();
         )
       }
 
-      <aside class="todo">
+      <Todo>
         <p>
           <strong>For the committee to agree before launch.</strong> The commitments on this page —
           particularly around removing names of living people and handling photograph rights — are
@@ -93,7 +94,7 @@ const settings = await getSettings();
           to match what the association is actually willing to do, because publishing a promise you
           will not keep is worse than publishing none.
         </p>
-      </aside>
+      </Todo>
     </div>
   </section>
 </Base>

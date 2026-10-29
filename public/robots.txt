@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://petedilworth.github.io/bala-regatta-website/sitemap-index.xml

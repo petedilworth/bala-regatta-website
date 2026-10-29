@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import { getSettings } from '../lib/settings';
 import { ordinal } from '../lib/archive';
+import { absolute } from '../lib/url';
 
 const settings = await getSettings();
 
@@ -17,9 +18,32 @@ const dateLabel = date
   : undefined;
 
 const edition = settings.nextRegattaEdition;
+
+// Structured data so a search for the regatta can show its date as a rich
+// result. Emitted only while the date is still ahead of us: asserting a past
+// event as "scheduled" is the kind of thing Search Console warns about.
+const upcoming = date && date.getTime() >= Date.now() - 24 * 60 * 60 * 1000;
+const schema = upcoming
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'SportsEvent',
+      name: edition ? `${ordinal(edition)} Bala Regatta` : 'Bala Regatta',
+      startDate: date.toISOString().slice(0, 10),
+      eventStatus: 'https://schema.org/EventScheduled',
+      eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+      location: {
+        '@type': 'Place',
+        name: 'Township Dock',
+        address: { '@type': 'PostalAddress', addressLocality: 'Bala', addressRegion: 'ON', addressCountry: 'CA' },
+      },
+      organizer: { '@type': 'Organization', name: 'Bala Aquatic Association', email: settings.email },
+      url: absolute('/'),
+      image: absolute('/og-default.png'),
+    }
+  : undefined;
 ---
 
-<Base title="Bala Regatta">
+<Base title="Bala Regatta" schema={schema}>
   <section class="hero">
     <div class="wrap">
       {/*
