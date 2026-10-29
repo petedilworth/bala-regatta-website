@@ -1,0 +1,19 @@
+year: 2006
+source: '2006 Bala Regatta Program, Bala Aquatic Association'
+
+# Printed as "Peter Roell"; every later programme prints "Pete". Same person.
+officials:
+  - role: commodore
+    name: Bill MacIver
+    person: bill-maciver
+  - role: past-commodore
+    name: Bruce Dempster
+    person: bruce-dempster
+  - role: vice-commodore
+    titleAsPrinted: 1st Vice-Commodore
+    name: Pete Roell
+    person: pete-roell
+  - role: second-vice-commodore
+    titleAsPrinted: 2nd Vice-Commodore
+    name: Marnie Sherk
+    person: marnie-sherk

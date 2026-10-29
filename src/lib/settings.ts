@@ -5,7 +5,7 @@ type Stored = CollectionEntry<'settings'>['data'];
 
 /**
  * What pages read. The date and edition are not stored — they are derived from
- * the rule "first Saturday in August" and the edition anchor, at build time —
+ * the long-weekend rule in regatta-date.ts and the edition anchor, at build time —
  * but they are exposed under the same names the templates always used.
  */
 export type Settings = Stored & {

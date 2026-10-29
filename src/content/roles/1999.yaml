@@ -1,0 +1,17 @@
+year: 1999
+source: '1999 Bala Regatta Program, Bala Aquatic Association'
+
+officials:
+  - role: past-commodore
+    name: Brad Burgess
+    person: brad-burgess
+  - role: commodore
+    name: Rob Dilworth
+    person: rob-dilworth
+  - role: vice-commodore
+    titleAsPrinted: 1st Vice Commodore
+    name: Mike Spears
+    person: mike-spears
+  - role: rear-commodore
+    name: John Sproat
+    person: john-sproat

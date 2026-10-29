@@ -1,0 +1,17 @@
+year: 2026
+source: '2026 Bala Regatta programme, Bala Aquatic Association'
+
+# The printed list is Commodore, Past Commodore, 1st Vice Commodore and
+# Secretary/Treasurer. Pete Dilworth holds both of the last two; only the
+# flag office is recorded here.
+officials:
+  - role: commodore
+    name: Marcia Tupling
+    person: marcia-tupling
+  - role: past-commodore
+    name: Bob Morine
+    person: bob-morine
+  - role: vice-commodore
+    titleAsPrinted: 1st Vice Commodore
+    name: Pete Dilworth
+    person: pete-dilworth
