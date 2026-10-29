@@ -1,0 +1,66 @@
+year: 1996
+source: 'Recent Trophy Winners lists, 1997 programme'
+
+# Trophy winners as printed in the Recent Trophy Winners list of the programme
+# printed nearest after this year. People are linked only where the name exactly
+# matches someone already in the archive.
+races:
+  # Worth Trophy — as printed in the 1997 programme: "Heather Maciver"
+  - event: girls-16-under-quarter-mile-swim
+    placings:
+      - competitors:
+          - name: "Heather Maciver"
+        trophy: worth-trophy
+  # Burt Trophy — as printed in the 1997 programme: "Neil Manchee"
+  - event: boys-16-under-quarter-mile-swim
+    placings:
+      - competitors:
+          - name: "Neil Manchee"
+        trophy: burt-trophy
+  # Janet Story Trophy (Senior Women) — as printed in the 1997 programme: "Martha McCleary"
+  - event: senior-women-quarter-mile-swim
+    placings:
+      - competitors:
+          - name: "Martha McCleary"
+        trophy: janet-story-trophy-women
+  # Janet Story Trophy (Senior Men) — as printed in the 1997 programme: "Ben Dempster"
+  - event: senior-men-quarter-mile-swim
+    placings:
+      - competitors:
+          - name: "Ben Dempster"
+        trophy: janet-story-trophy-men
+  # A.M. Greenway Shield — as printed in the 1997 programme: "Karen Splinter / Andrea VanBruinessen"
+  - event: girls-14-16-total-points
+    placings:
+      - competitors:
+          - name: "Karen Splinter"
+        trophy: am-greenway-shield
+        note: Shared, as printed
+      - competitors:
+          - name: "Andrea VanBruinessen"
+        trophy: am-greenway-shield
+        note: Shared, as printed
+  # W.H. Shaw Memorial Shield — as printed in the 1997 programme: "Michael Splinter"
+  - event: boys-14-16-total-points
+    placings:
+      - competitors:
+          - name: "Michael Splinter"
+        trophy: wh-shaw-memorial-shield
+  # Kimberly Point Association Trophy — as printed in the 1997 programme: "Leslie Smith"
+  - event: senior-women-total-points
+    placings:
+      - competitors:
+          - name: "Leslie Smith"
+        trophy: kimberly-point-association-trophy
+  # Howard Abraham Memorial Trophy — as printed in the 1997 programme: "Mike Smith"
+  - event: senior-men-total-points
+    placings:
+      - competitors:
+          - name: "Mike Smith"
+        trophy: howard-abraham-memorial-trophy
+  # Hugh Carmichael Spirit of the Regatta Award — as printed in the 1997 programme: "Louis Allen"
+  - event: spirit-of-the-regatta
+    placings:
+      - competitors:
+          - name: "Louis Allen"
+        trophy: hugh-carmichael-spirit-award

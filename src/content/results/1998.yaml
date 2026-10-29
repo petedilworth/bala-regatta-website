@@ -1,0 +1,80 @@
+year: 1998
+source: 'Recent Trophy Winners lists, 1999, 2026 programmes'
+
+# Trophy winners as printed in the Recent Trophy Winners list of the programme
+# printed nearest after this year. People are linked only where the name exactly
+# matches someone already in the archive.
+races:
+  # Worth Trophy — as printed in the 1999 programme: "Heather MacIvor"
+  - event: girls-16-under-quarter-mile-swim
+    placings:
+      - competitors:
+          - name: "Heather MacIvor"
+        trophy: worth-trophy
+  # Burt Trophy — as printed in the 1999 programme: "Neil Manchee"
+  - event: boys-16-under-quarter-mile-swim
+    placings:
+      - competitors:
+          - name: "Neil Manchee"
+        trophy: burt-trophy
+  # Janet Story Trophy (Senior Women) — as printed in the 1999 programme: "Shari Lundy"
+  - event: senior-women-quarter-mile-swim
+    placings:
+      - competitors:
+          - name: "Shari Lundy"
+        trophy: janet-story-trophy-women
+  # Janet Story Trophy (Senior Men) — as printed in the 1999 programme: "Randy Emond"
+  - event: senior-men-quarter-mile-swim
+    placings:
+      - competitors:
+          - name: "Randy Emond"
+        trophy: janet-story-trophy-men
+  # Micky Walker Trophy — as printed in the 1999 programme: "Lindsay Wilson"
+  - event: girls-11-13-total-points
+    placings:
+      - competitors:
+          - name: "Lindsay Wilson"
+        trophy: micky-walker-trophy
+  # Ken Edwards Trophy — as printed in the 1999 programme: "Sandy Nuttal / Stewart Manchee"
+  - event: boys-11-13-total-points
+    placings:
+      - competitors:
+          - name: "Sandy Nuttal"
+        trophy: ken-edwards-trophy
+        note: Shared, as printed
+      - competitors:
+          - name: "Stewart Manchee"
+        trophy: ken-edwards-trophy
+        note: Shared, as printed
+  # A.M. Greenway Shield — as printed in the 1999 programme: "Chloe Sinclair-Fortin"
+  - event: girls-14-16-total-points
+    placings:
+      - competitors:
+          - name: "Chloe Sinclair-Fortin"
+        trophy: am-greenway-shield
+  # W.H. Shaw Memorial Shield — as printed in the 1999 programme: "Chris Brooks"
+  - event: boys-14-16-total-points
+    placings:
+      - competitors:
+          - name: "Chris Brooks"
+        trophy: wh-shaw-memorial-shield
+  # Kimberly Point Association Trophy — as printed in the 1999 programme: "Jane Manchee"
+  - event: senior-women-total-points
+    placings:
+      - competitors:
+          - name: "Jane Manchee"
+            person: jane-manchee
+        trophy: kimberly-point-association-trophy
+  # Howard Abraham Memorial Trophy — as printed in the 1999 programme: "Steve Manchee"
+  - event: senior-men-total-points
+    placings:
+      - competitors:
+          - name: "Steve Manchee"
+            person: steve-manchee
+        trophy: howard-abraham-memorial-trophy
+  # Hugh Carmichael Spirit of the Regatta Award — as printed in the 2026 programme: "John Anthony"
+  - event: spirit-of-the-regatta
+    placings:
+      - competitors:
+          - name: "John Anthony"
+        trophy: hugh-carmichael-spirit-award

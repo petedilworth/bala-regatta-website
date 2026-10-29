@@ -1,0 +1,104 @@
+year: 2007
+source: 'Recent Trophy Winners lists, 2008 programme'
+
+# Trophy winners as printed in the Recent Trophy Winners list of the programme
+# printed nearest after this year. People are linked only where the name exactly
+# matches someone already in the archive.
+races:
+  # Worth Trophy — as printed in the 2008 programme: "Alana Corrigan"
+  - event: girls-16-under-quarter-mile-swim
+    placings:
+      - competitors:
+          - name: "Alana Corrigan"
+        trophy: worth-trophy
+  # Burt Trophy — as printed in the 2008 programme: "Iain Manson"
+  - event: boys-16-under-quarter-mile-swim
+    placings:
+      - competitors:
+          - name: "Iain Manson"
+        trophy: burt-trophy
+  # Janet Story Trophy (Senior Women) — as printed in the 2008 programme: "Katie Sherk"
+  - event: senior-women-quarter-mile-swim
+    placings:
+      - competitors:
+          - name: "Katie Sherk"
+        trophy: janet-story-trophy-women
+  # Janet Story Trophy (Senior Men) — as printed in the 2008 programme: "Neil Manchee"
+  - event: senior-men-quarter-mile-swim
+    placings:
+      - competitors:
+          - name: "Neil Manchee"
+        trophy: janet-story-trophy-men
+  # Micky Walker Trophy — as printed in the 2008 programme: "Sarah MacIver"
+  - event: girls-11-13-total-points
+    placings:
+      - competitors:
+          - name: "Sarah MacIver"
+        trophy: micky-walker-trophy
+  # Ken Edwards Trophy — as printed in the 2008 programme: "John MacIver"
+  - event: boys-11-13-total-points
+    placings:
+      - competitors:
+          - name: "John MacIver"
+        trophy: ken-edwards-trophy
+  # A.M. Greenway Shield — as printed in the 2008 programme: "Stephanie Marcil"
+  - event: girls-14-16-total-points
+    placings:
+      - competitors:
+          - name: "Stephanie Marcil"
+        trophy: am-greenway-shield
+  # W.H. Shaw Memorial Shield — as printed in the 2008 programme: "Iain Manson"
+  - event: boys-14-16-total-points
+    placings:
+      - competitors:
+          - name: "Iain Manson"
+        trophy: wh-shaw-memorial-shield
+  # Kimberly Point Association Trophy — as printed in the 2008 programme: "Jennifer Wilmer"
+  - event: senior-women-total-points
+    placings:
+      - competitors:
+          - name: "Jennifer Wilmer"
+        trophy: kimberly-point-association-trophy
+  # Howard Abraham Memorial Trophy — as printed in the 2008 programme: "John Dempster"
+  - event: senior-men-total-points
+    placings:
+      - competitors:
+          - name: "John Dempster"
+        trophy: howard-abraham-memorial-trophy
+  # Thomas Burgess Trophy — as printed in the 2008 programme: "Rob & Janet Anthony / Jennifer Wilmer & John Dempster"
+  - event: senior-mixed-tandem-skiff
+    placings:
+      - competitors:
+          - name: "Rob Anthony"
+            person: rob-anthony
+          - name: "Janet Anthony"
+        trophy: thomas-burgess-trophy
+        note: Shared, as printed
+      - competitors:
+          - name: "Jennifer Wilmer"
+          - name: "John Dempster"
+        trophy: thomas-burgess-trophy
+        note: Shared, as printed
+  # Lou Allen Trophy — as printed in the 2008 programme: "Jennifer Overend & Brad Burgess"
+  - event: masters-mixed-tandem-skiff
+    placings:
+      - competitors:
+          - name: "Jennifer Overend"
+          - name: "Brad Burgess"
+            person: brad-burgess
+        trophy: lou-allen-trophy
+  # Charlie Manchee Trophy — as printed in the 2008 programme: "Jennifer Overend & Brad Burgess"
+  - event: masters-mixed-tandem-canoe
+    placings:
+      - competitors:
+          - name: "Jennifer Overend"
+          - name: "Brad Burgess"
+            person: brad-burgess
+        trophy: charlie-manchee-trophy
+  # Alan R. Edwards Trophy — as printed in the 2008 programme: "John Dempster"
+  - event: skiff-race
+    titleAsPrinted: "Men's Single Skiff"
+    placings:
+      - competitors:
+          - name: "John Dempster"
+        trophy: alan-r-edwards-trophy

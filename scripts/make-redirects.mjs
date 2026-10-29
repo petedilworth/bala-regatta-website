@@ -50,8 +50,9 @@ const redirects = {
   'history.html': 'archives/',
   // Point year pages at /archives/ until that year actually has a page, otherwise
   // the stub sends visitors to a 404 — worse than sending them to the index.
-  '2025.html': 'archives/',
-  '2014-regatta.html': 'archives/',
+  // 2014 and 2025 both have pages now, from the trophy-winner lists.
+  '2025.html': 'archives/2025/',
+  '2014-regatta.html': 'archives/2014/',
   '1950s.html': 'archives/',
 };
 

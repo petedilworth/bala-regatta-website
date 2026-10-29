@@ -28,11 +28,12 @@
         Postcards and prints from 1911 and 1913 — the skiff race, gunnel bobbing,
         and crowds watching from the north shore.
       href: /archives?decade=1910s
-    # Was "The trophies", which pointed at an empty page — src/content/trophies/
-    # does not exist yet. Put that card back once there are cups to show.
-    - label: The committees, 1975-1985
+    - label: The trophies
+      blurb: Eighteen cups and awards, and everyone the programmes record as winning them since 1989.
+      href: /archives/trophies
+    - label: The committees, 1975-2026
       blurb: >-
-        Eleven years of Commodores and the officers who served alongside them,
+        Commodores from 1975 to 2026, and the officers who served alongside them,
         reconstructed from the programmes.
       href: /archives/officers
     - label: Programmes and results sheets

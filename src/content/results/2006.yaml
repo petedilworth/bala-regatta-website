@@ -1,0 +1,114 @@
+year: 2006
+source: 'Recent Trophy Winners lists, 2007, 2026 programmes'
+
+# Trophy winners as printed in the Recent Trophy Winners list of the programme
+# printed nearest after this year. People are linked only where the name exactly
+# matches someone already in the archive.
+races:
+  # Worth Trophy — as printed in the 2007 programme: "Alana Corrigan"
+  - event: girls-16-under-quarter-mile-swim
+    placings:
+      - competitors:
+          - name: "Alana Corrigan"
+        trophy: worth-trophy
+  # Burt Trophy — as printed in the 2007 programme: "Alex Brown / Iain Manson"
+  - event: boys-16-under-quarter-mile-swim
+    placings:
+      - competitors:
+          - name: "Alex Brown"
+        trophy: burt-trophy
+        note: Shared, as printed
+      - competitors:
+          - name: "Iain Manson"
+        trophy: burt-trophy
+        note: Shared, as printed
+  # Janet Story Trophy (Senior Women) — as printed in the 2007 programme: "Jennifer Wilmer"
+  - event: senior-women-quarter-mile-swim
+    placings:
+      - competitors:
+          - name: "Jennifer Wilmer"
+        trophy: janet-story-trophy-women
+  # Janet Story Trophy (Senior Men) — as printed in the 2007 programme: "Stuart Manchee"
+  - event: senior-men-quarter-mile-swim
+    placings:
+      - competitors:
+          - name: "Stuart Manchee"
+        trophy: janet-story-trophy-men
+  # Micky Walker Trophy — as printed in the 2007 programme: "Taylor Smail"
+  - event: girls-11-13-total-points
+    placings:
+      - competitors:
+          - name: "Taylor Smail"
+        trophy: micky-walker-trophy
+  # Ken Edwards Trophy — as printed in the 2007 programme: "John MacIver / Scott Manson"
+  - event: boys-11-13-total-points
+    placings:
+      - competitors:
+          - name: "John MacIver"
+        trophy: ken-edwards-trophy
+        note: Shared, as printed
+      - competitors:
+          - name: "Scott Manson"
+        trophy: ken-edwards-trophy
+        note: Shared, as printed
+  # A.M. Greenway Shield — as printed in the 2007 programme: "Meghan Sherk"
+  - event: girls-14-16-total-points
+    placings:
+      - competitors:
+          - name: "Meghan Sherk"
+        trophy: am-greenway-shield
+  # W.H. Shaw Memorial Shield — as printed in the 2007 programme: "Iain Manson"
+  - event: boys-14-16-total-points
+    placings:
+      - competitors:
+          - name: "Iain Manson"
+        trophy: wh-shaw-memorial-shield
+  # Kimberly Point Association Trophy — as printed in the 2007 programme: "Jennifer Wilmer"
+  - event: senior-women-total-points
+    placings:
+      - competitors:
+          - name: "Jennifer Wilmer"
+        trophy: kimberly-point-association-trophy
+  # Howard Abraham Memorial Trophy — as printed in the 2007 programme: "John Dempster"
+  - event: senior-men-total-points
+    placings:
+      - competitors:
+          - name: "John Dempster"
+        trophy: howard-abraham-memorial-trophy
+  # Thomas Burgess Trophy — as printed in the 2007 programme: "Maggie Dilworth & John Dempster"
+  - event: senior-mixed-tandem-skiff
+    placings:
+      - competitors:
+          - name: "Maggie Dilworth"
+          - name: "John Dempster"
+        trophy: thomas-burgess-trophy
+  # Lou Allen Trophy — as printed in the 2007 programme: "Brad & Chris Burgess"
+  - event: masters-mixed-tandem-skiff
+    placings:
+      - competitors:
+          - name: "Brad Burgess"
+            person: brad-burgess
+          - name: "Chris Burgess"
+        trophy: lou-allen-trophy
+  # Charlie Manchee Trophy — as printed in the 2007 programme: "Sandra MacIver & Scott Dempster"
+  - event: masters-mixed-tandem-canoe
+    placings:
+      - competitors:
+          - name: "Sandra MacIver"
+          - name: "Scott Dempster"
+        trophy: charlie-manchee-trophy
+  # Alan R. Edwards Trophy — as printed in the 2007 programme: "Paul Burgess"
+  - event: skiff-race
+    titleAsPrinted: "Men's Single Skiff"
+    placings:
+      - competitors:
+          - name: "Paul Burgess"
+        trophy: alan-r-edwards-trophy
+  # Hugh Carmichael Spirit of the Regatta Award — as printed in the 2026 programme: "Brad & Chris Burgess"
+  - event: spirit-of-the-regatta
+    placings:
+      - competitors:
+          - name: "Brad Burgess"
+            person: brad-burgess
+          - name: "Chris Burgess"
+        trophy: hugh-carmichael-spirit-award

@@ -1,0 +1,99 @@
+year: 2008
+source: 'Recent Trophy Winners lists, 2009 programme'
+
+# Trophy winners as printed in the Recent Trophy Winners list of the programme
+# printed nearest after this year. People are linked only where the name exactly
+# matches someone already in the archive.
+races:
+  # Worth Trophy — as printed in the 2009 programme: "Alana Corrigan"
+  - event: girls-16-under-quarter-mile-swim
+    placings:
+      - competitors:
+          - name: "Alana Corrigan"
+        trophy: worth-trophy
+  # Burt Trophy — as printed in the 2009 programme: "Iain Manson"
+  - event: boys-16-under-quarter-mile-swim
+    placings:
+      - competitors:
+          - name: "Iain Manson"
+        trophy: burt-trophy
+  # Janet Story Trophy (Senior Women) — as printed in the 2009 programme: "Martha McIvor"
+  - event: senior-women-quarter-mile-swim
+    placings:
+      - competitors:
+          - name: "Martha McIvor"
+        trophy: janet-story-trophy-women
+  # Janet Story Trophy (Senior Men) — as printed in the 2009 programme: "Chris Parrish"
+  - event: senior-men-quarter-mile-swim
+    placings:
+      - competitors:
+          - name: "Chris Parrish"
+        trophy: janet-story-trophy-men
+  # Micky Walker Trophy — as printed in the 2009 programme: "Elizabeth Parker"
+  - event: girls-11-13-total-points
+    placings:
+      - competitors:
+          - name: "Elizabeth Parker"
+        trophy: micky-walker-trophy
+  # Ken Edwards Trophy — as printed in the 2009 programme: "Charles Marcil"
+  - event: boys-11-13-total-points
+    placings:
+      - competitors:
+          - name: "Charles Marcil"
+        trophy: ken-edwards-trophy
+  # A.M. Greenway Shield — as printed in the 2009 programme: "Jessie Norman"
+  - event: girls-14-16-total-points
+    placings:
+      - competitors:
+          - name: "Jessie Norman"
+        trophy: am-greenway-shield
+  # W.H. Shaw Memorial Shield — as printed in the 2009 programme: "John MacIver"
+  - event: boys-14-16-total-points
+    placings:
+      - competitors:
+          - name: "John MacIver"
+        trophy: wh-shaw-memorial-shield
+  # Kimberly Point Association Trophy — as printed in the 2009 programme: "Jennifer Wilmer"
+  - event: senior-women-total-points
+    placings:
+      - competitors:
+          - name: "Jennifer Wilmer"
+        trophy: kimberly-point-association-trophy
+  # Howard Abraham Memorial Trophy — as printed in the 2009 programme: "Brian Collinson"
+  - event: senior-men-total-points
+    placings:
+      - competitors:
+          - name: "Brian Collinson"
+        trophy: howard-abraham-memorial-trophy
+  # Thomas Burgess Trophy — as printed in the 2009 programme: "Rob Anthony & Janet Godden"
+  - event: senior-mixed-tandem-skiff
+    placings:
+      - competitors:
+          - name: "Rob Anthony"
+            person: rob-anthony
+          - name: "Janet Godden"
+        trophy: thomas-burgess-trophy
+  # Lou Allen Trophy — as printed in the 2009 programme: "Katie & Rob Dilworth"
+  - event: masters-mixed-tandem-skiff
+    placings:
+      - competitors:
+          - name: "Katie Dilworth"
+          - name: "Rob Dilworth"
+            person: rob-dilworth
+        trophy: lou-allen-trophy
+  # Charlie Manchee Trophy — as printed in the 2009 programme: "Jennifer Overend & Brad Burgess"
+  - event: masters-mixed-tandem-canoe
+    placings:
+      - competitors:
+          - name: "Jennifer Overend"
+          - name: "Brad Burgess"
+            person: brad-burgess
+        trophy: charlie-manchee-trophy
+  # Alan R. Edwards Trophy — as printed in the 2009 programme: "Mark Whytock"
+  - event: skiff-race
+    titleAsPrinted: "Men's Single Skiff"
+    placings:
+      - competitors:
+          - name: "Mark Whytock"
+            person: mark-whytock
+        trophy: alan-r-edwards-trophy

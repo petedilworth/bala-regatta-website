@@ -1,0 +1,106 @@
+year: 2013
+source: 'Recent Trophy Winners lists, 2016, 2026 programmes'
+
+# Trophy winners as printed in the Recent Trophy Winners list of the programme
+# printed nearest after this year. People are linked only where the name exactly
+# matches someone already in the archive.
+races:
+  # Worth Trophy — as printed in the 2016 programme: "Emma Rowatt"
+  - event: girls-16-under-quarter-mile-swim
+    placings:
+      - competitors:
+          - name: "Emma Rowatt"
+        trophy: worth-trophy
+  # Burt Trophy — as printed in the 2016 programme: "Cameron Wilmer"
+  - event: boys-16-under-quarter-mile-swim
+    placings:
+      - competitors:
+          - name: "Cameron Wilmer"
+        trophy: burt-trophy
+  # Janet Story Trophy (Senior Women) — as printed in the 2016 programme: "Alana Corrigan"
+  - event: senior-women-quarter-mile-swim
+    placings:
+      - competitors:
+          - name: "Alana Corrigan"
+        trophy: janet-story-trophy-women
+  # Janet Story Trophy (Senior Men) — as printed in the 2016 programme: "Randall Emond"
+  - event: senior-men-quarter-mile-swim
+    placings:
+      - competitors:
+          - name: "Randall Emond"
+        trophy: janet-story-trophy-men
+  # Micky Walker Trophy — as printed in the 2016 programme: "Julie MacKay"
+  - event: girls-11-13-total-points
+    placings:
+      - competitors:
+          - name: "Julie MacKay"
+        trophy: micky-walker-trophy
+  # Ken Edwards Trophy — as printed in the 2016 programme: "Chris Munn"
+  - event: boys-11-13-total-points
+    placings:
+      - competitors:
+          - name: "Chris Munn"
+        trophy: ken-edwards-trophy
+  # A.M. Greenway Shield — as printed in the 2016 programme: "Morgan Wilmer"
+  - event: girls-14-16-total-points
+    placings:
+      - competitors:
+          - name: "Morgan Wilmer"
+        trophy: am-greenway-shield
+  # W.H. Shaw Memorial Shield — as printed in the 2016 programme: "Noah Charmichael"
+  - event: boys-14-16-total-points
+    placings:
+      - competitors:
+          - name: "Noah Charmichael"
+        trophy: wh-shaw-memorial-shield
+  # Kimberly Point Association Trophy — as printed in the 2016 programme: "Jennifer Wilmer"
+  - event: senior-women-total-points
+    placings:
+      - competitors:
+          - name: "Jennifer Wilmer"
+        trophy: kimberly-point-association-trophy
+  # Howard Abraham Memorial Trophy — as printed in the 2016 programme: "Mark Whytock"
+  - event: senior-men-total-points
+    placings:
+      - competitors:
+          - name: "Mark Whytock"
+            person: mark-whytock
+        trophy: howard-abraham-memorial-trophy
+  # Thomas Burgess Trophy — as printed in the 2016 programme: "Jennifer Wilmer & Mark Whytock"
+  - event: senior-mixed-tandem-skiff
+    placings:
+      - competitors:
+          - name: "Jennifer Wilmer"
+          - name: "Mark Whytock"
+            person: mark-whytock
+        trophy: thomas-burgess-trophy
+  # Lou Allen Trophy — as printed in the 2016 programme: "Katie Dilworth & Rob Dilworth"
+  - event: masters-mixed-tandem-skiff
+    placings:
+      - competitors:
+          - name: "Katie Dilworth"
+          - name: "Rob Dilworth"
+            person: rob-dilworth
+        trophy: lou-allen-trophy
+  # Charlie Manchee Trophy — as printed in the 2016 programme: "Nancy MacIver & Bill MacIver"
+  - event: masters-mixed-tandem-canoe
+    placings:
+      - competitors:
+          - name: "Nancy MacIver"
+          - name: "Bill MacIver"
+            person: bill-maciver
+        trophy: charlie-manchee-trophy
+  # Alan R. Edwards Trophy — as printed in the 2016 programme: "Mark Whytock"
+  - event: skiff-race
+    titleAsPrinted: "Men's Single Skiff"
+    placings:
+      - competitors:
+          - name: "Mark Whytock"
+            person: mark-whytock
+        trophy: alan-r-edwards-trophy
+  # Hugh Carmichael Spirit of the Regatta Award — as printed in the 2026 programme: "Stephen Manchee"
+  - event: spirit-of-the-regatta
+    placings:
+      - competitors:
+          - name: "Stephen Manchee"
+        trophy: hugh-carmichael-spirit-award

@@ -1,0 +1,66 @@
+year: 1992
+source: 'Recent Trophy Winners lists, 1996 programme'
+
+# Trophy winners as printed in the Recent Trophy Winners list of the programme
+# printed nearest after this year. People are linked only where the name exactly
+# matches someone already in the archive.
+races:
+  # Worth Trophy — as printed in the 1996 programme: "Alexis Keefe"
+  - event: girls-16-under-quarter-mile-swim
+    placings:
+      - competitors:
+          - name: "Alexis Keefe"
+        trophy: worth-trophy
+  # Burt Trophy — as printed in the 1996 programme: "Ian Wilson"
+  - event: boys-16-under-quarter-mile-swim
+    placings:
+      - competitors:
+          - name: "Ian Wilson"
+        trophy: burt-trophy
+  # Janet Story Trophy (Senior Women) — as printed in the 1996 programme: "Allison Worley"
+  - event: senior-women-quarter-mile-swim
+    placings:
+      - competitors:
+          - name: "Allison Worley"
+        trophy: janet-story-trophy-women
+  # Janet Story Trophy (Senior Men) — as printed in the 1996 programme: "Steve Pierce"
+  - event: senior-men-quarter-mile-swim
+    placings:
+      - competitors:
+          - name: "Steve Pierce"
+        trophy: janet-story-trophy-men
+  # A.M. Greenway Shield — as printed in the 1996 programme: "Kristen Splinter"
+  - event: girls-14-16-total-points
+    placings:
+      - competitors:
+          - name: "Kristen Splinter"
+        trophy: am-greenway-shield
+  # W.H. Shaw Memorial Shield — as printed in the 1996 programme: "Steve Parks"
+  - event: boys-14-16-total-points
+    placings:
+      - competitors:
+          - name: "Steve Parks"
+        trophy: wh-shaw-memorial-shield
+  # Kimberly Point Association Trophy — as printed in the 1996 programme: "Leslie Smith"
+  - event: senior-women-total-points
+    placings:
+      - competitors:
+          - name: "Leslie Smith"
+        trophy: kimberly-point-association-trophy
+  # Howard Abraham Memorial Trophy — as printed in the 1996 programme: "Mike McKee / Mike Smith"
+  - event: senior-men-total-points
+    placings:
+      - competitors:
+          - name: "Mike McKee"
+        trophy: howard-abraham-memorial-trophy
+        note: Shared, as printed
+      - competitors:
+          - name: "Mike Smith"
+        trophy: howard-abraham-memorial-trophy
+        note: Shared, as printed
+  # Hugh Carmichael Spirit of the Regatta Award — as printed in the 1996 programme: "Mickey Walker"
+  - event: spirit-of-the-regatta
+    placings:
+      - competitors:
+          - name: "Mickey Walker"
+        trophy: hugh-carmichael-spirit-award

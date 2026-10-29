@@ -1,0 +1,14 @@
+year: 2000
+source: 'Recent Trophy Winners lists, 2026 programme'
+
+# Trophy winners as printed in the Recent Trophy Winners list of the programme
+# printed nearest after this year. People are linked only where the name exactly
+# matches someone already in the archive.
+races:
+  # Hugh Carmichael Spirit of the Regatta Award — as printed in the 2026 programme: "Dave and Nancy McKee"
+  - event: spirit-of-the-regatta
+    placings:
+      - competitors:
+          - name: "Dave McKee"
+          - name: "Nancy McKee"
+        trophy: hugh-carmichael-spirit-award
